@@ -1,0 +1,31 @@
+{
+  "name": "srt-editor",
+  "version": "1.0.0",
+  "description": "Online subtitle Editor (.srt files)",
+  "main": "server.js",
+  "scripts": {
+    "start": "node server.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/Funkion/srt-editor.git"
+  },
+  "keywords": [
+    "srt",
+    "Online editor"
+  ],
+  "author": "Pablo Anabalón <pa.anabalonf@gmail.com>",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/Funkion/srt-editor/issues"
+  },
+  "homepage": "https://github.com/Funkion/srt-editor",
+  "dependencies": {
+    "body-parser": "^1.12.3",
+    "ejs": "^2.3.1",
+    "error-handler": "^1.0.0",
+    "errorhandler": "^1.3.5",
+    "express": "^4.12.3",
+    "morgan": "^1.5.2"
+  }
+}
