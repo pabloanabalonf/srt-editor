@@ -3,8 +3,35 @@
 <head>
 	<meta charset="UTF-8">
 	<title><%= title%></title>
+	<link rel="stylesheet" href="/css/bootstrap.min.css">
+	<link rel="stylesheet" href="/css/bootstrap-theme.min.css">
+	<link rel="stylesheet" href="/css/style.css">
 </head>
 <body>
-	<h1>Hello!</h1>
+	<header class="row">
+		<div class="col-md-12 text-center">
+			SRT EDITOR
+		</div>
+	</header>
+	<section class="row">
+		<div class="col-md-6 col-md-offset-3">
+			<div class="panel panel-default">
+				<div class="panel-heading">
+					Select SRT File to Edit
+				</div>
+				<div class="panel-body">
+					<form action="/uploadfile" class="form-horizontal" role="form">
+						<div class="form-group text-center">
+							<input type="file" id="uploadFile" name="uploadFile" accept=".srt">
+						</div>
+						<div class="form-group text-center">
+							<button type="Send" class="btn btn-default btn-lg">Load .srt file</button>
+						</div>
+					</form>	
+				</div>
+			</div>
+		</div>
+	</section>
+	<script src="/js/bootstrap.min.js"></script>
 </body>
 </html>
