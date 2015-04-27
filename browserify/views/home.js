@@ -3,13 +3,16 @@ var _ = require('underscore');
 var Backbone = require('backbone');
 Backbone.$ = $;
 
+var template = require('../templates/home.html');
+
 var HomeView = Backbone.View.extend({
-	el: $('#test'),
+	el: $('#tmpl-container'),
 	initialize: function (){
 		this.delegateEvents();
 	},
 	render: function (){
-		this.$el.html('<h1>Works!!! /o/</h1>');
+		var html = template({});
+		this.$el.html(html);
 	}
 });
 

@@ -39,7 +39,6 @@ var AppRouter = Backbone.Router.extend({
 		this.on('route:notFound', function (){
 			this.AppView(new NotFoundView());
 		});
-		// Backbone.history has already been started
 		Backbone.history.start();
 	}
 });

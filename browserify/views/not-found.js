@@ -3,13 +3,16 @@ var _ = require('underscore');
 var Backbone = require('backbone');
 Backbone.$ = $;
 
+var template = require('../templates/not-found.html');
+
 var NotFoundView = Backbone.View.extend({
-	el: $('#test'),
+	el: $('#tmpl-container'),
 	initialize: function (){
 		this.delegateEvents();
 	},
 	render: function (){
-		this.$el.html('<h1>Page not found</h1>');
+		var html = template({message: 'Page Not Found'});
+		this.$el.html(html);
 	}
 });
 

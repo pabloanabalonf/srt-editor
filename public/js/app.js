@@ -48,7 +48,6 @@ var AppRouter = Backbone.Router.extend({
 		this.on('route:notFound', function (){
 			this.AppView(new NotFoundView());
 		});
-		// Backbone.history has already been started
 		Backbone.history.start();
 	}
 });
@@ -56,41 +55,67 @@ var AppRouter = Backbone.Router.extend({
 
 
 module.exports = AppRouter;
-},{"./views/home":3,"./views/not-found":4,"backbone":5,"jquery":6,"underscore":7}],3:[function(require,module,exports){
+},{"./views/home":5,"./views/not-found":6,"backbone":7,"jquery":8,"underscore":9}],3:[function(require,module,exports){
+module.exports = function(obj){
+var __t,__p='',__j=Array.prototype.join,print=function(){__p+=__j.call(arguments,'');};
+with(obj||{}){
+__p+='<div class="row">\n\t<div class="col-md-6 col-md-offset-3">\n\t\t<div class="panel panel-default">\n\t\t\t<div class="panel-heading">\n\t\t\t\tSelect SRT File to Edit\n\t\t\t</div>\n\t\t\t<div class="panel-body">\n\t\t\t\t<form action="/uploadfile" class="form-horizontal" role="form">\n\t\t\t\t\t<div class="form-group text-center">\n\t\t\t\t\t\t<input type="file" id="uploadFile" name="uploadFile" accept=".srt">\n\t\t\t\t\t</div>\n\t\t\t\t\t<div class="form-group text-center">\n\t\t\t\t\t\t<button type="Send" class="btn btn-default btn-lg">Load .srt file</button>\n\t\t\t\t\t</div>\n\t\t\t\t</form>\t\n\t\t\t</div>\n\t\t</div>\n\t</div>\n</div>';
+}
+return __p;
+};
+
+},{}],4:[function(require,module,exports){
+module.exports = function(obj){
+var __t,__p='',__j=Array.prototype.join,print=function(){__p+=__j.call(arguments,'');};
+with(obj||{}){
+__p+='<div class="row">\n\t<div class="col-md-6 col-md-offset-3 text-center">\n\t\t<h2>\n\t\t\t'+
+((__t=( message ))==null?'':__t)+
+'\n\t\t</h2>\n\t</div>\n</div>';
+}
+return __p;
+};
+
+},{}],5:[function(require,module,exports){
 var $ = require('jquery');
 var _ = require('underscore');
 var Backbone = require('backbone');
 Backbone.$ = $;
 
+var template = require('../templates/home.html');
+
 var HomeView = Backbone.View.extend({
-	el: $('#test'),
+	el: $('#tmpl-container'),
 	initialize: function (){
 		this.delegateEvents();
 	},
 	render: function (){
-		this.$el.html('<h1>Works!!! /o/</h1>');
+		var html = template({});
+		this.$el.html(html);
 	}
 });
 
 module.exports = HomeView;
-},{"backbone":5,"jquery":6,"underscore":7}],4:[function(require,module,exports){
+},{"../templates/home.html":3,"backbone":7,"jquery":8,"underscore":9}],6:[function(require,module,exports){
 var $ = require('jquery');
 var _ = require('underscore');
 var Backbone = require('backbone');
 Backbone.$ = $;
 
+var template = require('../templates/not-found.html');
+
 var NotFoundView = Backbone.View.extend({
-	el: $('#test'),
+	el: $('#tmpl-container'),
 	initialize: function (){
 		this.delegateEvents();
 	},
 	render: function (){
-		this.$el.html('<h1>Page not found</h1>');
+		var html = template({message: 'Page Not Found'});
+		this.$el.html(html);
 	}
 });
 
 module.exports = NotFoundView;
-},{"backbone":5,"jquery":6,"underscore":7}],5:[function(require,module,exports){
+},{"../templates/not-found.html":4,"backbone":7,"jquery":8,"underscore":9}],7:[function(require,module,exports){
 //     Backbone.js 1.1.2
 
 //     (c) 2010-2014 Jeremy Ashkenas, DocumentCloud and Investigative Reporters & Editors
@@ -1700,7 +1725,7 @@ module.exports = NotFoundView;
 
 }));
 
-},{"underscore":7}],6:[function(require,module,exports){
+},{"underscore":9}],8:[function(require,module,exports){
 /*!
  * jQuery JavaScript Library v2.1.3
  * http://jquery.com/
@@ -10907,7 +10932,7 @@ return jQuery;
 
 }));
 
-},{}],7:[function(require,module,exports){
+},{}],9:[function(require,module,exports){
 //     Underscore.js 1.8.3
 //     http://underscorejs.org
 //     (c) 2009-2015 Jeremy Ashkenas, DocumentCloud and Investigative Reporters & Editors
