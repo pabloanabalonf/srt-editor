@@ -1,7 +1,15 @@
 var $ = require('jquery');
-var _ = require('underscore');
 var Backbone = require('backbone');
 Backbone.$ = $;
+var Marionette = require('backbone.marionette');
+
+var MyRouter = new Marionette.AppRouter({
+	appRoutes: {}
+});
+
+console.log(MyRouter);
+
+
 
 //views
 var HomeView = require('./views/home');

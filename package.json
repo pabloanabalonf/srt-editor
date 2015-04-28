@@ -4,7 +4,9 @@
   "description": "Online subtitle Editor (.srt files)",
   "main": "server.js",
   "scripts": {
-    "start": "node server.js"
+    "start": "node server.js",
+    "build-browserify": "browserify -t node-underscorify ./browserify/index.js > ./public/js/app.js",
+    "watch-browserify": "watchify -t node-underscorify ./browserify/index.js -o ./public/js/app.js"
   },
   "repository": {
     "type": "git",
@@ -22,6 +24,7 @@
   "homepage": "https://github.com/Funkion/srt-editor",
   "dependencies": {
     "backbone": "^1.1.2",
+    "backbone.marionette": "^2.4.1",
     "body-parser": "^1.12.3",
     "ejs": "^2.3.1",
     "error-handler": "^1.0.0",
