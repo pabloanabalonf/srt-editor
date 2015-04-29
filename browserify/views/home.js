@@ -1,4 +1,16 @@
-var $ = require('jquery');
+"use strict";
+var Marionette = require('backbone.marionette');
+var templateHome = require('../templates/home.html');
+
+var HomeLayoutView = Marionette.LayoutView.extend({
+	initialize: function (renderData){
+		this.template = templateHome(renderData);
+	},
+	template: this.template
+});
+
+module.exports = HomeLayoutView;
+/*var $ = require('jquery');
 var _ = require('underscore');
 var Backbone = require('backbone');
 Backbone.$ = $;
@@ -16,4 +28,4 @@ var HomeView = Backbone.View.extend({
 	}
 });
 
-module.exports = HomeView;
+module.exports = HomeView; */

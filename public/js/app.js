@@ -1,26 +1,85 @@
 (function e(t,n,r){function s(o,u){if(!n[o]){if(!t[o]){var a=typeof require=="function"&&require;if(!u&&a)return a(o,!0);if(i)return i(o,!0);var f=new Error("Cannot find module '"+o+"'");throw f.code="MODULE_NOT_FOUND",f}var l=n[o]={exports:{}};t[o][0].call(l.exports,function(e){var n=t[o][1][e];return s(n?n:e)},l,l.exports,e,t,n,r)}return n[o].exports}var i=typeof require=="function"&&require;for(var o=0;o<r.length;o++)s(r[o]);return s})({1:[function(require,module,exports){
-"use scrict";
-var Router = require('./router');
+"use strict";
+var Marionette = require('backbone.marionette');
+var HomeLayoutView = require('../views/home');
+var NotFoundLayoutView = require('../views/not-found');
 
-(function (){
-	var router = new Router();
-})();
+var Controller = Marionette.Controller.extend({
+	initialize: function (MainRegion){
+		this.mainRegion = MainRegion;
+	},
+	home: function (){
+		this.mainRegion.show(new HomeLayoutView({testRender: "Test...."}));
+	},
+	notFound: function (){
+		this.mainRegion.show(new NotFoundLayoutView());	
+	}
+});
 
-},{"./router":2}],2:[function(require,module,exports){
+module.exports = Controller;
+},{"../views/home":6,"../views/not-found":7,"backbone.marionette":8}],2:[function(require,module,exports){
+"use strict";
 var $ = require('jquery');
 var Backbone = require('backbone');
 Backbone.$ = $;
 var Marionette = require('backbone.marionette');
 
-var MyRouter = new Marionette.AppRouter({
-	appRoutes: {}
+var Router = require('./router');
+var Controller = require('./controllers/app-controller');
+
+var MyApp = new Marionette.Application();
+
+MyApp.addRegions({
+	mainRegion: '#tmpl-container'
 });
 
-console.log(MyRouter);
+var controller = new Controller(MyApp.mainRegion);
+MyApp.addInitializer(function (options){
+	var router = new Router({
+		controller: controller
+	});
+});
 
 
+
+MyApp.on("start", function(options){
+	if (Backbone.history){
+		Backbone.history.start();
+	}
+});
+
+MyApp.start();
+/*
+var Router = require('./router');
+
+(function (){
+	var router = new Router();
+})(); */
+},{"./controllers/app-controller":1,"./router":3,"backbone":12,"backbone.marionette":8,"jquery":13}],3:[function(require,module,exports){
+"use strict";
+var Marionette = require('backbone.marionette');
+
+var Router = Marionette.AppRouter.extend({
+	appRoutes: {
+		"": "home",
+		"*notFound": "notFound"
+	},
+	/* Doesn't work when *noFound is defined
+	routes: {
+		"sayhi/:name": "sayHi"
+	},
+	sayHi: function (name){
+		alert("Hi "+ name);
+	} */
+});
+
+module.exports = Router;
+/*
+
+//Backbone way
 
 //views
+var Backbone = require('backbone');
 var HomeView = require('./views/home');
 var NotFoundView = require('./views/not-found');
 
@@ -62,17 +121,19 @@ var AppRouter = Backbone.Router.extend({
 
 
 
-module.exports = AppRouter;
-},{"./views/home":5,"./views/not-found":6,"backbone":11,"backbone.marionette":7,"jquery":12}],3:[function(require,module,exports){
+module.exports = AppRouter; */
+},{"backbone.marionette":8}],4:[function(require,module,exports){
 module.exports = function(obj){
 var __t,__p='',__j=Array.prototype.join,print=function(){__p+=__j.call(arguments,'');};
 with(obj||{}){
-__p+='<div class="row">\n\t<div class="col-md-6 col-md-offset-3">\n\t\t<div class="panel panel-default">\n\t\t\t<div class="panel-heading">\n\t\t\t\tSelect SRT File to Edit\n\t\t\t</div>\n\t\t\t<div class="panel-body">\n\t\t\t\t<form action="/uploadfile" class="form-horizontal" role="form">\n\t\t\t\t\t<div class="form-group text-center">\n\t\t\t\t\t\t<input type="file" id="uploadFile" name="uploadFile" accept=".srt">\n\t\t\t\t\t</div>\n\t\t\t\t\t<div class="form-group text-center">\n\t\t\t\t\t\t<button type="Send" class="btn btn-default btn-lg">Load .srt file</button>\n\t\t\t\t\t</div>\n\t\t\t\t</form>\t\n\t\t\t</div>\n\t\t</div>\n\t</div>\n</div>';
+__p+='<div class="row">\n\t<div class="col-md-6 col-md-offset-3">\n\t\t<div class="panel panel-default">\n\t\t\t<div class="panel-heading">\n\t\t\t\tSelect SRT File to Edit\n\t\t\t</div>\n\t\t\t<div class="panel-body">\n\t\t\t\t<form action="/uploadfile" class="form-horizontal" role="form">\n\t\t\t\t\t<div class="form-group text-center">\n\t\t\t\t\t\t<input type="file" id="uploadFile" name="uploadFile" accept=".srt">\n\t\t\t\t\t</div>\n\t\t\t\t\t<div class="form-group text-center">\n\t\t\t\t\t\t<button type="Send" class="btn btn-default btn-lg">Load .srt file</button>\n\t\t\t\t\t</div>\n\t\t\t\t</form>\n\t\t\t\t'+
+((__t=( testRender ))==null?'':__t)+
+'\n\t\t\t</div>\n\t\t</div>\n\t</div>\n</div>';
 }
 return __p;
 };
 
-},{}],4:[function(require,module,exports){
+},{}],5:[function(require,module,exports){
 module.exports = function(obj){
 var __t,__p='',__j=Array.prototype.join,print=function(){__p+=__j.call(arguments,'');};
 with(obj||{}){
@@ -83,8 +144,20 @@ __p+='<div class="row">\n\t<div class="col-md-6 col-md-offset-3 text-center">\n\
 return __p;
 };
 
-},{}],5:[function(require,module,exports){
-var $ = require('jquery');
+},{}],6:[function(require,module,exports){
+"use strict";
+var Marionette = require('backbone.marionette');
+var templateHome = require('../templates/home.html');
+
+var HomeLayoutView = Marionette.LayoutView.extend({
+	initialize: function (renderData){
+		this.template = templateHome(renderData);
+	},
+	template: this.template
+});
+
+module.exports = HomeLayoutView;
+/*var $ = require('jquery');
 var _ = require('underscore');
 var Backbone = require('backbone');
 Backbone.$ = $;
@@ -102,9 +175,22 @@ var HomeView = Backbone.View.extend({
 	}
 });
 
-module.exports = HomeView;
-},{"../templates/home.html":3,"backbone":11,"jquery":12,"underscore":13}],6:[function(require,module,exports){
-var $ = require('jquery');
+module.exports = HomeView; */
+},{"../templates/home.html":4,"backbone.marionette":8}],7:[function(require,module,exports){
+"use strict";
+var Marionette = require('backbone.marionette');
+var templateNotFound = require('../templates/not-found.html');
+
+var NotFoundLayoutView = Marionette.LayoutView.extend({
+	initialize: function (){
+		this.template = templateNotFound({message: 'Page Not Found'});
+	},
+	template: this.template
+});
+
+module.exports = NotFoundLayoutView;
+
+/*var $ = require('jquery');
 var _ = require('underscore');
 var Backbone = require('backbone');
 Backbone.$ = $;
@@ -122,8 +208,8 @@ var NotFoundView = Backbone.View.extend({
 	}
 });
 
-module.exports = NotFoundView;
-},{"../templates/not-found.html":4,"backbone":11,"jquery":12,"underscore":13}],7:[function(require,module,exports){
+module.exports = NotFoundView;*/
+},{"../templates/not-found.html":5,"backbone.marionette":8}],8:[function(require,module,exports){
 // MarionetteJS (Backbone.Marionette)
 // ----------------------------------
 // v2.4.1
@@ -3486,7 +3572,7 @@ module.exports = NotFoundView;
   return Marionette;
 }));
 
-},{"backbone":11,"backbone.babysitter":8,"backbone.wreqr":9,"underscore":10}],8:[function(require,module,exports){
+},{"backbone":12,"backbone.babysitter":9,"backbone.wreqr":10,"underscore":11}],9:[function(require,module,exports){
 // Backbone.BabySitter
 // -------------------
 // v0.1.6
@@ -3678,7 +3764,7 @@ module.exports = NotFoundView;
 
 }));
 
-},{"backbone":11,"underscore":10}],9:[function(require,module,exports){
+},{"backbone":12,"underscore":11}],10:[function(require,module,exports){
 // Backbone.Wreqr (Backbone.Marionette)
 // ----------------------------------
 // v1.3.1
@@ -4120,7 +4206,7 @@ module.exports = NotFoundView;
 
 }));
 
-},{"backbone":11,"underscore":10}],10:[function(require,module,exports){
+},{"backbone":12,"underscore":11}],11:[function(require,module,exports){
 //     Underscore.js 1.6.0
 //     http://underscorejs.org
 //     (c) 2009-2014 Jeremy Ashkenas, DocumentCloud and Investigative Reporters & Editors
@@ -5465,7 +5551,7 @@ module.exports = NotFoundView;
   }
 }).call(this);
 
-},{}],11:[function(require,module,exports){
+},{}],12:[function(require,module,exports){
 //     Backbone.js 1.1.2
 
 //     (c) 2010-2014 Jeremy Ashkenas, DocumentCloud and Investigative Reporters & Editors
@@ -7075,7 +7161,7 @@ module.exports = NotFoundView;
 
 }));
 
-},{"underscore":13}],12:[function(require,module,exports){
+},{"underscore":14}],13:[function(require,module,exports){
 /*!
  * jQuery JavaScript Library v2.1.3
  * http://jquery.com/
@@ -16282,7 +16368,7 @@ return jQuery;
 
 }));
 
-},{}],13:[function(require,module,exports){
+},{}],14:[function(require,module,exports){
 //     Underscore.js 1.8.3
 //     http://underscorejs.org
 //     (c) 2009-2015 Jeremy Ashkenas, DocumentCloud and Investigative Reporters & Editors
@@ -17832,4 +17918,4 @@ return jQuery;
   }
 }.call(this));
 
-},{}]},{},[1]);
+},{}]},{},[2]);

@@ -1,17 +1,27 @@
-var $ = require('jquery');
-var Backbone = require('backbone');
-Backbone.$ = $;
+"use strict";
 var Marionette = require('backbone.marionette');
 
-var MyRouter = new Marionette.AppRouter({
-	appRoutes: {}
+var Router = Marionette.AppRouter.extend({
+	appRoutes: {
+		"": "home",
+		"*notFound": "notFound"
+	},
+	/* Doesn't work when *noFound is defined
+	routes: {
+		"sayhi/:name": "sayHi"
+	},
+	sayHi: function (name){
+		alert("Hi "+ name);
+	} */
 });
 
-console.log(MyRouter);
+module.exports = Router;
+/*
 
-
+//Backbone way
 
 //views
+var Backbone = require('backbone');
 var HomeView = require('./views/home');
 var NotFoundView = require('./views/not-found');
 
@@ -53,4 +63,4 @@ var AppRouter = Backbone.Router.extend({
 
 
 
-module.exports = AppRouter;
+module.exports = AppRouter; */

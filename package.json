@@ -4,7 +4,7 @@
   "description": "Online subtitle Editor (.srt files)",
   "main": "server.js",
   "scripts": {
-    "start": "node server.js",
+    "start": "nodemon server.js",
     "build-browserify": "browserify -t node-underscorify ./browserify/index.js > ./public/js/app.js",
     "watch-browserify": "watchify -t node-underscorify ./browserify/index.js -o ./public/js/app.js"
   },
