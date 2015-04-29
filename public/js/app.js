@@ -74,54 +74,6 @@ var Router = Marionette.AppRouter.extend({
 });
 
 module.exports = Router;
-/*
-
-//Backbone way
-
-//views
-var Backbone = require('backbone');
-var HomeView = require('./views/home');
-var NotFoundView = require('./views/not-found');
-
-Backbone.View.prototype.close = function (){
-	this.remove();
-	this.unbind();
-};
-
-Backbone.View.prototype.remove = function (){
-	this.$el.empty();
-	this.stopListening();
-	this.undelegateEvents();
-	return this;
-};
-
-var AppRouter = Backbone.Router.extend({
-	routes: {
-		'': 'home',
-		'*notFound': 'notFound',
-	},
-	AppView: function (view, renderData){
-		renderData = renderData || {};
-		if(this.currentView) this.currentView.close();
-
-		this.currentView = view;
-		this.currentView.render(renderData);
-	},
-	initialize: function (){
-		this.on('route:home', function (){
-			this.AppView(new HomeView());
-		});
-
-		this.on('route:notFound', function (){
-			this.AppView(new NotFoundView());
-		});
-		Backbone.history.start();
-	}
-});
-
-
-
-module.exports = AppRouter; */
 },{"backbone.marionette":8}],4:[function(require,module,exports){
 module.exports = function(obj){
 var __t,__p='',__j=Array.prototype.join,print=function(){__p+=__j.call(arguments,'');};
@@ -157,25 +109,6 @@ var HomeLayoutView = Marionette.LayoutView.extend({
 });
 
 module.exports = HomeLayoutView;
-/*var $ = require('jquery');
-var _ = require('underscore');
-var Backbone = require('backbone');
-Backbone.$ = $;
-
-var template = require('../templates/home.html');
-
-var HomeView = Backbone.View.extend({
-	el: $('#tmpl-container'),
-	initialize: function (){
-		this.delegateEvents();
-	},
-	render: function (){
-		var html = template({});
-		this.$el.html(html);
-	}
-});
-
-module.exports = HomeView; */
 },{"../templates/home.html":4,"backbone.marionette":8}],7:[function(require,module,exports){
 "use strict";
 var Marionette = require('backbone.marionette');
@@ -189,26 +122,6 @@ var NotFoundLayoutView = Marionette.LayoutView.extend({
 });
 
 module.exports = NotFoundLayoutView;
-
-/*var $ = require('jquery');
-var _ = require('underscore');
-var Backbone = require('backbone');
-Backbone.$ = $;
-
-var template = require('../templates/not-found.html');
-
-var NotFoundView = Backbone.View.extend({
-	el: $('#tmpl-container'),
-	initialize: function (){
-		this.delegateEvents();
-	},
-	render: function (){
-		var html = template({message: 'Page Not Found'});
-		this.$el.html(html);
-	}
-});
-
-module.exports = NotFoundView;*/
 },{"../templates/not-found.html":5,"backbone.marionette":8}],8:[function(require,module,exports){
 // MarionetteJS (Backbone.Marionette)
 // ----------------------------------
