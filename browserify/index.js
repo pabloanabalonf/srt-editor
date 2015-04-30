@@ -29,9 +29,3 @@ MyApp.on("start", function(options){
 });
 
 MyApp.start();
-/*
-var Router = require('./router');
-
-(function (){
-	var router = new Router();
-})(); */

@@ -9,7 +9,7 @@ var Controller = Marionette.Controller.extend({
 		this.mainRegion = MainRegion;
 	},
 	home: function (){
-		this.mainRegion.show(new HomeLayoutView({testRender: "Test...."}));
+		this.mainRegion.show(new HomeLayoutView());
 	},
 	notFound: function (){
 		this.mainRegion.show(new NotFoundLayoutView());	
@@ -17,7 +17,7 @@ var Controller = Marionette.Controller.extend({
 });
 
 module.exports = Controller;
-},{"../views/home":6,"../views/not-found":7,"backbone.marionette":8}],2:[function(require,module,exports){
+},{"../views/home":7,"../views/not-found":8,"backbone.marionette":9}],2:[function(require,module,exports){
 "use strict";
 var $ = require('jquery');
 var Backbone = require('backbone');
@@ -49,13 +49,32 @@ MyApp.on("start", function(options){
 });
 
 MyApp.start();
-/*
-var Router = require('./router');
+},{"./controllers/app-controller":1,"./router":4,"backbone":13,"backbone.marionette":9,"jquery":14}],3:[function(require,module,exports){
+var $ = require('jquery');
+var Backbone = require('backbone');
+Backbone.$ = $;
+var FileModel = Backbone.Model.extend({
+	urlRoot: '/api/file',
+	readFile: function (file){
+		var reader = new FileReader();
+		var that = this;
+		var deferred = $.Deferred();
+		reader.onload = (function (mockFile){
+			return function (e){
+				var data = {
+					file: mockFile,
+					data: btoa(e.target.result)
+				};
+				deferred.resolve(data);
+			};
+		})(file);
+		reader.readAsBinaryString(file);
+		return deferred.promise();
+	}
+});
 
-(function (){
-	var router = new Router();
-})(); */
-},{"./controllers/app-controller":1,"./router":3,"backbone":12,"backbone.marionette":8,"jquery":13}],3:[function(require,module,exports){
+module.exports = FileModel;
+},{"backbone":13,"jquery":14}],4:[function(require,module,exports){
 "use strict";
 var Marionette = require('backbone.marionette');
 
@@ -74,18 +93,16 @@ var Router = Marionette.AppRouter.extend({
 });
 
 module.exports = Router;
-},{"backbone.marionette":8}],4:[function(require,module,exports){
+},{"backbone.marionette":9}],5:[function(require,module,exports){
 module.exports = function(obj){
 var __t,__p='',__j=Array.prototype.join,print=function(){__p+=__j.call(arguments,'');};
 with(obj||{}){
-__p+='<div class="row">\n\t<div class="col-md-6 col-md-offset-3">\n\t\t<div class="panel panel-default">\n\t\t\t<div class="panel-heading">\n\t\t\t\tSelect SRT File to Edit\n\t\t\t</div>\n\t\t\t<div class="panel-body">\n\t\t\t\t<form action="/uploadfile" class="form-horizontal" role="form">\n\t\t\t\t\t<div class="form-group text-center">\n\t\t\t\t\t\t<input type="file" id="uploadFile" name="uploadFile" accept=".srt">\n\t\t\t\t\t</div>\n\t\t\t\t\t<div class="form-group text-center">\n\t\t\t\t\t\t<button type="Send" class="btn btn-default btn-lg">Load .srt file</button>\n\t\t\t\t\t</div>\n\t\t\t\t</form>\n\t\t\t\t'+
-((__t=( testRender ))==null?'':__t)+
-'\n\t\t\t</div>\n\t\t</div>\n\t</div>\n</div>';
+__p+='<div class="container">\n\t<div class="row">\n\t\t<div class="col-md-6 col-md-offset-3">\n\t\t\t<div class="panel panel-default">\n\t\t\t\t<div class="panel-heading">\n\t\t\t\t\tSelect SRT File to Edit\n\t\t\t\t</div>\n\t\t\t\t<div class="panel-body">\n\t\t\t\t\t<form id="sendSRTFile" class="form-horizontal" role="form">\n\t\t\t\t\t\t<div class="form-group text-center">\n\t\t\t\t\t\t\t<input type="file" id="uploadFile" name="uploadFile" accept=".srt">\n\t\t\t\t\t\t</div>\n\t\t\t\t\t\t<div class="form-group text-center">\n\t\t\t\t\t\t\t<button type="Send" class="btn btn-default btn-lg">Load .srt file</button>\n\t\t\t\t\t\t</div>\n\t\t\t\t\t</form>\n\t\t\t\t</div>\n\t\t\t</div>\n\t\t</div>\n\t</div>\n\t<div class="row">\n\t\t<div class="message">\n\t\t\t\n\t\t</div>\n\t</div>\n</div>';
 }
 return __p;
 };
 
-},{}],5:[function(require,module,exports){
+},{}],6:[function(require,module,exports){
 module.exports = function(obj){
 var __t,__p='',__j=Array.prototype.join,print=function(){__p+=__j.call(arguments,'');};
 with(obj||{}){
@@ -96,20 +113,97 @@ __p+='<div class="row">\n\t<div class="col-md-6 col-md-offset-3 text-center">\n\
 return __p;
 };
 
-},{}],6:[function(require,module,exports){
+},{}],7:[function(require,module,exports){
 "use strict";
+var $ = require('jquery');
+var Backbone = require('backbone');
+Backbone.$ = $;
 var Marionette = require('backbone.marionette');
 var templateHome = require('../templates/home.html');
+var FileModel = require('../models/file');
+
+
+$.fn.serializeObject = function (){
+	var obj = {};
+	var a = this.serializeArray();
+	console.log('serializeArray: '+a);
+	$.each(a, function (){
+		if (obj[this.name] !== undefined){
+			console.log('!obj[this.name].push: '+!obj[this.name].push);
+			if(!obj[this.name].push){
+				obj[this.name] = [obj[this.name]];
+			}
+			obj[this.name].push(this.value || '');
+		}else{
+			obj[this.name].push(this.value || '');
+		}
+	});
+	return obj;
+};
 
 var HomeLayoutView = Marionette.LayoutView.extend({
 	initialize: function (renderData){
+		renderData = renderData || {};
 		this.template = templateHome(renderData);
 	},
-	template: this.template
+	template: this.template,
+	model: new FileModel(),
+	onShow: function (){
+		console.log('onShow HomeLayoutView');
+	},
+	onDestroy: function (){
+		console.log('onDestroy HomeLayoutView');
+	},
+	events: {
+		"submit #sendSRTFile": "sendSRTFile"
+	},
+	sendSRTFile: function (e){
+		e.preventDefault();
+		var $srtFile = $("#uploadFile");
+		var formData = new FormData();
+		var reader;
+		this.file;
+		var that = this;
+		for(var i = 0, len = $srtFile[0].files.length; i < len; i++){
+			var file = $srtFile[0].files[i];
+			var format = file.name.substr(file.name.length - 4, file.name.length);
+			if(format == ".srt"){
+				if(window.FileReader){
+					reader = new FileReader();
+					that.file = file;
+					reader.readAsDataURL(file);
+				}
+			}else{
+				console.log("formato incorrecto.");
+				break;
+			}
+		}
+		if(this.file){
+			this.model.readFile(this.file).then(function (dataFile){
+				that.model.set({
+					'datafile': dataFile.data,
+					'filename': dataFile.file.name,
+					'mime': dataFile.file.type
+				});
+				that.model.save({}, {
+					success: function (data){
+						var jsonString = JSON.stringify(data);
+						var json = JSON.parse(jsonString);
+						console.log(JSON.stringify(json.subtitles));
+					},
+					error: function (model, data){
+						console.log(JSON.stringify(model));
+						console.log(JSON.stringify(data));
+					}
+				});
+			});
+		}
+	}
+
 });
 
 module.exports = HomeLayoutView;
-},{"../templates/home.html":4,"backbone.marionette":8}],7:[function(require,module,exports){
+},{"../models/file":3,"../templates/home.html":5,"backbone":13,"backbone.marionette":9,"jquery":14}],8:[function(require,module,exports){
 "use strict";
 var Marionette = require('backbone.marionette');
 var templateNotFound = require('../templates/not-found.html');
@@ -118,11 +212,17 @@ var NotFoundLayoutView = Marionette.LayoutView.extend({
 	initialize: function (){
 		this.template = templateNotFound({message: 'Page Not Found'});
 	},
-	template: this.template
+	template: this.template,
+	onShow: function (){
+		console.log('onShow NotFoundLayoutView');
+	},
+	onDestroy: function (){
+		console.log('onDestroy NotFoundLayoutView');
+	}
 });
 
 module.exports = NotFoundLayoutView;
-},{"../templates/not-found.html":5,"backbone.marionette":8}],8:[function(require,module,exports){
+},{"../templates/not-found.html":6,"backbone.marionette":9}],9:[function(require,module,exports){
 // MarionetteJS (Backbone.Marionette)
 // ----------------------------------
 // v2.4.1
@@ -3485,7 +3585,7 @@ module.exports = NotFoundLayoutView;
   return Marionette;
 }));
 
-},{"backbone":12,"backbone.babysitter":9,"backbone.wreqr":10,"underscore":11}],9:[function(require,module,exports){
+},{"backbone":13,"backbone.babysitter":10,"backbone.wreqr":11,"underscore":12}],10:[function(require,module,exports){
 // Backbone.BabySitter
 // -------------------
 // v0.1.6
@@ -3677,7 +3777,7 @@ module.exports = NotFoundLayoutView;
 
 }));
 
-},{"backbone":12,"underscore":11}],10:[function(require,module,exports){
+},{"backbone":13,"underscore":12}],11:[function(require,module,exports){
 // Backbone.Wreqr (Backbone.Marionette)
 // ----------------------------------
 // v1.3.1
@@ -4119,7 +4219,7 @@ module.exports = NotFoundLayoutView;
 
 }));
 
-},{"backbone":12,"underscore":11}],11:[function(require,module,exports){
+},{"backbone":13,"underscore":12}],12:[function(require,module,exports){
 //     Underscore.js 1.6.0
 //     http://underscorejs.org
 //     (c) 2009-2014 Jeremy Ashkenas, DocumentCloud and Investigative Reporters & Editors
@@ -5464,7 +5564,7 @@ module.exports = NotFoundLayoutView;
   }
 }).call(this);
 
-},{}],12:[function(require,module,exports){
+},{}],13:[function(require,module,exports){
 //     Backbone.js 1.1.2
 
 //     (c) 2010-2014 Jeremy Ashkenas, DocumentCloud and Investigative Reporters & Editors
@@ -7074,7 +7174,7 @@ module.exports = NotFoundLayoutView;
 
 }));
 
-},{"underscore":14}],13:[function(require,module,exports){
+},{"underscore":15}],14:[function(require,module,exports){
 /*!
  * jQuery JavaScript Library v2.1.3
  * http://jquery.com/
@@ -16281,7 +16381,7 @@ return jQuery;
 
 }));
 
-},{}],14:[function(require,module,exports){
+},{}],15:[function(require,module,exports){
 //     Underscore.js 1.8.3
 //     http://underscorejs.org
 //     (c) 2009-2015 Jeremy Ashkenas, DocumentCloud and Investigative Reporters & Editors

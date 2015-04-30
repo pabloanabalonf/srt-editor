@@ -8,7 +8,7 @@ var Controller = Marionette.Controller.extend({
 		this.mainRegion = MainRegion;
 	},
 	home: function (){
-		this.mainRegion.show(new HomeLayoutView({testRender: "Test...."}));
+		this.mainRegion.show(new HomeLayoutView());
 	},
 	notFound: function (){
 		this.mainRegion.show(new NotFoundLayoutView());	

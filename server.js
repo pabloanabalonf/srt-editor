@@ -9,6 +9,7 @@ var app = express();
 
 //ROUTES
 var home = require('./routes/home');
+var file = require('./routes/file');
 
 app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'ejs');
@@ -30,6 +31,7 @@ app.use(stylus.middleware({
 app.use(express.static(path.join(__dirname, 'public')));
 
 app.use('/', home);
+app.use('/', file);
 
 app.use(errorhandler());
 app.use(function (err, req, res, next){
