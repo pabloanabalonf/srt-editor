@@ -3,9 +3,11 @@ var $ = require('jquery');
 var Backbone = require('backbone');
 Backbone.$ = $;
 var Marionette = require('backbone.marionette');
-var templateHome = require('../templates/home.html');
 var FileModel = require('../models/file');
 
+//Templates
+var templateHome = require('../templates/home.html');
+var templateMessage = require('../templates/message-tmpl.html');
 
 $.fn.serializeObject = function (){
 	var obj = {};
@@ -29,6 +31,9 @@ var HomeLayoutView = Marionette.LayoutView.extend({
 	initialize: function (renderData){
 		renderData = renderData || {};
 		this.template = templateHome(renderData);
+	},
+	regions: {
+		message: "#message-region"
 	},
 	template: this.template,
 	model: new FileModel(),
@@ -76,8 +81,10 @@ var HomeLayoutView = Marionette.LayoutView.extend({
 						console.log(JSON.stringify(json.subtitles));
 					},
 					error: function (model, data){
-						console.log(JSON.stringify(model));
-						console.log(JSON.stringify(data));
+						var jsonString = JSON.stringify(data);
+						var json = JSON.parse(jsonString);
+						var html = templateMessage({typeAlert: 'danger', message: json.responseJSON.message});
+						$("#message-region").html(html);
 					}
 				});
 			});

@@ -17,7 +17,7 @@ var Controller = Marionette.Controller.extend({
 });
 
 module.exports = Controller;
-},{"../views/home":7,"../views/not-found":8,"backbone.marionette":9}],2:[function(require,module,exports){
+},{"../views/home":8,"../views/not-found":9,"backbone.marionette":10}],2:[function(require,module,exports){
 "use strict";
 var $ = require('jquery');
 var Backbone = require('backbone');
@@ -49,7 +49,7 @@ MyApp.on("start", function(options){
 });
 
 MyApp.start();
-},{"./controllers/app-controller":1,"./router":4,"backbone":13,"backbone.marionette":9,"jquery":14}],3:[function(require,module,exports){
+},{"./controllers/app-controller":1,"./router":4,"backbone":14,"backbone.marionette":10,"jquery":15}],3:[function(require,module,exports){
 var $ = require('jquery');
 var Backbone = require('backbone');
 Backbone.$ = $;
@@ -74,7 +74,7 @@ var FileModel = Backbone.Model.extend({
 });
 
 module.exports = FileModel;
-},{"backbone":13,"jquery":14}],4:[function(require,module,exports){
+},{"backbone":14,"jquery":15}],4:[function(require,module,exports){
 "use strict";
 var Marionette = require('backbone.marionette');
 
@@ -93,16 +93,29 @@ var Router = Marionette.AppRouter.extend({
 });
 
 module.exports = Router;
-},{"backbone.marionette":9}],5:[function(require,module,exports){
+},{"backbone.marionette":10}],5:[function(require,module,exports){
 module.exports = function(obj){
 var __t,__p='',__j=Array.prototype.join,print=function(){__p+=__j.call(arguments,'');};
 with(obj||{}){
-__p+='<div class="container">\n\t<div class="row">\n\t\t<div class="col-md-6 col-md-offset-3">\n\t\t\t<div class="panel panel-default">\n\t\t\t\t<div class="panel-heading">\n\t\t\t\t\tSelect SRT File to Edit\n\t\t\t\t</div>\n\t\t\t\t<div class="panel-body">\n\t\t\t\t\t<form id="sendSRTFile" class="form-horizontal" role="form">\n\t\t\t\t\t\t<div class="form-group text-center">\n\t\t\t\t\t\t\t<input type="file" id="uploadFile" name="uploadFile" accept=".srt">\n\t\t\t\t\t\t</div>\n\t\t\t\t\t\t<div class="form-group text-center">\n\t\t\t\t\t\t\t<button type="Send" class="btn btn-default btn-lg">Load .srt file</button>\n\t\t\t\t\t\t</div>\n\t\t\t\t\t</form>\n\t\t\t\t</div>\n\t\t\t</div>\n\t\t</div>\n\t</div>\n\t<div class="row">\n\t\t<div class="message">\n\t\t\t\n\t\t</div>\n\t</div>\n</div>';
+__p+='<div class="container">\n\t<div class="row">\n\t\t<div class="col-md-6 col-md-offset-3">\n\t\t\t<div class="panel panel-default">\n\t\t\t\t<div class="panel-heading">\n\t\t\t\t\tSelect SRT File to Edit\n\t\t\t\t</div>\n\t\t\t\t<div class="panel-body">\n\t\t\t\t\t<form id="sendSRTFile" class="form-horizontal" role="form">\n\t\t\t\t\t\t<div class="form-group text-center">\n\t\t\t\t\t\t\t<input type="file" id="uploadFile" name="uploadFile" accept=".srt">\n\t\t\t\t\t\t</div>\n\t\t\t\t\t\t<div class="form-group text-center">\n\t\t\t\t\t\t\t<button type="Send" class="btn btn-default btn-lg">Load .srt file</button>\n\t\t\t\t\t\t</div>\n\t\t\t\t\t</form>\n\t\t\t\t\t<div id="message-region">\t\t\t\t\t\t\n\t\t\t\t\t</div>\n\t\t\t\t</div>\n\t\t\t</div>\n\t\t</div>\n\t</div>\n\t<!-- subtitles -->\n\t<div class="row">\n\t\t<div class="col-md-12">\n\t\t\t<table class="table table-striped">\n\t\t\t\t<thead>\n\t\t\t\t\t<tr>\n\t\t\t\t\t\t<th>\n\t\t\t\t\t\t\tSelect\n\t\t\t\t\t\t</th>\n\t\t\t\t\t\t<th>\n\t\t\t\t\t\t\t#\n\t\t\t\t\t\t</th>\n\t\t\t\t\t\t<th>\n\t\t\t\t\t\t\tInicial Time\n\t\t\t\t\t\t</th>\n\t\t\t\t\t\t<th>\n\t\t\t\t\t\t\tEnd Time\n\t\t\t\t\t\t</th>\n\t\t\t\t\t\t<th>\n\t\t\t\t\t\t\tText\n\t\t\t\t\t\t</th>\n\t\t\t\t\t</tr>\n\t\t\t\t</thead>\n\t\t\t\t<tbody>\n\t\t\t\t\t<!-- here will be insert the subtitle object -->\n\t\t\t\t</tbody>\n\t\t\t</table>\n\t\t</div>\n\t</div>\n</div>';
 }
 return __p;
 };
 
 },{}],6:[function(require,module,exports){
+module.exports = function(obj){
+var __t,__p='',__j=Array.prototype.join,print=function(){__p+=__j.call(arguments,'');};
+with(obj||{}){
+__p+='<div class="alert alert-'+
+((__t=( typeAlert ))==null?'':__t)+
+'">\n\t'+
+((__t=( message ))==null?'':__t)+
+'\n</div>';
+}
+return __p;
+};
+
+},{}],7:[function(require,module,exports){
 module.exports = function(obj){
 var __t,__p='',__j=Array.prototype.join,print=function(){__p+=__j.call(arguments,'');};
 with(obj||{}){
@@ -113,15 +126,17 @@ __p+='<div class="row">\n\t<div class="col-md-6 col-md-offset-3 text-center">\n\
 return __p;
 };
 
-},{}],7:[function(require,module,exports){
+},{}],8:[function(require,module,exports){
 "use strict";
 var $ = require('jquery');
 var Backbone = require('backbone');
 Backbone.$ = $;
 var Marionette = require('backbone.marionette');
-var templateHome = require('../templates/home.html');
 var FileModel = require('../models/file');
 
+//Templates
+var templateHome = require('../templates/home.html');
+var templateMessage = require('../templates/message-tmpl.html');
 
 $.fn.serializeObject = function (){
 	var obj = {};
@@ -145,6 +160,9 @@ var HomeLayoutView = Marionette.LayoutView.extend({
 	initialize: function (renderData){
 		renderData = renderData || {};
 		this.template = templateHome(renderData);
+	},
+	regions: {
+		message: "#message-region"
 	},
 	template: this.template,
 	model: new FileModel(),
@@ -192,8 +210,10 @@ var HomeLayoutView = Marionette.LayoutView.extend({
 						console.log(JSON.stringify(json.subtitles));
 					},
 					error: function (model, data){
-						console.log(JSON.stringify(model));
-						console.log(JSON.stringify(data));
+						var jsonString = JSON.stringify(data);
+						var json = JSON.parse(jsonString);
+						var html = templateMessage({typeAlert: 'danger', message: json.responseJSON.message});
+						$("#message-region").html(html);
 					}
 				});
 			});
@@ -203,7 +223,7 @@ var HomeLayoutView = Marionette.LayoutView.extend({
 });
 
 module.exports = HomeLayoutView;
-},{"../models/file":3,"../templates/home.html":5,"backbone":13,"backbone.marionette":9,"jquery":14}],8:[function(require,module,exports){
+},{"../models/file":3,"../templates/home.html":5,"../templates/message-tmpl.html":6,"backbone":14,"backbone.marionette":10,"jquery":15}],9:[function(require,module,exports){
 "use strict";
 var Marionette = require('backbone.marionette');
 var templateNotFound = require('../templates/not-found.html');
@@ -222,7 +242,7 @@ var NotFoundLayoutView = Marionette.LayoutView.extend({
 });
 
 module.exports = NotFoundLayoutView;
-},{"../templates/not-found.html":6,"backbone.marionette":9}],9:[function(require,module,exports){
+},{"../templates/not-found.html":7,"backbone.marionette":10}],10:[function(require,module,exports){
 // MarionetteJS (Backbone.Marionette)
 // ----------------------------------
 // v2.4.1
@@ -3585,7 +3605,7 @@ module.exports = NotFoundLayoutView;
   return Marionette;
 }));
 
-},{"backbone":13,"backbone.babysitter":10,"backbone.wreqr":11,"underscore":12}],10:[function(require,module,exports){
+},{"backbone":14,"backbone.babysitter":11,"backbone.wreqr":12,"underscore":13}],11:[function(require,module,exports){
 // Backbone.BabySitter
 // -------------------
 // v0.1.6
@@ -3777,7 +3797,7 @@ module.exports = NotFoundLayoutView;
 
 }));
 
-},{"backbone":13,"underscore":12}],11:[function(require,module,exports){
+},{"backbone":14,"underscore":13}],12:[function(require,module,exports){
 // Backbone.Wreqr (Backbone.Marionette)
 // ----------------------------------
 // v1.3.1
@@ -4219,7 +4239,7 @@ module.exports = NotFoundLayoutView;
 
 }));
 
-},{"backbone":13,"underscore":12}],12:[function(require,module,exports){
+},{"backbone":14,"underscore":13}],13:[function(require,module,exports){
 //     Underscore.js 1.6.0
 //     http://underscorejs.org
 //     (c) 2009-2014 Jeremy Ashkenas, DocumentCloud and Investigative Reporters & Editors
@@ -5564,7 +5584,7 @@ module.exports = NotFoundLayoutView;
   }
 }).call(this);
 
-},{}],13:[function(require,module,exports){
+},{}],14:[function(require,module,exports){
 //     Backbone.js 1.1.2
 
 //     (c) 2010-2014 Jeremy Ashkenas, DocumentCloud and Investigative Reporters & Editors
@@ -7174,7 +7194,7 @@ module.exports = NotFoundLayoutView;
 
 }));
 
-},{"underscore":15}],14:[function(require,module,exports){
+},{"underscore":16}],15:[function(require,module,exports){
 /*!
  * jQuery JavaScript Library v2.1.3
  * http://jquery.com/
@@ -16381,7 +16401,7 @@ return jQuery;
 
 }));
 
-},{}],15:[function(require,module,exports){
+},{}],16:[function(require,module,exports){
 //     Underscore.js 1.8.3
 //     http://underscorejs.org
 //     (c) 2009-2015 Jeremy Ashkenas, DocumentCloud and Investigative Reporters & Editors
