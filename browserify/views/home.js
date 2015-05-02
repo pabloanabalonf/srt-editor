@@ -9,6 +9,8 @@ var FileModel = require('../models/file');
 var templateHome = require('../templates/home.html');
 var templateMessage = require('../templates/message-tmpl.html');
 
+var SubtitleCollectionView = require('../collections/subtitles');
+
 $.fn.serializeObject = function (){
 	var obj = {};
 	var a = this.serializeArray();
