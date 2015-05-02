@@ -9,18 +9,13 @@ var Controller = require('./controllers/app-controller');
 
 var MyApp = new Marionette.Application();
 
-MyApp.addRegions({
-	mainRegion: '#tmpl-container'
-});
+var controller = new Controller();
 
-var controller = new Controller(MyApp.mainRegion);
 MyApp.addInitializer(function (options){
 	var router = new Router({
 		controller: controller
 	});
 });
-
-
 
 MyApp.on("start", function(options){
 	if (Backbone.history){

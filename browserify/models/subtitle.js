@@ -1,5 +1,5 @@
-var Backbone = require('Backbone');
-var SubtitleModel = Backbone.Model.Extend({
+var Backbone = require('backbone');
+var SubtitleModel = Backbone.Model.extend({
 	defaults: {
 		subtitleNumber: 1,
 		startTime: '00:00:00,0000',

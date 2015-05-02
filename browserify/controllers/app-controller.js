@@ -3,15 +3,17 @@ var Marionette = require('backbone.marionette');
 var HomeLayoutView = require('../views/home');
 var NotFoundLayoutView = require('../views/not-found');
 
+//regions
+var rm = require('../regions');
+
 var Controller = Marionette.Controller.extend({
-	initialize: function (MainRegion){
-		this.mainRegion = MainRegion;
+	initialize: function (){
 	},
 	home: function (){
-		this.mainRegion.show(new HomeLayoutView());
+		rm.get('mainRegion').show(new HomeLayoutView());
 	},
 	notFound: function (){
-		this.mainRegion.show(new NotFoundLayoutView());	
+		rm.get('mainRegion').show(new NotFoundLayoutView());
 	}
 });
 

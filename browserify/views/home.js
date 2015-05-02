@@ -9,7 +9,11 @@ var FileModel = require('../models/file');
 var templateHome = require('../templates/home.html');
 var templateMessage = require('../templates/message-tmpl.html');
 
-var SubtitleCollectionView = require('../collections/subtitles');
+//regions
+var rm = require('../regions');
+
+var SubtitlesCollection = require('../collections/subtitles');
+var SubtitlesCollectionView = require('../views/subtitle-collection-view');
 
 $.fn.serializeObject = function (){
 	var obj = {};
@@ -30,12 +34,8 @@ $.fn.serializeObject = function (){
 };
 
 var HomeLayoutView = Marionette.LayoutView.extend({
-	initialize: function (renderData){
-		renderData = renderData || {};
-		this.template = templateHome(renderData);
-	},
-	regions: {
-		message: "#message-region"
+	initialize: function (options){
+		this.template = templateHome({});
 	},
 	template: this.template,
 	model: new FileModel(),
@@ -80,7 +80,12 @@ var HomeLayoutView = Marionette.LayoutView.extend({
 					success: function (data){
 						var jsonString = JSON.stringify(data);
 						var json = JSON.parse(jsonString);
-						console.log(JSON.stringify(json.subtitles));
+						var subtitlesCollection = new SubtitlesCollection(json.subtitles);
+						var subtitlesCollectionView = new SubtitlesCollectionView({
+							collection: subtitlesCollection
+						});
+						$('#table-subtitles').append(subtitlesCollectionView.render().el);
+						//rm.get('subtitles').show(subtitlesCollectionView);
 					},
 					error: function (model, data){
 						var jsonString = JSON.stringify(data);
