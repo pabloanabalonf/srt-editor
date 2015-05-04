@@ -126,7 +126,7 @@ module.exports = Router;
 module.exports = function(obj){
 var __t,__p='',__j=Array.prototype.join,print=function(){__p+=__j.call(arguments,'');};
 with(obj||{}){
-__p+='<div class="container">\n\t<div class="row">\n\t\t<div class="col-md-6 col-md-offset-3">\n\t\t\t<div class="panel panel-default">\n\t\t\t\t<div class="panel-heading">\n\t\t\t\t\tSelect SRT File to Edit\n\t\t\t\t</div>\n\t\t\t\t<div class="panel-body">\n\t\t\t\t\t<form id="sendSRTFile" class="form-horizontal" role="form">\n\t\t\t\t\t\t<div class="form-group text-center">\n\t\t\t\t\t\t\t<input type="file" id="uploadFile" name="uploadFile" accept=".srt">\n\t\t\t\t\t\t</div>\n\t\t\t\t\t\t<div class="form-group text-center">\n\t\t\t\t\t\t\t<button type="Send" class="btn btn-default btn-lg">Load .srt file</button>\n\t\t\t\t\t\t</div>\n\t\t\t\t\t</form>\n\t\t\t\t\t<div id="message-region">\t\t\t\t\t\t\n\t\t\t\t\t</div>\n\t\t\t\t</div>\n\t\t\t</div>\n\t\t</div>\n\t</div>\n\t<!-- subtitles -->\n\t<div class="row container-subtitles">\n\t\t<div class="col-md-12">\n\t\t\t<table id="table-subtitles" class="table table-striped">\n\t\t\t\t<thead>\n\t\t\t\t\t<tr>\n\t\t\t\t\t\t<th class="th-subtitle-select">\n\t\t\t\t\t\t\tSelect\n\t\t\t\t\t\t</th>\n\t\t\t\t\t\t<th class="th-subtitle-number">\n\t\t\t\t\t\t\t#\n\t\t\t\t\t\t</th>\n\t\t\t\t\t\t<th class="th-subtitle-initial-time">\n\t\t\t\t\t\t\tInicial Time\n\t\t\t\t\t\t</th>\n\t\t\t\t\t\t<th class="th-subtitle-final-time">\n\t\t\t\t\t\t\tEnd Time\n\t\t\t\t\t\t</th>\n\t\t\t\t\t\t<th class="th-subtitle-text">\n\t\t\t\t\t\t\tText\n\t\t\t\t\t\t</th>\n\t\t\t\t\t</tr>\n\t\t\t\t</thead>\n\t\t\t\t\t<!-- here will be insert the subtitle object -->\n\t\t\t</table>\n\t\t</div>\n\t</div>\n</div>';
+__p+='<div class="container">\n\t<div class="row container-form-load-subtitle">\n\t\t<div class="col-md-6 col-md-offset-3">\n\t\t\t<div class="panel panel-default">\n\t\t\t\t<div class="panel-heading">\n\t\t\t\t\tSelect SRT File to Edit\n\t\t\t\t</div>\n\t\t\t\t<div class="panel-body">\n\t\t\t\t\t<form id="sendSRTFile" class="form-horizontal" role="form">\n\t\t\t\t\t\t<div class="form-group text-center">\n\t\t\t\t\t\t\t<input type="file" id="uploadFile" name="uploadFile" accept=".srt">\n\t\t\t\t\t\t</div>\n\t\t\t\t\t\t<div class="form-group text-center">\n\t\t\t\t\t\t\t<button type="Send" class="btn btn-default btn-lg">Load .srt file</button>\n\t\t\t\t\t\t</div>\n\t\t\t\t\t</form>\n\t\t\t\t\t<div id="message-region">\t\t\t\t\t\t\n\t\t\t\t\t</div>\n\t\t\t\t</div>\n\t\t\t</div>\n\t\t</div>\n\t</div>\n\t<!-- subtitles -->\n\t<div class="row container-subtitles">\n\t\t<div class="col-md-12">\n\t\t\t<h3 id="file-name">\t\t\t\t\n\t\t\t</h3>\n\t\t</div>\n\t\t<div class="col-md-12 table-responsive">\n\t\t\t<table id="table-subtitles" class="table table-bordered">\n\t\t\t\t<thead>\n\t\t\t\t\t<tr>\n\t\t\t\t\t\t<th class="th-subtitle-select">\n\t\t\t\t\t\t\t<input type="checkbox" id="chkSelectAll">\n\t\t\t\t\t\t</th>\n\t\t\t\t\t\t<th class="th-subtitle-number">\n\t\t\t\t\t\t\t#\n\t\t\t\t\t\t</th>\n\t\t\t\t\t\t<th class="th-subtitle-initial-time">\n\t\t\t\t\t\t\tInicial Time\n\t\t\t\t\t\t</th>\n\t\t\t\t\t\t<th class="th-subtitle-final-time">\n\t\t\t\t\t\t\tEnd Time\n\t\t\t\t\t\t</th>\n\t\t\t\t\t\t<th class="th-subtitle-text">\n\t\t\t\t\t\t\tText\n\t\t\t\t\t\t</th>\n\t\t\t\t\t</tr>\n\t\t\t\t</thead>\n\t\t\t\t\t<!-- here will be insert the subtitle object -->\n\t\t\t</table>\n\t\t</div>\n\t\t<div class="col-md-12 text-center">\n\t\t\t<i class="fa fa-long-arrow-up fa-lg" id="go-to-top"></i>\n\t\t</div>\n\t</div>\n</div>';
 }
 return __p;
 };
@@ -226,6 +226,37 @@ $.fn.serializeObject = function (){
 	return obj;
 };
 
+$.fn.fixMe = function() {
+	return this.each(function() {
+		var $this = $(this);
+		var $t_fixed;
+		function init() {
+			$this.wrap('<div class="container" />');
+			$t_fixed = $this.clone();
+			$t_fixed.find("tbody").remove().end().addClass("fixed").insertBefore($this);
+			resizeFixed();
+		}
+		function resizeFixed() {
+			$t_fixed.find("th").each(function(index) {
+				$(this).css("width",$this.find("th").eq(index).outerWidth()+"px");
+			});
+		}
+		function scrollFixed() {
+			var offset = $(this).scrollTop();
+			var tableOffsetTop = $this.offset().top;
+			var tableOffsetBottom = tableOffsetTop + $this.height() - $this.find("thead").height();
+			if(offset < tableOffsetTop || offset > tableOffsetBottom){
+				$t_fixed.hide();
+			}else if(offset >= tableOffsetTop && offset <= tableOffsetBottom && $t_fixed.is(":hidden")){
+				$t_fixed.show();
+			}
+		}
+		$(window).resize(resizeFixed);
+		$(window).scroll(scrollFixed);
+		init();
+	});
+};
+
 var HomeLayoutView = Marionette.LayoutView.extend({
 	initialize: function (options){
 		this.template = templateHome({});
@@ -238,21 +269,24 @@ var HomeLayoutView = Marionette.LayoutView.extend({
 	onDestroy: function (){
 		console.log('onDestroy HomeLayoutView');
 	},
-	events: {
-		"submit #sendSRTFile": "sendSRTFile"
-	},
 	ui: {
+		containerFormLoadSubtitle: '.container-form-load-subtitle',
 		containerSubtitles: '.container-subtitles',
 		tableSubtitles: '#table-subtitles',
-		messageRegion: '#message-region'
+		messageRegion: '#message-region',
+		fileName: '#file-name'
+	},
+	events: {
+		"submit #sendSRTFile": "sendSRTFile",
+		"click #go-to-top": "gotoTop"
 	},
 	sendSRTFile: function (e){
 		e.preventDefault();
 		var $srtFile = $("#uploadFile");
-		var formData = new FormData();
 		var reader;
 		this.file;
 		var that = this;
+		var error = false;
 		for(var i = 0, len = $srtFile[0].files.length; i < len; i++){
 			var file = $srtFile[0].files[i];
 			var format = file.name.substr(file.name.length - 4, file.name.length);
@@ -263,9 +297,14 @@ var HomeLayoutView = Marionette.LayoutView.extend({
 					reader.readAsDataURL(file);
 				}
 			}else{
-				console.log("formato incorrecto.");
+				error = true;
 				break;
 			}
+		}
+		if(error){
+			var html = templateMessage({typeAlert: 'danger', message: 'Incorrect file format. You must choose a .srt file.'});
+			this.ui.messageRegion.html(html);
+			return false;
 		}
 		if(this.file){
 			this.model.readFile(this.file).then(function (dataFile){
@@ -282,11 +321,15 @@ var HomeLayoutView = Marionette.LayoutView.extend({
 						var subtitlesCollectionView = new SubtitlesCollectionView({
 							collection: subtitlesCollection
 						});
+						that.ui.containerFormLoadSubtitle.hide();
 						that.ui.containerSubtitles.show();
+						that.ui.fileName.text(that.model.attributes.filename);
 						that.ui.tableSubtitles.append(subtitlesCollectionView.render().el);
-						//rm.get('subtitles').show(subtitlesCollectionView);
+						that.ui.tableSubtitles.fixMe();
 					},
 					error: function (model, data){
+						that.ui.containerFormLoadSubtitle.show();
+						that.ui.containerSubtitles.hide();
 						var jsonString = JSON.stringify(data);
 						var json = JSON.parse(jsonString);
 						var html = templateMessage({typeAlert: 'danger', message: json.responseJSON.message});
@@ -295,6 +338,11 @@ var HomeLayoutView = Marionette.LayoutView.extend({
 				});
 			});
 		}
+	},
+	gotoTop: function (e){
+		$('html, body').animate({
+			scrollTop: 0
+		},2000);
 	}
 
 });

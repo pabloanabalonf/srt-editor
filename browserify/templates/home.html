@@ -1,5 +1,5 @@
 <div class="container">
-	<div class="row">
+	<div class="row container-form-load-subtitle">
 		<div class="col-md-6 col-md-offset-3">
 			<div class="panel panel-default">
 				<div class="panel-heading">
@@ -23,11 +23,15 @@
 	<!-- subtitles -->
 	<div class="row container-subtitles">
 		<div class="col-md-12">
-			<table id="table-subtitles" class="table table-striped">
+			<h3 id="file-name">				
+			</h3>
+		</div>
+		<div class="col-md-12 table-responsive">
+			<table id="table-subtitles" class="table table-bordered">
 				<thead>
 					<tr>
 						<th class="th-subtitle-select">
-							Select
+							<input type="checkbox" id="chkSelectAll">
 						</th>
 						<th class="th-subtitle-number">
 							#
@@ -45,6 +49,9 @@
 				</thead>
 					<!-- here will be insert the subtitle object -->
 			</table>
+		</div>
+		<div class="col-md-12 text-center">
+			<i class="fa fa-long-arrow-up fa-lg" id="go-to-top"></i>
 		</div>
 	</div>
 </div>
