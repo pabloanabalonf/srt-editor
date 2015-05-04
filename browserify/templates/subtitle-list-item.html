@@ -2,14 +2,14 @@
 	<input type="checkbox" id="chkSubtitle<%= subtitleNumber %>">
 </th>
 <td>
-	<input type="text" class="form-control" name="txtStartTime<%= subtitleNumber %>" id="txtStartTime<%= subtitleNumber %>" value="<%= subtitleNumber %>" placeholder="1">
+	<input type="text" name="txtStartTime<%= subtitleNumber %>" id="txtStartTime<%= subtitleNumber %>" value="<%= subtitleNumber %>" placeholder="1" class="input-number">
 </td>
 <td>
-	<input type="text" class="form-control" name="txtStartTime<%= subtitleNumber %>" id="txtStartTime<%= subtitleNumber %>" value="<%= startTime %>" placeholder="00:00:00,0000">
+	<input type="text" name="txtStartTime<%= subtitleNumber %>" id="txtStartTime<%= subtitleNumber %>" value="<%= startTime %>" placeholder="00:00:00,0000" class="input-start-time">
 </td>
 <td>
-	<input type="text" class="form-control" name="txtFinalTime<%= subtitleNumber %>" id="txtFinalTime<%= subtitleNumber %>" value="<%= finalTime %>" placeholder="00:00:00,0000">
+	<input type="text" name="txtFinalTime<%= subtitleNumber %>" id="txtFinalTime<%= subtitleNumber %>" value="<%= finalTime %>" placeholder="00:00:00,0000" class="input-final-time">
 </td>
 <td>
-	<input type="text" class="form-control" name="txtSubtitleText<%= subtitleNumber %>" id="txtSubtitleText<%= subtitleNumber %>" value="<%= text %>" placeholder="Here put subtitle's text">
+	<textarea name="txtSubtitleText<%= subtitleNumber %>" id="txtSubtitleText<%= subtitleNumber %>" class="form-control input-subtitle-text" rows="3"><%= text %></textarea>
 </td>

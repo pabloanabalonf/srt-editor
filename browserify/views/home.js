@@ -48,6 +48,11 @@ var HomeLayoutView = Marionette.LayoutView.extend({
 	events: {
 		"submit #sendSRTFile": "sendSRTFile"
 	},
+	ui: {
+		containerSubtitles: '.container-subtitles',
+		tableSubtitles: '#table-subtitles',
+		messageRegion: '#message-region'
+	},
 	sendSRTFile: function (e){
 		e.preventDefault();
 		var $srtFile = $("#uploadFile");
@@ -84,14 +89,15 @@ var HomeLayoutView = Marionette.LayoutView.extend({
 						var subtitlesCollectionView = new SubtitlesCollectionView({
 							collection: subtitlesCollection
 						});
-						$('#table-subtitles').append(subtitlesCollectionView.render().el);
+						that.ui.containerSubtitles.show();
+						that.ui.tableSubtitles.append(subtitlesCollectionView.render().el);
 						//rm.get('subtitles').show(subtitlesCollectionView);
 					},
 					error: function (model, data){
 						var jsonString = JSON.stringify(data);
 						var json = JSON.parse(jsonString);
 						var html = templateMessage({typeAlert: 'danger', message: json.responseJSON.message});
-						$("#message-region").html(html);
+						that.ui.messageRegion.html(html);
 					}
 				});
 			});

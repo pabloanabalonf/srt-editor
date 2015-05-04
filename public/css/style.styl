@@ -1,3 +1,73 @@
 #uploadFile
 	position relative
 	margin auto
+
+.container-subtitles
+	display none
+	margin 10px 20px
+
+#table-subtitles
+	thead
+		tr
+			.th-subtitle-select
+				width 40px
+			.th-subtitle-number
+				width 50px
+			.th-subtitle-initial-time
+				width 100px
+			.th-subtitle-final-time
+				width 100px
+			.th-subtitle-text
+				width 100%
+	tbody
+		tr
+			th
+				text-align center
+			td
+				.input-number
+					height 34px
+					width 60px
+					font-size 14px
+					color #555
+					background-color #fff
+					border 1px solid #ccc
+					border-radius 4px
+					box-shadow inset 0 1px 1px rgba(0, 0, 0, 0.75)
+					text-align center
+					transition border-color ease-in-out .15s,box-shadow ease-in-out .15s
+				.input-start-time
+					height 34px
+					width 110px
+					font-size 14px
+					color #555
+					background-color #fff
+					border 1px solid #ccc
+					border-radius 4px
+					box-shadow inset 0 1px 1px rgba(0, 0, 0, 0.75)
+					text-align center
+					transition border-color ease-in-out .15s,box-shadow ease-in-out .15s
+				.input-final-time
+					height 34px
+					width 110px
+					font-size 14px
+					color #555
+					background-color #fff
+					border 1px solid #ccc
+					border-radius 4px
+					box-shadow inset 0 1px 1px rgba(0, 0, 0, 0.75)
+					text-align center
+					transition border-color ease-in-out .15s,box-shadow ease-in-out .15s
+				.input-subtitle-text
+					width 100%
+					font-size 14px
+					color #555
+					background-color #fff
+					border 1px solid #ccc
+					border-radius 4px
+					box-shadow inset 0 1px 1px rgba(0, 0, 0, 0.75)
+					text-align left
+					transition border-color ease-in-out .15s,box-shadow ease-in-out .15s
+
+@media screen and (max-width: 768px)
+	.container-subtitles
+		margin 10px -10px

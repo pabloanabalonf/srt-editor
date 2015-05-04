@@ -93,13 +93,13 @@ var SubtitleModel = Backbone.Model.extend({
 
 module.exports = SubtitleModel;
 },{"backbone":21}],6:[function(require,module,exports){
+"use strict";
 var Marionette = require('backbone.marionette');
 
 var RegionManager = new Marionette.RegionManager();
 
 RegionManager.addRegions({
 	mainRegion: '#tmpl-container',
-	subtitles: "#render-subtitles"
 });
 
 module.exports = RegionManager;
@@ -126,7 +126,7 @@ module.exports = Router;
 module.exports = function(obj){
 var __t,__p='',__j=Array.prototype.join,print=function(){__p+=__j.call(arguments,'');};
 with(obj||{}){
-__p+='<div class="container">\n\t<div class="row">\n\t\t<div class="col-md-6 col-md-offset-3">\n\t\t\t<div class="panel panel-default">\n\t\t\t\t<div class="panel-heading">\n\t\t\t\t\tSelect SRT File to Edit\n\t\t\t\t</div>\n\t\t\t\t<div class="panel-body">\n\t\t\t\t\t<form id="sendSRTFile" class="form-horizontal" role="form">\n\t\t\t\t\t\t<div class="form-group text-center">\n\t\t\t\t\t\t\t<input type="file" id="uploadFile" name="uploadFile" accept=".srt">\n\t\t\t\t\t\t</div>\n\t\t\t\t\t\t<div class="form-group text-center">\n\t\t\t\t\t\t\t<button type="Send" class="btn btn-default btn-lg">Load .srt file</button>\n\t\t\t\t\t\t</div>\n\t\t\t\t\t</form>\n\t\t\t\t\t<div id="message-region">\t\t\t\t\t\t\n\t\t\t\t\t</div>\n\t\t\t\t</div>\n\t\t\t</div>\n\t\t</div>\n\t</div>\n\t<!-- subtitles -->\n\t<div class="row">\n\t\t<div class="col-md-12">\n\t\t\t<table id="table-subtitles" class="table table-striped">\n\t\t\t\t<thead>\n\t\t\t\t\t<tr>\n\t\t\t\t\t\t<th>\n\t\t\t\t\t\t\tSelect\n\t\t\t\t\t\t</th>\n\t\t\t\t\t\t<th>\n\t\t\t\t\t\t\t#\n\t\t\t\t\t\t</th>\n\t\t\t\t\t\t<th>\n\t\t\t\t\t\t\tInicial Time\n\t\t\t\t\t\t</th>\n\t\t\t\t\t\t<th>\n\t\t\t\t\t\t\tEnd Time\n\t\t\t\t\t\t</th>\n\t\t\t\t\t\t<th>\n\t\t\t\t\t\t\tText\n\t\t\t\t\t\t</th>\n\t\t\t\t\t</tr>\n\t\t\t\t</thead>\n\t\t\t\t\t<!-- here will be insert the subtitle object -->\n\t\t\t</table>\n\t\t</div>\n\t</div>\n</div>';
+__p+='<div class="container">\n\t<div class="row">\n\t\t<div class="col-md-6 col-md-offset-3">\n\t\t\t<div class="panel panel-default">\n\t\t\t\t<div class="panel-heading">\n\t\t\t\t\tSelect SRT File to Edit\n\t\t\t\t</div>\n\t\t\t\t<div class="panel-body">\n\t\t\t\t\t<form id="sendSRTFile" class="form-horizontal" role="form">\n\t\t\t\t\t\t<div class="form-group text-center">\n\t\t\t\t\t\t\t<input type="file" id="uploadFile" name="uploadFile" accept=".srt">\n\t\t\t\t\t\t</div>\n\t\t\t\t\t\t<div class="form-group text-center">\n\t\t\t\t\t\t\t<button type="Send" class="btn btn-default btn-lg">Load .srt file</button>\n\t\t\t\t\t\t</div>\n\t\t\t\t\t</form>\n\t\t\t\t\t<div id="message-region">\t\t\t\t\t\t\n\t\t\t\t\t</div>\n\t\t\t\t</div>\n\t\t\t</div>\n\t\t</div>\n\t</div>\n\t<!-- subtitles -->\n\t<div class="row container-subtitles">\n\t\t<div class="col-md-12">\n\t\t\t<table id="table-subtitles" class="table table-striped">\n\t\t\t\t<thead>\n\t\t\t\t\t<tr>\n\t\t\t\t\t\t<th class="th-subtitle-select">\n\t\t\t\t\t\t\tSelect\n\t\t\t\t\t\t</th>\n\t\t\t\t\t\t<th class="th-subtitle-number">\n\t\t\t\t\t\t\t#\n\t\t\t\t\t\t</th>\n\t\t\t\t\t\t<th class="th-subtitle-initial-time">\n\t\t\t\t\t\t\tInicial Time\n\t\t\t\t\t\t</th>\n\t\t\t\t\t\t<th class="th-subtitle-final-time">\n\t\t\t\t\t\t\tEnd Time\n\t\t\t\t\t\t</th>\n\t\t\t\t\t\t<th class="th-subtitle-text">\n\t\t\t\t\t\t\tText\n\t\t\t\t\t\t</th>\n\t\t\t\t\t</tr>\n\t\t\t\t</thead>\n\t\t\t\t\t<!-- here will be insert the subtitle object -->\n\t\t\t</table>\n\t\t</div>\n\t</div>\n</div>';
 }
 return __p;
 };
@@ -161,31 +161,31 @@ var __t,__p='',__j=Array.prototype.join,print=function(){__p+=__j.call(arguments
 with(obj||{}){
 __p+='<th>\n\t<input type="checkbox" id="chkSubtitle'+
 ((__t=( subtitleNumber ))==null?'':__t)+
-'">\n</th>\n<td>\n\t<input type="text" class="form-control" name="txtStartTime'+
+'">\n</th>\n<td>\n\t<input type="text" name="txtStartTime'+
 ((__t=( subtitleNumber ))==null?'':__t)+
 '" id="txtStartTime'+
 ((__t=( subtitleNumber ))==null?'':__t)+
 '" value="'+
 ((__t=( subtitleNumber ))==null?'':__t)+
-'" placeholder="1">\n</td>\n<td>\n\t<input type="text" class="form-control" name="txtStartTime'+
+'" placeholder="1" class="input-number">\n</td>\n<td>\n\t<input type="text" name="txtStartTime'+
 ((__t=( subtitleNumber ))==null?'':__t)+
 '" id="txtStartTime'+
 ((__t=( subtitleNumber ))==null?'':__t)+
 '" value="'+
 ((__t=( startTime ))==null?'':__t)+
-'" placeholder="00:00:00,0000">\n</td>\n<td>\n\t<input type="text" class="form-control" name="txtFinalTime'+
+'" placeholder="00:00:00,0000" class="input-start-time">\n</td>\n<td>\n\t<input type="text" name="txtFinalTime'+
 ((__t=( subtitleNumber ))==null?'':__t)+
 '" id="txtFinalTime'+
 ((__t=( subtitleNumber ))==null?'':__t)+
 '" value="'+
 ((__t=( finalTime ))==null?'':__t)+
-'" placeholder="00:00:00,0000">\n</td>\n<td>\n\t<input type="text" class="form-control" name="txtSubtitleText'+
+'" placeholder="00:00:00,0000" class="input-final-time">\n</td>\n<td>\n\t<textarea name="txtSubtitleText'+
 ((__t=( subtitleNumber ))==null?'':__t)+
 '" id="txtSubtitleText'+
 ((__t=( subtitleNumber ))==null?'':__t)+
-'" value="'+
+'" class="form-control input-subtitle-text" rows="3">'+
 ((__t=( text ))==null?'':__t)+
-'" placeholder="Here put subtitle\'s text">\n</td>';
+'</textarea>\n</td>';
 }
 return __p;
 };
@@ -241,6 +241,11 @@ var HomeLayoutView = Marionette.LayoutView.extend({
 	events: {
 		"submit #sendSRTFile": "sendSRTFile"
 	},
+	ui: {
+		containerSubtitles: '.container-subtitles',
+		tableSubtitles: '#table-subtitles',
+		messageRegion: '#message-region'
+	},
 	sendSRTFile: function (e){
 		e.preventDefault();
 		var $srtFile = $("#uploadFile");
@@ -277,14 +282,15 @@ var HomeLayoutView = Marionette.LayoutView.extend({
 						var subtitlesCollectionView = new SubtitlesCollectionView({
 							collection: subtitlesCollection
 						});
-						$('#table-subtitles').append(subtitlesCollectionView.render().el);
+						that.ui.containerSubtitles.show();
+						that.ui.tableSubtitles.append(subtitlesCollectionView.render().el);
 						//rm.get('subtitles').show(subtitlesCollectionView);
 					},
 					error: function (model, data){
 						var jsonString = JSON.stringify(data);
 						var json = JSON.parse(jsonString);
 						var html = templateMessage({typeAlert: 'danger', message: json.responseJSON.message});
-						$("#message-region").html(html);
+						that.ui.messageRegion.html(html);
 					}
 				});
 			});
