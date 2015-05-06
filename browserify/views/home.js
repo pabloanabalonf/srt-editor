@@ -109,7 +109,7 @@ var HomeLayoutView = Marionette.LayoutView.extend({
 			}
 		}
 		if(error){
-			var html = templateMessage({typeAlert: 'danger', message: 'Incorrect file format. You must choose a .srt file.'});
+			var html = templateMessage({typeAlert: 'danger', title: "Error!", message: 'Incorrect file format. You must choose a .srt file.'});
 			this.ui.messageRegion.html(html);
 			return false;
 		}
@@ -139,7 +139,7 @@ var HomeLayoutView = Marionette.LayoutView.extend({
 						that.ui.containerSubtitles.hide();
 						var jsonString = JSON.stringify(data);
 						var json = JSON.parse(jsonString);
-						var html = templateMessage({typeAlert: 'danger', message: json.responseJSON.message});
+						var html = templateMessage({typeAlert: 'danger', title:"Error!", message: json.responseJSON.message});
 						that.ui.messageRegion.html(html);
 					}
 				});

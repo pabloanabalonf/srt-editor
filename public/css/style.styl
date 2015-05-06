@@ -1,3 +1,24 @@
+vendor-prefixes ?= webkit moz o ms official
+@import 'nib/vendor'
+@import 'nib/gradients'
+
+//GENERAL
+html, body
+	margin 0
+	padding 0
+	height 100%
+	
+#wrapper
+	min-height 100%
+	position relative	
+
+#tmpl-container
+	padding-bottom 70px
+
+.main-section-padding-bottom
+	padding-bottom 70px	
+
+//EDITOR
 #uploadFile
 	position relative
 	margin auto
@@ -17,7 +38,8 @@
 	border none
 
 #table-subtitles
-	background-color #aaa
+	background-color #158CBA
+	color #fff
 	thead
 		tr
 			.th-subtitle-select
@@ -32,7 +54,7 @@
 			.th-subtitle-text
 				width 100%
 	tbody
-		background-color #ddd
+		background-color #DADADA
 		tr
 			th
 				text-align center
@@ -81,6 +103,14 @@
 					text-align left
 					transition border-color ease-in-out .15s,box-shadow ease-in-out .15s
 
+footer
+	background-color #DADADA
+	padding 25px 0
+	position absolute
+	left 0
+	bottom 0
+	width 100%
+	
 @media screen and (max-width: 768px)
 	.container-subtitles
 		margin 10px -10px

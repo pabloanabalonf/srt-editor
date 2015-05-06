@@ -126,7 +126,7 @@ module.exports = Router;
 module.exports = function(obj){
 var __t,__p='',__j=Array.prototype.join,print=function(){__p+=__j.call(arguments,'');};
 with(obj||{}){
-__p+='<div class="container">\n\t<div class="row container-form-load-subtitle">\n\t\t<div class="col-md-6 col-md-offset-3">\n\t\t\t<div class="panel panel-default">\n\t\t\t\t<div class="panel-heading">\n\t\t\t\t\tSelect SRT File to Edit\n\t\t\t\t</div>\n\t\t\t\t<div class="panel-body">\n\t\t\t\t\t<form id="sendSRTFile" class="form-horizontal" role="form">\n\t\t\t\t\t\t<div class="form-group text-center">\n\t\t\t\t\t\t\t<input type="file" id="uploadFile" name="uploadFile" accept=".srt">\n\t\t\t\t\t\t</div>\n\t\t\t\t\t\t<div class="form-group text-center">\n\t\t\t\t\t\t\t<button type="Send" class="btn btn-default btn-lg">Load .srt file</button>\n\t\t\t\t\t\t</div>\n\t\t\t\t\t</form>\n\t\t\t\t\t<div id="message-region">\t\t\t\t\t\t\n\t\t\t\t\t</div>\n\t\t\t\t</div>\n\t\t\t</div>\n\t\t</div>\n\t</div>\n\t<!-- subtitles -->\n\t<div class="row container-subtitles">\n\t\t<div class="col-md-12">\n\t\t\t<h3 id="file-name">\t\t\t\t\n\t\t\t</h3>\n\t\t</div>\n\t\t<div class="col-md-12 table-responsive">\n\t\t\t<table id="table-subtitles" class="table table-bordered">\n\t\t\t\t<thead>\n\t\t\t\t\t<tr>\n\t\t\t\t\t\t<th class="th-subtitle-select">\n\t\t\t\t\t\t\t<input type="checkbox" id="chkSelectAll">\n\t\t\t\t\t\t</th>\n\t\t\t\t\t\t<th class="th-subtitle-number">\n\t\t\t\t\t\t\t#\n\t\t\t\t\t\t</th>\n\t\t\t\t\t\t<th class="th-subtitle-initial-time">\n\t\t\t\t\t\t\tInicial Time\n\t\t\t\t\t\t</th>\n\t\t\t\t\t\t<th class="th-subtitle-final-time">\n\t\t\t\t\t\t\tEnd Time\n\t\t\t\t\t\t</th>\n\t\t\t\t\t\t<th class="th-subtitle-text">\n\t\t\t\t\t\t\tText\n\t\t\t\t\t\t</th>\n\t\t\t\t\t</tr>\n\t\t\t\t</thead>\n\t\t\t\t\t<!-- here will be insert the subtitle object -->\n\t\t\t</table>\n\t\t</div>\n\t\t<div class="col-md-12 text-center">\n\t\t\t<i class="fa fa-long-arrow-up fa-lg" id="go-to-top"></i>\n\t\t</div>\n\t</div>\n</div>';
+__p+='<div class="container">\n\t<div class="row container-form-load-subtitle">\n\t\t<div class="col-md-6 col-md-offset-3">\n\t\t\t<div class="panel panel-primary">\n\t\t\t\t<div class="panel-heading">\n\t\t\t\t\t<h3 class="panel-title">\n\t\t\t\t\t\tSelect SRT File to Edit\n\t\t\t\t\t</h3>\n\t\t\t\t</div>\n\t\t\t\t<div class="panel-body">\n\t\t\t\t\t<form id="sendSRTFile" class="form-horizontal" role="form">\n\t\t\t\t\t\t<div class="form-group text-center">\n\t\t\t\t\t\t\t<input type="file" id="uploadFile" name="uploadFile" accept=".srt">\n\t\t\t\t\t\t</div>\n\t\t\t\t\t\t<div class="form-group text-center">\n\t\t\t\t\t\t\t<button type="Send" class="btn btn-primary btn-lg">Load .srt file</button>\n\t\t\t\t\t\t</div>\n\t\t\t\t\t</form>\n\t\t\t\t\t<div id="message-region">\t\t\t\t\t\t\n\t\t\t\t\t</div>\n\t\t\t\t</div>\n\t\t\t</div>\n\t\t</div>\n\t</div>\n\t<!-- subtitles -->\n\t<div class="row container-subtitles">\n\t\t<div class="col-md-12">\n\t\t\t<h3 id="file-name">\t\t\t\t\n\t\t\t</h3>\n\t\t</div>\n\t\t<div class="col-md-12 table-responsive">\n\t\t\t<table id="table-subtitles" class="table table-bordered">\n\t\t\t\t<thead>\n\t\t\t\t\t<tr>\n\t\t\t\t\t\t<th class="th-subtitle-select">\n\t\t\t\t\t\t\t<input type="checkbox" id="chkSelectAll">\n\t\t\t\t\t\t</th>\n\t\t\t\t\t\t<th class="th-subtitle-number">\n\t\t\t\t\t\t\t#\n\t\t\t\t\t\t</th>\n\t\t\t\t\t\t<th class="th-subtitle-initial-time">\n\t\t\t\t\t\t\tInicial Time\n\t\t\t\t\t\t</th>\n\t\t\t\t\t\t<th class="th-subtitle-final-time">\n\t\t\t\t\t\t\tEnd Time\n\t\t\t\t\t\t</th>\n\t\t\t\t\t\t<th class="th-subtitle-text">\n\t\t\t\t\t\t\tText\n\t\t\t\t\t\t</th>\n\t\t\t\t\t</tr>\n\t\t\t\t</thead>\n\t\t\t\t\t<!-- here will be insert the subtitle object -->\n\t\t\t</table>\n\t\t</div>\n\t\t<div class="col-md-12 text-center">\n\t\t\t<i class="fa fa-long-arrow-up fa-lg" id="go-to-top"></i>\n\t\t</div>\n\t</div>\n</div>';
 }
 return __p;
 };
@@ -135,11 +135,13 @@ return __p;
 module.exports = function(obj){
 var __t,__p='',__j=Array.prototype.join,print=function(){__p+=__j.call(arguments,'');};
 with(obj||{}){
-__p+='<div class="alert alert-'+
+__p+='<div class="alert alert-dismissible alert-'+
 ((__t=( typeAlert ))==null?'':__t)+
-'">\n\t'+
+'">\n\t<button type="button" class="close" data-dismiss="alert">×</button>\n\t<h4>\n\t\t'+
+((__t=( title ))==null?'':__t)+
+'\n\t</h4>\n\t<p>\n\t\t'+
 ((__t=( message ))==null?'':__t)+
-'\n</div>';
+'\n\t</p>\n</div>';
 }
 return __p;
 };
@@ -302,7 +304,7 @@ var HomeLayoutView = Marionette.LayoutView.extend({
 			}
 		}
 		if(error){
-			var html = templateMessage({typeAlert: 'danger', message: 'Incorrect file format. You must choose a .srt file.'});
+			var html = templateMessage({typeAlert: 'danger', title: "Error!", message: 'Incorrect file format. You must choose a .srt file.'});
 			this.ui.messageRegion.html(html);
 			return false;
 		}
@@ -332,7 +334,7 @@ var HomeLayoutView = Marionette.LayoutView.extend({
 						that.ui.containerSubtitles.hide();
 						var jsonString = JSON.stringify(data);
 						var json = JSON.parse(jsonString);
-						var html = templateMessage({typeAlert: 'danger', message: json.responseJSON.message});
+						var html = templateMessage({typeAlert: 'danger', title:"Error!", message: json.responseJSON.message});
 						that.ui.messageRegion.html(html);
 					}
 				});

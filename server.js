@@ -4,6 +4,7 @@ var bodyParser = require('body-parser');
 var morgan = require('morgan');
 var errorhandler = require('errorhandler');
 var stylus = require('stylus');
+var nib = require('nib');
 
 var app = express();
 
@@ -25,18 +26,25 @@ app.use(stylus.middleware({
 	compile: function (str, path){
 		return stylus(str)
 			.set('filename', path)
-			.set('compress', true);
+			.set('compress', true)
+			.use(nib())
+			.import('nib');
 	}
 }));
 app.use(express.static(path.join(__dirname, 'public')));
 
 app.use('/', home);
 app.use('/', file);
+app.use('/*', function (req, res){
+    res.status(404);
+    res.render('404', {title: 'SRT Web Editor | Not Found', status: 404, url: req.baseUrl});
+});
 
-app.use(errorhandler());
+//app.use(errorhandler());
 app.use(function (err, req, res, next){
 	res.status(err.status || 500);
 	res.render('error', {
+		title: 'SRT Web Editor | Error',
 		message: err.message,
 		error: err
 	});
