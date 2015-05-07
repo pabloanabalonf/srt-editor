@@ -16,6 +16,29 @@ var rm = require('../regions');
 var SubtitlesCollection = require('../collections/subtitles');
 var SubtitlesCollectionView = require('../views/subtitle-collection-view');
 
+/*
+, = 44
+0 = 48
+1 = 49
+2 = 50
+3 = 51
+4 = 52
+5 = 53
+6 = 54
+7 = 55
+8 = 56
+9 = 57
+: = 58
+*/
+
+var keyAllows = [44, 48, 49, 50, 51, 52, 53, 54, 55, 56, 57, 58];
+
+//regex validation
+var validateNumberSubtitle = new RegExp(/^[0-9]+$/);
+var validateDelayMode = new RegExp(/^\+|\-$/);
+var validateDelayInput = new RegExp(/^[0-5][0-9]:[0-5][0-9],[0-9][0-9][0-9]$/);
+var validateTimes = new RegExp(/^(?:2[0-3]|[01][0-9]):[0-5][0-9]:[0-5][0-9],[0-9][0-9][0-9]$/);
+
 $.fn.serializeObject = function (){
 	var obj = {};
 	var a = this.serializeArray();
@@ -26,7 +49,7 @@ $.fn.serializeObject = function (){
 			}
 			obj[this.name].push(this.value || '');
 		}else{
-			obj[this.name].push(this.value || '');
+			obj[this.name] = this.value || '';
 		}
 	});
 	return obj;
@@ -89,7 +112,15 @@ var HomeLayoutView = Marionette.LayoutView.extend({
 		"submit #sendSRTFile": "sendSRTFile",
 		"click #go-to-top": "gotoTop",
 		'click .chk-subtitle': 'chkSubtitleClicked',
-		'click #chkSelectAll': 'chkSelectAllClick'
+		'click #chkSelectAll': 'chkSelectAllClick',
+		//Form events
+		'submit #setDelayForm': 'setDelayForm',
+		'submit #saveSrtFileForm': 'saveSrtFileForm',
+		'keypress #inputDelay': 'keysInInputDelay',
+		'keypress .input-start-time': 'keysInInputDelay',
+		'keypress .input-final-time': 'keysInInputDelay',
+		'focusout .input-start-time': 'validateTimeInput',
+		'focusout .input-final-time': 'validateTimeInput',
 	},
 	sendSRTFile: function (e){
 		e.preventDefault();
@@ -215,6 +246,43 @@ var HomeLayoutView = Marionette.LayoutView.extend({
 		}
 
 		this.ui.badgeSubtitlesSelected.text(this.amountChecked);
+	},
+	setDelayForm: function (e){
+		e.preventDefault();
+		$("#error-actions").html('');
+		var data = $(e.currentTarget).serializeObject();
+		if(!validateDelayInput.test(data.inputDelay)){
+			var html = templateMessage({typeAlert: 'danger', title:"Error!", message: "Delay not set correctly. Remember <strong>MM:SS:mmmm</strong>."});
+			$("#error-actions").html(html);
+			return false;
+		}
+		
+		if(!validateDelayMode.test(data.inputDelayMode)){
+			var html = templateMessage({typeAlert: 'danger', title:"Error!", message: "Delay type must be + or -"});
+			$("#error-actions").html(html);
+			return false;
+		}
+
+	},
+	saveSrtFileForm: function (e){
+		e.preventDefault();
+		console.log('saveSrtFileForm');
+		var data = $(e.currentTarget).serializeObject();
+
+		console.log('data'+JSON.stringify(data));
+	},
+	keysInInputDelay: function (e){
+		if(keyAllows.indexOf(e.keyCode) == -1){
+			e.preventDefault();
+		}
+	},
+	validateTimeInput: function (e){
+		var inputValue = $(e.currentTarget).val();
+		if(!validateTimes.test(inputValue)){
+			$(e.currentTarget).closest('div').addClass('has-error');
+		}else{
+			$(e.currentTarget).closest('div').removeClass('has-error');
+		}
 	}
 
 });

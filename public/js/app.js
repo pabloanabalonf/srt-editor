@@ -126,9 +126,9 @@ module.exports = Router;
 module.exports = function(obj){
 var __t,__p='',__j=Array.prototype.join,print=function(){__p+=__j.call(arguments,'');};
 with(obj||{}){
-__p+='<div class="col-md-6">\n\t<form class="form-inline">\n\t\t<fieldset>\n\t\t\t<legend>Actions</legend>\n\t\t\t<div class="text-center">\n\t\t\t\t<div class="form-group">\n\t\t\t\t\t<label for="inputDelay">\n\t\t\t\t\t\tDelay\n\t\t\t\t\t</label>\n\t\t\t\t\t<select class="form-control" id="inputDelayMode">\n\t\t\t\t\t\t<option value="+" selected>\n\t\t\t\t\t\t\t+\n\t\t\t\t\t\t</option>\n\t\t\t\t\t\t<option value="-">\n\t\t\t\t\t\t\t-\n\t\t\t\t\t\t</option>\n\t\t\t\t\t</select>\n\t\t\t\t\t<input type="text" class="form-control" id="inputDelay" placeholder="MM:SS:mmm">\n\t\t\t\t</div>\n\t\t\t\t<div class="form-group">\n\t\t\t\t\t<div class="col-lg-10 col-lg-offset-2">\n\t\t\t\t\t\t<button class="btn btn-primary">\n\t\t\t\t\t\t\tSet\n\t\t\t\t\t\t</button>\n\t\t\t\t\t</div>\n\t\t\t\t</div>\n\t\t\t</div>\n\t\t\t<div id="error-actions"></div>\n\t\t</fieldset>\n\t</form>\n</div>\n<div class="col-md-6">\n\t<form class="form-horizontal">\n\t\t<fieldset>\n\t\t\t<legend>Save</legend>\n\t\t\t<div class="form-group">\n\t\t\t\t<label for="inputNameFile" class="col-lg-2 control-label">\n\t\t\t\t\tFile name\n\t\t\t\t</label>\n\t\t\t\t<div class="col-lg-10">\n\t\t\t\t\t<input type="text" class="form-control" id="inputNameFile" value="'+
+__p+='<div class="col-md-6">\n\t<form id="setDelayForm" class="form-inline" role="form">\n\t\t<fieldset>\n\t\t\t<legend>Actions</legend>\n\t\t\t<div class="text-center">\n\t\t\t\t<div class="form-group">\n\t\t\t\t\t<label for="inputDelay">\n\t\t\t\t\t\tDelay\n\t\t\t\t\t</label>\n\t\t\t\t\t<select class="form-control" id="inputDelayMode" name="inputDelayMode">\n\t\t\t\t\t\t<option value="+" selected>\n\t\t\t\t\t\t\t+\n\t\t\t\t\t\t</option>\n\t\t\t\t\t\t<option value="-">\n\t\t\t\t\t\t\t-\n\t\t\t\t\t\t</option>\n\t\t\t\t\t</select>\n\t\t\t\t\t<input type="text" class="form-control" id="inputDelay" name="inputDelay" placeholder="MM:SS:mmm" maxlength="9">\n\t\t\t\t</div>\n\t\t\t\t<div class="form-group">\n\t\t\t\t\t<div class="col-lg-10 col-lg-offset-2">\n\t\t\t\t\t\t<button class="btn btn-primary">\n\t\t\t\t\t\t\tSet\n\t\t\t\t\t\t</button>\n\t\t\t\t\t</div>\n\t\t\t\t</div>\n\t\t\t</div>\n\t\t\t<div id="error-actions">\n\t\t\t</div>\n\t\t</fieldset>\n\t</form>\n</div>\n<div class="col-md-6">\n\t<form id="saveSrtFileForm" class="form-horizontal" role="form">\n\t\t<fieldset>\n\t\t\t<legend>Save</legend>\n\t\t\t<div class="form-group">\n\t\t\t\t<label for="inputNameFile" class="col-lg-2 control-label">\n\t\t\t\t\tFile name\n\t\t\t\t</label>\n\t\t\t\t<div class="col-lg-10">\n\t\t\t\t\t<input type="text" class="form-control" id="inputNameFile" name="inputNameFile" value="'+
 ((__t=( file.filename ))==null?'':__t)+
-'" placeholder="Name.srt">\n\t\t\t\t\t<span class="help-block">\n\t\t\t\t\t\tYou can change the name of the file.\n\t\t\t\t\t</span>\n\t\t\t\t</div>\n\t\t\t</div>\n\t\t\t<div class="form-group">\n\t\t\t\t<label for="inputEncoding" class="col-lg-2 control-label">\n\t\t\t\t\tEncoding\n\t\t\t\t</label>\n\t\t\t\t<div class="col-lg-10">\n\t\t\t\t\t<select class="form-control" id="inputEncoding">\n\t\t\t\t\t\t<option value="UTF-8" selected>UTF-8</option>\n\t\t\t\t\t\t<option value="UTF-16">UTF-16</option>\n\t\t\t\t\t</select>\n\t\t\t\t</div>\n\t\t\t</div>\n\t\t\t<div class="form-group">\n\t\t\t\t<div class="col-lg-10 col-lg-offset-2">\n\t\t\t\t\t<button type="reset" class="btn btn-default">\n\t\t\t\t\t\tCancel\n\t\t\t\t\t</button>\n\t\t\t\t\t<button type="submit" class="btn btn-primary">\n\t\t\t\t\t\tSubmit\n\t\t\t\t\t</button>\n\t\t\t\t</div>\n\t\t\t</div>\n\t\t\t<div id="error-save"></div>\n\t\t</fieldset>\n\t</form>\n</div>';
+'" placeholder="Name.srt">\n\t\t\t\t\t<span class="help-block">\n\t\t\t\t\t\tYou can change the name of the file.\n\t\t\t\t\t</span>\n\t\t\t\t</div>\n\t\t\t</div>\n\t\t\t<div class="form-group">\n\t\t\t\t<label for="inputEncoding" class="col-lg-2 control-label">\n\t\t\t\t\tEncoding\n\t\t\t\t</label>\n\t\t\t\t<div class="col-lg-10">\n\t\t\t\t\t<select class="form-control" id="inputEncoding" name="inputEncoding">\n\t\t\t\t\t\t<option value="UTF-8" selected>UTF-8</option>\n\t\t\t\t\t\t<option value="UTF-16">UTF-16</option>\n\t\t\t\t\t</select>\n\t\t\t\t</div>\n\t\t\t</div>\n\t\t\t<div class="form-group">\n\t\t\t\t<div class="col-lg-10 col-lg-offset-2">\n\t\t\t\t\t<button type="reset" class="btn btn-default">\n\t\t\t\t\t\tCancel\n\t\t\t\t\t</button>\n\t\t\t\t\t<button type="submit" class="btn btn-primary">\n\t\t\t\t\t\tSubmit\n\t\t\t\t\t</button>\n\t\t\t\t</div>\n\t\t\t</div>\n\t\t\t<div id="error-save"></div>\n\t\t</fieldset>\n\t</form>\n</div>';
 }
 return __p;
 };
@@ -137,7 +137,7 @@ return __p;
 module.exports = function(obj){
 var __t,__p='',__j=Array.prototype.join,print=function(){__p+=__j.call(arguments,'');};
 with(obj||{}){
-__p+='<div class="container">\n\t<div class="row container-form-load-subtitle">\n\t\t<div class="col-md-6 col-md-offset-3">\n\t\t\t<div class="panel panel-primary">\n\t\t\t\t<div class="panel-heading">\n\t\t\t\t\t<h3 class="panel-title">\n\t\t\t\t\t\tSelect SRT File to Edit\n\t\t\t\t\t</h3>\n\t\t\t\t</div>\n\t\t\t\t<div class="panel-body">\n\t\t\t\t\t<form id="sendSRTFile" class="form-horizontal" role="form">\n\t\t\t\t\t\t<div class="form-group text-center">\n\t\t\t\t\t\t\t<input type="file" id="uploadFile" name="uploadFile" accept=".srt">\n\t\t\t\t\t\t</div>\n\t\t\t\t\t\t<div class="form-group text-center">\n\t\t\t\t\t\t\t<button type="Send" class="btn btn-primary btn-lg">Load .srt file</button>\n\t\t\t\t\t\t</div>\n\t\t\t\t\t</form>\n\t\t\t\t\t<div id="message-region">\t\t\t\t\t\t\n\t\t\t\t\t</div>\n\t\t\t\t</div>\n\t\t\t</div>\n\t\t</div>\n\t</div>\n\t<!-- subtitles -->\n\t<div class="row container-subtitles">\n\t\t<div class="col-md-12" id="subtitle-actions-menu">\n\t\t</div>\n\t\t<hr>\n\t\t<div class="col-md-12">\n\t\t\t<ul class="nav nav-pills nav-select-subtitles">\n\t\t\t\t<li class="active">\n\t\t\t\t\t<a>\n\t\t\t\t\t<input type="checkbox" id="chkSelectAll"> <strong>Select All</strong>\n\t\t\t\t\t</a>\n\t\t\t\t</li>\n\t\t\t\t<li>\n\t\t\t\t\t<a>\n\t\t\t\t\tSubtitles selected: <span class="badge" id="badge-subtitles-selected">0</span>\n\t\t\t\t\t</a>\n\t\t\t\t</li>\n\t\t\t</ul>\n\t\t\t<br>\n\t\t</div>\n\t\t<div class="col-md-12 table-responsive">\n\t\t\t<table id="table-subtitles" class="table table-bordered">\n\t\t\t\t<thead>\n\t\t\t\t\t<tr>\n\t\t\t\t\t\t<th class="th-subtitle-select">\n\t\t\t\t\t\t\tSelect\n\t\t\t\t\t\t</th>\n\t\t\t\t\t\t<th class="th-subtitle-number">\n\t\t\t\t\t\t\t#\n\t\t\t\t\t\t</th>\n\t\t\t\t\t\t<th class="th-subtitle-initial-time">\n\t\t\t\t\t\t\tInicial Time\n\t\t\t\t\t\t</th>\n\t\t\t\t\t\t<th class="th-subtitle-final-time">\n\t\t\t\t\t\t\tFinal Time\n\t\t\t\t\t\t</th>\n\t\t\t\t\t\t<th class="th-subtitle-text">\n\t\t\t\t\t\t\tText\n\t\t\t\t\t\t</th>\n\t\t\t\t\t</tr>\n\t\t\t\t</thead>\n\t\t\t\t\t<!-- here will be insert the subtitle object -->\n\t\t\t</table>\n\t\t</div>\n\t\t<div class="col-md-12 text-center">\n\t\t\t<i class="fa fa-long-arrow-up fa-lg" id="go-to-top"></i>\n\t\t</div>\n\t</div>\n</div>';
+__p+='<div class="container">\n\t<div class="row container-form-load-subtitle">\n\t\t<div class="col-md-6 col-md-offset-3">\n\t\t\t<div class="panel panel-primary">\n\t\t\t\t<div class="panel-heading">\n\t\t\t\t\t<h3 class="panel-title">\n\t\t\t\t\t\tSelect SRT File to Edit\n\t\t\t\t\t</h3>\n\t\t\t\t</div>\n\t\t\t\t<div class="panel-body">\n\t\t\t\t\t<form id="sendSRTFile" class="form-horizontal" role="form">\n\t\t\t\t\t\t<div class="form-group text-center">\n\t\t\t\t\t\t\t<input type="file" id="uploadFile" name="uploadFile" accept=".srt">\n\t\t\t\t\t\t</div>\n\t\t\t\t\t\t<div class="form-group text-center">\n\t\t\t\t\t\t\t<button type="Send" class="btn btn-primary btn-lg">Load .srt file</button>\n\t\t\t\t\t\t</div>\n\t\t\t\t\t</form>\n\t\t\t\t\t<div id="message-region">\n\t\t\t\t\t</div>\n\t\t\t\t</div>\n\t\t\t</div>\n\t\t</div>\n\t</div>\n\t<!-- subtitles -->\n\t<div class="row container-subtitles">\n\t\t<div class="col-md-12" id="subtitle-actions-menu">\n\t\t</div>\n\t\t<hr>\n\t\t<div class="col-md-12">\n\t\t\t<ul class="nav nav-pills nav-select-subtitles">\n\t\t\t\t<li class="active">\n\t\t\t\t\t<a>\n\t\t\t\t\t<input type="checkbox" id="chkSelectAll"> <strong>Select All</strong>\n\t\t\t\t\t</a>\n\t\t\t\t</li>\n\t\t\t\t<li>\n\t\t\t\t\t<a>\n\t\t\t\t\tSubtitles selected: <span class="badge" id="badge-subtitles-selected">0</span>\n\t\t\t\t\t</a>\n\t\t\t\t</li>\n\t\t\t</ul>\n\t\t\t<br>\n\t\t</div>\n\t\t<div class="col-md-12 table-responsive">\n\t\t\t<table id="table-subtitles" class="table table-bordered">\n\t\t\t\t<thead>\n\t\t\t\t\t<tr>\n\t\t\t\t\t\t<th class="th-subtitle-select">\n\t\t\t\t\t\t\tSelect\n\t\t\t\t\t\t</th>\n\t\t\t\t\t\t<th class="th-subtitle-number">\n\t\t\t\t\t\t\t#\n\t\t\t\t\t\t</th>\n\t\t\t\t\t\t<th class="th-subtitle-initial-time">\n\t\t\t\t\t\t\tInicial Time\n\t\t\t\t\t\t</th>\n\t\t\t\t\t\t<th class="th-subtitle-final-time">\n\t\t\t\t\t\t\tFinal Time\n\t\t\t\t\t\t</th>\n\t\t\t\t\t\t<th class="th-subtitle-text">\n\t\t\t\t\t\t\tText\n\t\t\t\t\t\t</th>\n\t\t\t\t\t</tr>\n\t\t\t\t</thead>\n\t\t\t\t\t<!-- here will be insert the subtitle object -->\n\t\t\t</table>\n\t\t</div>\n\t\t<div class="col-md-12 text-center">\n\t\t\t<i class="fa fa-long-arrow-up fa-lg" id="go-to-top"></i>\n\t\t</div>\n\t</div>\n</div>';
 }
 return __p;
 };
@@ -180,19 +180,19 @@ __p+='<th>\n\t<input type="checkbox" id="chkSubtitle'+
 ((__t=( subtitleNumber ))==null?'':__t)+
 '" value="'+
 ((__t=( subtitleNumber ))==null?'':__t)+
-'" placeholder="1" class="input-number">\n</td>\n<td>\n\t<input type="text" name="txtStartTime'+
+'" placeholder="1" class="form-control input-number" disabled>\n</td>\n<td>\n\t<div class="form-group">\n\t\t<input type="text" name="txtStartTime'+
 ((__t=( subtitleNumber ))==null?'':__t)+
 '" id="txtStartTime'+
 ((__t=( subtitleNumber ))==null?'':__t)+
 '" value="'+
 ((__t=( startTime ))==null?'':__t)+
-'" placeholder="00:00:00,000" class="input-start-time">\n</td>\n<td>\n\t<input type="text" name="txtFinalTime'+
+'" placeholder="00:00:00,000" class="form-control input-start-time" maxlength="12">\n\t</div>\n</td>\n<td>\n\t<div class="form-group">\n\t\t<input type="text" name="txtFinalTime'+
 ((__t=( subtitleNumber ))==null?'':__t)+
 '" id="txtFinalTime'+
 ((__t=( subtitleNumber ))==null?'':__t)+
 '" value="'+
 ((__t=( finalTime ))==null?'':__t)+
-'" placeholder="00:00:00,000" class="input-final-time">\n</td>\n<td>\n\t<textarea name="txtSubtitleText'+
+'" placeholder="00:00:00,000" class="form-control input-final-time" maxlength="12">\n\t</div>\n</td>\n<td>\n\t<textarea name="txtSubtitleText'+
 ((__t=( subtitleNumber ))==null?'':__t)+
 '" id="txtSubtitleText'+
 ((__t=( subtitleNumber ))==null?'':__t)+
@@ -222,6 +222,29 @@ var rm = require('../regions');
 var SubtitlesCollection = require('../collections/subtitles');
 var SubtitlesCollectionView = require('../views/subtitle-collection-view');
 
+/*
+, = 44
+0 = 48
+1 = 49
+2 = 50
+3 = 51
+4 = 52
+5 = 53
+6 = 54
+7 = 55
+8 = 56
+9 = 57
+: = 58
+*/
+
+var keyAllows = [44, 48, 49, 50, 51, 52, 53, 54, 55, 56, 57, 58];
+
+//regex validation
+var validateNumberSubtitle = new RegExp(/^[0-9]+$/);
+var validateDelayMode = new RegExp(/^\+|\-$/);
+var validateDelayInput = new RegExp(/^[0-5][0-9]:[0-5][0-9],[0-9][0-9][0-9]$/);
+var validateTimes = new RegExp(/^(?:2[0-3]|[01][0-9]):[0-5][0-9]:[0-5][0-9],[0-9][0-9][0-9]$/);
+
 $.fn.serializeObject = function (){
 	var obj = {};
 	var a = this.serializeArray();
@@ -232,7 +255,7 @@ $.fn.serializeObject = function (){
 			}
 			obj[this.name].push(this.value || '');
 		}else{
-			obj[this.name].push(this.value || '');
+			obj[this.name] = this.value || '';
 		}
 	});
 	return obj;
@@ -295,7 +318,15 @@ var HomeLayoutView = Marionette.LayoutView.extend({
 		"submit #sendSRTFile": "sendSRTFile",
 		"click #go-to-top": "gotoTop",
 		'click .chk-subtitle': 'chkSubtitleClicked',
-		'click #chkSelectAll': 'chkSelectAllClick'
+		'click #chkSelectAll': 'chkSelectAllClick',
+		//Form events
+		'submit #setDelayForm': 'setDelayForm',
+		'submit #saveSrtFileForm': 'saveSrtFileForm',
+		'keypress #inputDelay': 'keysInInputDelay',
+		'keypress .input-start-time': 'keysInInputDelay',
+		'keypress .input-final-time': 'keysInInputDelay',
+		'focusout .input-start-time': 'validateTimeInput',
+		'focusout .input-final-time': 'validateTimeInput',
 	},
 	sendSRTFile: function (e){
 		e.preventDefault();
@@ -421,6 +452,43 @@ var HomeLayoutView = Marionette.LayoutView.extend({
 		}
 
 		this.ui.badgeSubtitlesSelected.text(this.amountChecked);
+	},
+	setDelayForm: function (e){
+		e.preventDefault();
+		$("#error-actions").html('');
+		var data = $(e.currentTarget).serializeObject();
+		if(!validateDelayInput.test(data.inputDelay)){
+			var html = templateMessage({typeAlert: 'danger', title:"Error!", message: "Delay not set correctly. Remember <strong>MM:SS:mmmm</strong>."});
+			$("#error-actions").html(html);
+			return false;
+		}
+		
+		if(!validateDelayMode.test(data.inputDelayMode)){
+			var html = templateMessage({typeAlert: 'danger', title:"Error!", message: "Delay type must be + or -"});
+			$("#error-actions").html(html);
+			return false;
+		}
+
+	},
+	saveSrtFileForm: function (e){
+		e.preventDefault();
+		console.log('saveSrtFileForm');
+		var data = $(e.currentTarget).serializeObject();
+
+		console.log('data'+JSON.stringify(data));
+	},
+	keysInInputDelay: function (e){
+		if(keyAllows.indexOf(e.keyCode) == -1){
+			e.preventDefault();
+		}
+	},
+	validateTimeInput: function (e){
+		var inputValue = $(e.currentTarget).val();
+		if(!validateTimes.test(inputValue)){
+			$(e.currentTarget).closest('div').addClass('has-error');
+		}else{
+			$(e.currentTarget).closest('div').removeClass('has-error');
+		}
 	}
 
 });

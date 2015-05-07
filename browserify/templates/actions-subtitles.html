@@ -1,5 +1,5 @@
 <div class="col-md-6">
-	<form class="form-inline">
+	<form id="setDelayForm" class="form-inline" role="form">
 		<fieldset>
 			<legend>Actions</legend>
 			<div class="text-center">
@@ -7,7 +7,7 @@
 					<label for="inputDelay">
 						Delay
 					</label>
-					<select class="form-control" id="inputDelayMode">
+					<select class="form-control" id="inputDelayMode" name="inputDelayMode">
 						<option value="+" selected>
 							+
 						</option>
@@ -15,7 +15,7 @@
 							-
 						</option>
 					</select>
-					<input type="text" class="form-control" id="inputDelay" placeholder="MM:SS:mmm">
+					<input type="text" class="form-control" id="inputDelay" name="inputDelay" placeholder="MM:SS:mmm" maxlength="9">
 				</div>
 				<div class="form-group">
 					<div class="col-lg-10 col-lg-offset-2">
@@ -25,12 +25,13 @@
 					</div>
 				</div>
 			</div>
-			<div id="error-actions"></div>
+			<div id="error-actions">
+			</div>
 		</fieldset>
 	</form>
 </div>
 <div class="col-md-6">
-	<form class="form-horizontal">
+	<form id="saveSrtFileForm" class="form-horizontal" role="form">
 		<fieldset>
 			<legend>Save</legend>
 			<div class="form-group">
@@ -38,7 +39,7 @@
 					File name
 				</label>
 				<div class="col-lg-10">
-					<input type="text" class="form-control" id="inputNameFile" value="<%= file.filename %>" placeholder="Name.srt">
+					<input type="text" class="form-control" id="inputNameFile" name="inputNameFile" value="<%= file.filename %>" placeholder="Name.srt">
 					<span class="help-block">
 						You can change the name of the file.
 					</span>
@@ -49,7 +50,7 @@
 					Encoding
 				</label>
 				<div class="col-lg-10">
-					<select class="form-control" id="inputEncoding">
+					<select class="form-control" id="inputEncoding" name="inputEncoding">
 						<option value="UTF-8" selected>UTF-8</option>
 						<option value="UTF-16">UTF-16</option>
 					</select>
