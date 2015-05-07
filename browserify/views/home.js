@@ -8,6 +8,7 @@ var FileModel = require('../models/file');
 //Templates
 var templateHome = require('../templates/home.html');
 var templateMessage = require('../templates/message-tmpl.html');
+var templateActions = require('../templates/actions-subtitles.html')
 
 //regions
 var rm = require('../regions');
@@ -18,10 +19,8 @@ var SubtitlesCollectionView = require('../views/subtitle-collection-view');
 $.fn.serializeObject = function (){
 	var obj = {};
 	var a = this.serializeArray();
-	console.log('serializeArray: '+a);
 	$.each(a, function (){
 		if (obj[this.name] !== undefined){
-			console.log('!obj[this.name].push: '+!obj[this.name].push);
 			if(!obj[this.name].push){
 				obj[this.name] = [obj[this.name]];
 			}
@@ -67,6 +66,8 @@ $.fn.fixMe = function() {
 var HomeLayoutView = Marionette.LayoutView.extend({
 	initialize: function (options){
 		this.template = templateHome({});
+		this.IdsInputTable = [];
+		this.amountChecked = 0;
 	},
 	template: this.template,
 	model: new FileModel(),
@@ -81,11 +82,14 @@ var HomeLayoutView = Marionette.LayoutView.extend({
 		containerSubtitles: '.container-subtitles',
 		tableSubtitles: '#table-subtitles',
 		messageRegion: '#message-region',
-		fileName: '#file-name'
+		actionsRegio: '#subtitle-actions-menu',
+		badgeSubtitlesSelected: '#badge-subtitles-selected'
 	},
 	events: {
 		"submit #sendSRTFile": "sendSRTFile",
-		"click #go-to-top": "gotoTop"
+		"click #go-to-top": "gotoTop",
+		'click .chk-subtitle': 'chkSubtitleClicked',
+		'click #chkSelectAll': 'chkSelectAllClick'
 	},
 	sendSRTFile: function (e){
 		e.preventDefault();
@@ -122,15 +126,32 @@ var HomeLayoutView = Marionette.LayoutView.extend({
 				});
 				that.model.save({}, {
 					success: function (data){
+						//show actions template
+						var tmplActions = templateActions({file: that.model.attributes});
+						that.ui.actionsRegio.html(tmplActions);
+						//load objet subtitles in a collection (and CollectionView)
 						var jsonString = JSON.stringify(data);
 						var json = JSON.parse(jsonString);
 						var subtitlesCollection = new SubtitlesCollection(json.subtitles);
 						var subtitlesCollectionView = new SubtitlesCollectionView({
 							collection: subtitlesCollection
 						});
+						//get ids inputs table
+						for(var i = 0; i < json.subtitles.length; i++){
+							var inputElement = {
+								chk: '#chkSubtitle'+ json.subtitles[i].subtitleNumber,
+								textNumber: '#txtNumber'+ json.subtitles[i].subtitleNumber,
+								textStart: '#txtStartTime'+ json.subtitles[i].subtitleNumber,
+								textFinal: '#txtFinalTime'+ json.subtitles[i].subtitleNumber,
+								textArea: '#txtSubtitleText'+ json.subtitles[i].subtitleNumber,
+							};
+							that.IdsInputTable.push(inputElement);
+						}
+
+						//hide form load subtitle
 						that.ui.containerFormLoadSubtitle.hide();
+						//show subtitle container
 						that.ui.containerSubtitles.show();
-						that.ui.fileName.text(that.model.attributes.filename);
 						that.ui.tableSubtitles.append(subtitlesCollectionView.render().el);
 						that.ui.tableSubtitles.fixMe();
 					},
@@ -150,6 +171,50 @@ var HomeLayoutView = Marionette.LayoutView.extend({
 		$('html, body').animate({
 			scrollTop: 0
 		},2000);
+	},
+	chkSubtitleClicked: function (e){
+		var idChk =  '#'+ e.target.id;
+		if($(idChk).is(':checked')){
+			$(idChk).closest("tr").addClass('success');
+			this.amountChecked++;
+		}else{
+			$(idChk).closest("tr").removeClass('success');
+			if($('#chkSelectAll').is(':checked')){
+				$('#chkSelectAll').prop('checked', false);
+			}
+			this.amountChecked--;
+		}
+
+		if(this.amountChecked == this.IdsInputTable.length){
+			$('#chkSelectAll').prop('checked', true);
+		}
+
+		this.ui.badgeSubtitlesSelected.text(this.amountChecked);
+
+	},
+	chkSelectAllClick: function (e){
+		var idChk =  '#'+ e.target.id;
+		var isChecked = $(idChk).is(':checked');
+
+		if(isChecked){
+			this.amountChecked = this.IdsInputTable.length;
+		}else{
+			this.amountChecked = 0;
+		}
+
+		for(var i = 0; i < this.IdsInputTable.length; i++){
+			if(isChecked){
+				if(!$(this.IdsInputTable[i].chk).is(':checked')){
+					$(this.IdsInputTable[i].chk).closest("tr").addClass('success');
+					$(this.IdsInputTable[i].chk).prop('checked', true);
+				}
+			}else{
+				$(this.IdsInputTable[i].chk).prop('checked', false);
+				$(this.IdsInputTable[i].chk).closest("tr").removeClass('success');
+			}
+		}
+
+		this.ui.badgeSubtitlesSelected.text(this.amountChecked);
 	}
 
 });

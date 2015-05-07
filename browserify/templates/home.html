@@ -24,16 +24,30 @@
 	</div>
 	<!-- subtitles -->
 	<div class="row container-subtitles">
+		<div class="col-md-12" id="subtitle-actions-menu">
+		</div>
+		<hr>
 		<div class="col-md-12">
-			<h3 id="file-name">				
-			</h3>
+			<ul class="nav nav-pills nav-select-subtitles">
+				<li class="active">
+					<a>
+					<input type="checkbox" id="chkSelectAll"> <strong>Select All</strong>
+					</a>
+				</li>
+				<li>
+					<a>
+					Subtitles selected: <span class="badge" id="badge-subtitles-selected">0</span>
+					</a>
+				</li>
+			</ul>
+			<br>
 		</div>
 		<div class="col-md-12 table-responsive">
 			<table id="table-subtitles" class="table table-bordered">
 				<thead>
 					<tr>
 						<th class="th-subtitle-select">
-							<input type="checkbox" id="chkSelectAll">
+							Select
 						</th>
 						<th class="th-subtitle-number">
 							#
@@ -42,7 +56,7 @@
 							Inicial Time
 						</th>
 						<th class="th-subtitle-final-time">
-							End Time
+							Final Time
 						</th>
 						<th class="th-subtitle-text">
 							Text

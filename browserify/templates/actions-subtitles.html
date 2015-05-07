@@ -1,0 +1,71 @@
+<div class="col-md-6">
+	<form class="form-inline">
+		<fieldset>
+			<legend>Actions</legend>
+			<div class="text-center">
+				<div class="form-group">
+					<label for="inputDelay">
+						Delay
+					</label>
+					<select class="form-control" id="inputDelayMode">
+						<option value="+" selected>
+							+
+						</option>
+						<option value="-">
+							-
+						</option>
+					</select>
+					<input type="text" class="form-control" id="inputDelay" placeholder="MM:SS:mmm">
+				</div>
+				<div class="form-group">
+					<div class="col-lg-10 col-lg-offset-2">
+						<button class="btn btn-primary">
+							Set
+						</button>
+					</div>
+				</div>
+			</div>
+			<div id="error-actions"></div>
+		</fieldset>
+	</form>
+</div>
+<div class="col-md-6">
+	<form class="form-horizontal">
+		<fieldset>
+			<legend>Save</legend>
+			<div class="form-group">
+				<label for="inputNameFile" class="col-lg-2 control-label">
+					File name
+				</label>
+				<div class="col-lg-10">
+					<input type="text" class="form-control" id="inputNameFile" value="<%= file.filename %>" placeholder="Name.srt">
+					<span class="help-block">
+						You can change the name of the file.
+					</span>
+				</div>
+			</div>
+			<div class="form-group">
+				<label for="inputEncoding" class="col-lg-2 control-label">
+					Encoding
+				</label>
+				<div class="col-lg-10">
+					<select class="form-control" id="inputEncoding">
+						<option value="UTF-8" selected>UTF-8</option>
+						<option value="UTF-16">UTF-16</option>
+					</select>
+				</div>
+			</div>
+			<div class="form-group">
+				<div class="col-lg-10 col-lg-offset-2">
+					<button type="reset" class="btn btn-default">
+						Cancel
+					</button>
+					<button type="submit" class="btn btn-primary">
+						Submit
+					</button>
+				</div>
+			</div>
+			<div id="error-save"></div>
+		</fieldset>
+	</form>
+</div>

@@ -7,7 +7,7 @@ var SubtitlesCollection = Backbone.Collection.extend({
 });
 
 module.exports = SubtitlesCollection;
-},{"../models/subtitle":5,"Backbone":16}],2:[function(require,module,exports){
+},{"../models/subtitle":5,"Backbone":17}],2:[function(require,module,exports){
 "use strict";
 var Marionette = require('backbone.marionette');
 var HomeLayoutView = require('../views/home');
@@ -28,7 +28,7 @@ var Controller = Marionette.Controller.extend({
 });
 
 module.exports = Controller;
-},{"../regions":6,"../views/home":12,"../views/not-found":13,"backbone.marionette":17}],3:[function(require,module,exports){
+},{"../regions":6,"../views/home":13,"../views/not-found":14,"backbone.marionette":18}],3:[function(require,module,exports){
 "use strict";
 var $ = require('jquery');
 var Backbone = require('backbone');
@@ -55,7 +55,7 @@ MyApp.on("start", function(options){
 });
 
 MyApp.start();
-},{"./controllers/app-controller":2,"./router":7,"backbone":21,"backbone.marionette":17,"jquery":22}],4:[function(require,module,exports){
+},{"./controllers/app-controller":2,"./router":7,"backbone":22,"backbone.marionette":18,"jquery":23}],4:[function(require,module,exports){
 var $ = require('jquery');
 var Backbone = require('backbone');
 Backbone.$ = $;
@@ -80,7 +80,7 @@ var FileModel = Backbone.Model.extend({
 });
 
 module.exports = FileModel;
-},{"backbone":21,"jquery":22}],5:[function(require,module,exports){
+},{"backbone":22,"jquery":23}],5:[function(require,module,exports){
 var Backbone = require('backbone');
 var SubtitleModel = Backbone.Model.extend({
 	defaults: {
@@ -92,18 +92,18 @@ var SubtitleModel = Backbone.Model.extend({
 });
 
 module.exports = SubtitleModel;
-},{"backbone":21}],6:[function(require,module,exports){
+},{"backbone":22}],6:[function(require,module,exports){
 "use strict";
 var Marionette = require('backbone.marionette');
 
 var RegionManager = new Marionette.RegionManager();
 
 RegionManager.addRegions({
-	mainRegion: '#tmpl-container',
+	mainRegion: '#tmpl-container'
 });
 
 module.exports = RegionManager;
-},{"backbone.marionette":17}],7:[function(require,module,exports){
+},{"backbone.marionette":18}],7:[function(require,module,exports){
 "use strict";
 var Marionette = require('backbone.marionette');
 
@@ -122,16 +122,27 @@ var Router = Marionette.AppRouter.extend({
 });
 
 module.exports = Router;
-},{"backbone.marionette":17}],8:[function(require,module,exports){
+},{"backbone.marionette":18}],8:[function(require,module,exports){
 module.exports = function(obj){
 var __t,__p='',__j=Array.prototype.join,print=function(){__p+=__j.call(arguments,'');};
 with(obj||{}){
-__p+='<div class="container">\n\t<div class="row container-form-load-subtitle">\n\t\t<div class="col-md-6 col-md-offset-3">\n\t\t\t<div class="panel panel-primary">\n\t\t\t\t<div class="panel-heading">\n\t\t\t\t\t<h3 class="panel-title">\n\t\t\t\t\t\tSelect SRT File to Edit\n\t\t\t\t\t</h3>\n\t\t\t\t</div>\n\t\t\t\t<div class="panel-body">\n\t\t\t\t\t<form id="sendSRTFile" class="form-horizontal" role="form">\n\t\t\t\t\t\t<div class="form-group text-center">\n\t\t\t\t\t\t\t<input type="file" id="uploadFile" name="uploadFile" accept=".srt">\n\t\t\t\t\t\t</div>\n\t\t\t\t\t\t<div class="form-group text-center">\n\t\t\t\t\t\t\t<button type="Send" class="btn btn-primary btn-lg">Load .srt file</button>\n\t\t\t\t\t\t</div>\n\t\t\t\t\t</form>\n\t\t\t\t\t<div id="message-region">\t\t\t\t\t\t\n\t\t\t\t\t</div>\n\t\t\t\t</div>\n\t\t\t</div>\n\t\t</div>\n\t</div>\n\t<!-- subtitles -->\n\t<div class="row container-subtitles">\n\t\t<div class="col-md-12">\n\t\t\t<h3 id="file-name">\t\t\t\t\n\t\t\t</h3>\n\t\t</div>\n\t\t<div class="col-md-12 table-responsive">\n\t\t\t<table id="table-subtitles" class="table table-bordered">\n\t\t\t\t<thead>\n\t\t\t\t\t<tr>\n\t\t\t\t\t\t<th class="th-subtitle-select">\n\t\t\t\t\t\t\t<input type="checkbox" id="chkSelectAll">\n\t\t\t\t\t\t</th>\n\t\t\t\t\t\t<th class="th-subtitle-number">\n\t\t\t\t\t\t\t#\n\t\t\t\t\t\t</th>\n\t\t\t\t\t\t<th class="th-subtitle-initial-time">\n\t\t\t\t\t\t\tInicial Time\n\t\t\t\t\t\t</th>\n\t\t\t\t\t\t<th class="th-subtitle-final-time">\n\t\t\t\t\t\t\tEnd Time\n\t\t\t\t\t\t</th>\n\t\t\t\t\t\t<th class="th-subtitle-text">\n\t\t\t\t\t\t\tText\n\t\t\t\t\t\t</th>\n\t\t\t\t\t</tr>\n\t\t\t\t</thead>\n\t\t\t\t\t<!-- here will be insert the subtitle object -->\n\t\t\t</table>\n\t\t</div>\n\t\t<div class="col-md-12 text-center">\n\t\t\t<i class="fa fa-long-arrow-up fa-lg" id="go-to-top"></i>\n\t\t</div>\n\t</div>\n</div>';
+__p+='<div class="col-md-6">\n\t<form class="form-inline">\n\t\t<fieldset>\n\t\t\t<legend>Actions</legend>\n\t\t\t<div class="text-center">\n\t\t\t\t<div class="form-group">\n\t\t\t\t\t<label for="inputDelay">\n\t\t\t\t\t\tDelay\n\t\t\t\t\t</label>\n\t\t\t\t\t<select class="form-control" id="inputDelayMode">\n\t\t\t\t\t\t<option value="+" selected>\n\t\t\t\t\t\t\t+\n\t\t\t\t\t\t</option>\n\t\t\t\t\t\t<option value="-">\n\t\t\t\t\t\t\t-\n\t\t\t\t\t\t</option>\n\t\t\t\t\t</select>\n\t\t\t\t\t<input type="text" class="form-control" id="inputDelay" placeholder="MM:SS:mmm">\n\t\t\t\t</div>\n\t\t\t\t<div class="form-group">\n\t\t\t\t\t<div class="col-lg-10 col-lg-offset-2">\n\t\t\t\t\t\t<button class="btn btn-primary">\n\t\t\t\t\t\t\tSet\n\t\t\t\t\t\t</button>\n\t\t\t\t\t</div>\n\t\t\t\t</div>\n\t\t\t</div>\n\t\t\t<div id="error-actions"></div>\n\t\t</fieldset>\n\t</form>\n</div>\n<div class="col-md-6">\n\t<form class="form-horizontal">\n\t\t<fieldset>\n\t\t\t<legend>Save</legend>\n\t\t\t<div class="form-group">\n\t\t\t\t<label for="inputNameFile" class="col-lg-2 control-label">\n\t\t\t\t\tFile name\n\t\t\t\t</label>\n\t\t\t\t<div class="col-lg-10">\n\t\t\t\t\t<input type="text" class="form-control" id="inputNameFile" value="'+
+((__t=( file.filename ))==null?'':__t)+
+'" placeholder="Name.srt">\n\t\t\t\t\t<span class="help-block">\n\t\t\t\t\t\tYou can change the name of the file.\n\t\t\t\t\t</span>\n\t\t\t\t</div>\n\t\t\t</div>\n\t\t\t<div class="form-group">\n\t\t\t\t<label for="inputEncoding" class="col-lg-2 control-label">\n\t\t\t\t\tEncoding\n\t\t\t\t</label>\n\t\t\t\t<div class="col-lg-10">\n\t\t\t\t\t<select class="form-control" id="inputEncoding">\n\t\t\t\t\t\t<option value="UTF-8" selected>UTF-8</option>\n\t\t\t\t\t\t<option value="UTF-16">UTF-16</option>\n\t\t\t\t\t</select>\n\t\t\t\t</div>\n\t\t\t</div>\n\t\t\t<div class="form-group">\n\t\t\t\t<div class="col-lg-10 col-lg-offset-2">\n\t\t\t\t\t<button type="reset" class="btn btn-default">\n\t\t\t\t\t\tCancel\n\t\t\t\t\t</button>\n\t\t\t\t\t<button type="submit" class="btn btn-primary">\n\t\t\t\t\t\tSubmit\n\t\t\t\t\t</button>\n\t\t\t\t</div>\n\t\t\t</div>\n\t\t\t<div id="error-save"></div>\n\t\t</fieldset>\n\t</form>\n</div>';
 }
 return __p;
 };
 
 },{}],9:[function(require,module,exports){
+module.exports = function(obj){
+var __t,__p='',__j=Array.prototype.join,print=function(){__p+=__j.call(arguments,'');};
+with(obj||{}){
+__p+='<div class="container">\n\t<div class="row container-form-load-subtitle">\n\t\t<div class="col-md-6 col-md-offset-3">\n\t\t\t<div class="panel panel-primary">\n\t\t\t\t<div class="panel-heading">\n\t\t\t\t\t<h3 class="panel-title">\n\t\t\t\t\t\tSelect SRT File to Edit\n\t\t\t\t\t</h3>\n\t\t\t\t</div>\n\t\t\t\t<div class="panel-body">\n\t\t\t\t\t<form id="sendSRTFile" class="form-horizontal" role="form">\n\t\t\t\t\t\t<div class="form-group text-center">\n\t\t\t\t\t\t\t<input type="file" id="uploadFile" name="uploadFile" accept=".srt">\n\t\t\t\t\t\t</div>\n\t\t\t\t\t\t<div class="form-group text-center">\n\t\t\t\t\t\t\t<button type="Send" class="btn btn-primary btn-lg">Load .srt file</button>\n\t\t\t\t\t\t</div>\n\t\t\t\t\t</form>\n\t\t\t\t\t<div id="message-region">\t\t\t\t\t\t\n\t\t\t\t\t</div>\n\t\t\t\t</div>\n\t\t\t</div>\n\t\t</div>\n\t</div>\n\t<!-- subtitles -->\n\t<div class="row container-subtitles">\n\t\t<div class="col-md-12" id="subtitle-actions-menu">\n\t\t</div>\n\t\t<hr>\n\t\t<div class="col-md-12">\n\t\t\t<ul class="nav nav-pills nav-select-subtitles">\n\t\t\t\t<li class="active">\n\t\t\t\t\t<a>\n\t\t\t\t\t<input type="checkbox" id="chkSelectAll"> <strong>Select All</strong>\n\t\t\t\t\t</a>\n\t\t\t\t</li>\n\t\t\t\t<li>\n\t\t\t\t\t<a>\n\t\t\t\t\tSubtitles selected: <span class="badge" id="badge-subtitles-selected">0</span>\n\t\t\t\t\t</a>\n\t\t\t\t</li>\n\t\t\t</ul>\n\t\t\t<br>\n\t\t</div>\n\t\t<div class="col-md-12 table-responsive">\n\t\t\t<table id="table-subtitles" class="table table-bordered">\n\t\t\t\t<thead>\n\t\t\t\t\t<tr>\n\t\t\t\t\t\t<th class="th-subtitle-select">\n\t\t\t\t\t\t\tSelect\n\t\t\t\t\t\t</th>\n\t\t\t\t\t\t<th class="th-subtitle-number">\n\t\t\t\t\t\t\t#\n\t\t\t\t\t\t</th>\n\t\t\t\t\t\t<th class="th-subtitle-initial-time">\n\t\t\t\t\t\t\tInicial Time\n\t\t\t\t\t\t</th>\n\t\t\t\t\t\t<th class="th-subtitle-final-time">\n\t\t\t\t\t\t\tFinal Time\n\t\t\t\t\t\t</th>\n\t\t\t\t\t\t<th class="th-subtitle-text">\n\t\t\t\t\t\t\tText\n\t\t\t\t\t\t</th>\n\t\t\t\t\t</tr>\n\t\t\t\t</thead>\n\t\t\t\t\t<!-- here will be insert the subtitle object -->\n\t\t\t</table>\n\t\t</div>\n\t\t<div class="col-md-12 text-center">\n\t\t\t<i class="fa fa-long-arrow-up fa-lg" id="go-to-top"></i>\n\t\t</div>\n\t</div>\n</div>';
+}
+return __p;
+};
+
+},{}],10:[function(require,module,exports){
 module.exports = function(obj){
 var __t,__p='',__j=Array.prototype.join,print=function(){__p+=__j.call(arguments,'');};
 with(obj||{}){
@@ -146,7 +157,7 @@ __p+='<div class="alert alert-dismissible alert-'+
 return __p;
 };
 
-},{}],10:[function(require,module,exports){
+},{}],11:[function(require,module,exports){
 module.exports = function(obj){
 var __t,__p='',__j=Array.prototype.join,print=function(){__p+=__j.call(arguments,'');};
 with(obj||{}){
@@ -157,15 +168,15 @@ __p+='<div class="row">\n\t<div class="col-md-6 col-md-offset-3 text-center">\n\
 return __p;
 };
 
-},{}],11:[function(require,module,exports){
+},{}],12:[function(require,module,exports){
 module.exports = function(obj){
 var __t,__p='',__j=Array.prototype.join,print=function(){__p+=__j.call(arguments,'');};
 with(obj||{}){
 __p+='<th>\n\t<input type="checkbox" id="chkSubtitle'+
 ((__t=( subtitleNumber ))==null?'':__t)+
-'">\n</th>\n<td>\n\t<input type="text" name="txtStartTime'+
+'" class="chk-subtitle">\n</th>\n<td>\n\t<input type="text" name="txtNumber'+
 ((__t=( subtitleNumber ))==null?'':__t)+
-'" id="txtStartTime'+
+'" id="txtNumber'+
 ((__t=( subtitleNumber ))==null?'':__t)+
 '" value="'+
 ((__t=( subtitleNumber ))==null?'':__t)+
@@ -175,13 +186,13 @@ __p+='<th>\n\t<input type="checkbox" id="chkSubtitle'+
 ((__t=( subtitleNumber ))==null?'':__t)+
 '" value="'+
 ((__t=( startTime ))==null?'':__t)+
-'" placeholder="00:00:00,0000" class="input-start-time">\n</td>\n<td>\n\t<input type="text" name="txtFinalTime'+
+'" placeholder="00:00:00,000" class="input-start-time">\n</td>\n<td>\n\t<input type="text" name="txtFinalTime'+
 ((__t=( subtitleNumber ))==null?'':__t)+
 '" id="txtFinalTime'+
 ((__t=( subtitleNumber ))==null?'':__t)+
 '" value="'+
 ((__t=( finalTime ))==null?'':__t)+
-'" placeholder="00:00:00,0000" class="input-final-time">\n</td>\n<td>\n\t<textarea name="txtSubtitleText'+
+'" placeholder="00:00:00,000" class="input-final-time">\n</td>\n<td>\n\t<textarea name="txtSubtitleText'+
 ((__t=( subtitleNumber ))==null?'':__t)+
 '" id="txtSubtitleText'+
 ((__t=( subtitleNumber ))==null?'':__t)+
@@ -192,7 +203,7 @@ __p+='<th>\n\t<input type="checkbox" id="chkSubtitle'+
 return __p;
 };
 
-},{}],12:[function(require,module,exports){
+},{}],13:[function(require,module,exports){
 "use strict";
 var $ = require('jquery');
 var Backbone = require('backbone');
@@ -203,6 +214,7 @@ var FileModel = require('../models/file');
 //Templates
 var templateHome = require('../templates/home.html');
 var templateMessage = require('../templates/message-tmpl.html');
+var templateActions = require('../templates/actions-subtitles.html')
 
 //regions
 var rm = require('../regions');
@@ -213,10 +225,8 @@ var SubtitlesCollectionView = require('../views/subtitle-collection-view');
 $.fn.serializeObject = function (){
 	var obj = {};
 	var a = this.serializeArray();
-	console.log('serializeArray: '+a);
 	$.each(a, function (){
 		if (obj[this.name] !== undefined){
-			console.log('!obj[this.name].push: '+!obj[this.name].push);
 			if(!obj[this.name].push){
 				obj[this.name] = [obj[this.name]];
 			}
@@ -262,6 +272,8 @@ $.fn.fixMe = function() {
 var HomeLayoutView = Marionette.LayoutView.extend({
 	initialize: function (options){
 		this.template = templateHome({});
+		this.IdsInputTable = [];
+		this.amountChecked = 0;
 	},
 	template: this.template,
 	model: new FileModel(),
@@ -276,11 +288,14 @@ var HomeLayoutView = Marionette.LayoutView.extend({
 		containerSubtitles: '.container-subtitles',
 		tableSubtitles: '#table-subtitles',
 		messageRegion: '#message-region',
-		fileName: '#file-name'
+		actionsRegio: '#subtitle-actions-menu',
+		badgeSubtitlesSelected: '#badge-subtitles-selected'
 	},
 	events: {
 		"submit #sendSRTFile": "sendSRTFile",
-		"click #go-to-top": "gotoTop"
+		"click #go-to-top": "gotoTop",
+		'click .chk-subtitle': 'chkSubtitleClicked',
+		'click #chkSelectAll': 'chkSelectAllClick'
 	},
 	sendSRTFile: function (e){
 		e.preventDefault();
@@ -317,15 +332,32 @@ var HomeLayoutView = Marionette.LayoutView.extend({
 				});
 				that.model.save({}, {
 					success: function (data){
+						//show actions template
+						var tmplActions = templateActions({file: that.model.attributes});
+						that.ui.actionsRegio.html(tmplActions);
+						//load objet subtitles in a collection (and CollectionView)
 						var jsonString = JSON.stringify(data);
 						var json = JSON.parse(jsonString);
 						var subtitlesCollection = new SubtitlesCollection(json.subtitles);
 						var subtitlesCollectionView = new SubtitlesCollectionView({
 							collection: subtitlesCollection
 						});
+						//get ids inputs table
+						for(var i = 0; i < json.subtitles.length; i++){
+							var inputElement = {
+								chk: '#chkSubtitle'+ json.subtitles[i].subtitleNumber,
+								textNumber: '#txtNumber'+ json.subtitles[i].subtitleNumber,
+								textStart: '#txtStartTime'+ json.subtitles[i].subtitleNumber,
+								textFinal: '#txtFinalTime'+ json.subtitles[i].subtitleNumber,
+								textArea: '#txtSubtitleText'+ json.subtitles[i].subtitleNumber,
+							};
+							that.IdsInputTable.push(inputElement);
+						}
+
+						//hide form load subtitle
 						that.ui.containerFormLoadSubtitle.hide();
+						//show subtitle container
 						that.ui.containerSubtitles.show();
-						that.ui.fileName.text(that.model.attributes.filename);
 						that.ui.tableSubtitles.append(subtitlesCollectionView.render().el);
 						that.ui.tableSubtitles.fixMe();
 					},
@@ -345,12 +377,56 @@ var HomeLayoutView = Marionette.LayoutView.extend({
 		$('html, body').animate({
 			scrollTop: 0
 		},2000);
+	},
+	chkSubtitleClicked: function (e){
+		var idChk =  '#'+ e.target.id;
+		if($(idChk).is(':checked')){
+			$(idChk).closest("tr").addClass('success');
+			this.amountChecked++;
+		}else{
+			$(idChk).closest("tr").removeClass('success');
+			if($('#chkSelectAll').is(':checked')){
+				$('#chkSelectAll').prop('checked', false);
+			}
+			this.amountChecked--;
+		}
+
+		if(this.amountChecked == this.IdsInputTable.length){
+			$('#chkSelectAll').prop('checked', true);
+		}
+
+		this.ui.badgeSubtitlesSelected.text(this.amountChecked);
+
+	},
+	chkSelectAllClick: function (e){
+		var idChk =  '#'+ e.target.id;
+		var isChecked = $(idChk).is(':checked');
+
+		if(isChecked){
+			this.amountChecked = this.IdsInputTable.length;
+		}else{
+			this.amountChecked = 0;
+		}
+
+		for(var i = 0; i < this.IdsInputTable.length; i++){
+			if(isChecked){
+				if(!$(this.IdsInputTable[i].chk).is(':checked')){
+					$(this.IdsInputTable[i].chk).closest("tr").addClass('success');
+					$(this.IdsInputTable[i].chk).prop('checked', true);
+				}
+			}else{
+				$(this.IdsInputTable[i].chk).prop('checked', false);
+				$(this.IdsInputTable[i].chk).closest("tr").removeClass('success');
+			}
+		}
+
+		this.ui.badgeSubtitlesSelected.text(this.amountChecked);
 	}
 
 });
 
 module.exports = HomeLayoutView;
-},{"../collections/subtitles":1,"../models/file":4,"../regions":6,"../templates/home.html":8,"../templates/message-tmpl.html":9,"../views/subtitle-collection-view":14,"backbone":21,"backbone.marionette":17,"jquery":22}],13:[function(require,module,exports){
+},{"../collections/subtitles":1,"../models/file":4,"../regions":6,"../templates/actions-subtitles.html":8,"../templates/home.html":9,"../templates/message-tmpl.html":10,"../views/subtitle-collection-view":15,"backbone":22,"backbone.marionette":18,"jquery":23}],14:[function(require,module,exports){
 "use strict";
 var Marionette = require('backbone.marionette');
 var templateNotFound = require('../templates/not-found.html');
@@ -369,7 +445,7 @@ var NotFoundLayoutView = Marionette.LayoutView.extend({
 });
 
 module.exports = NotFoundLayoutView;
-},{"../templates/not-found.html":10,"backbone.marionette":17}],14:[function(require,module,exports){
+},{"../templates/not-found.html":11,"backbone.marionette":18}],15:[function(require,module,exports){
 var Marionette = require('backbone.marionette');
 
 var SubtitleItemView = require('./subtitle-item-view');
@@ -377,10 +453,12 @@ var SubtitleItemView = require('./subtitle-item-view');
 var SubtitlesCollectionView = Marionette.CollectionView.extend({
 	tagName: 'tbody',
 	childView: SubtitleItemView,
+	initialize: function (options){
+	}
 });
 
 module.exports = SubtitlesCollectionView;
-},{"./subtitle-item-view":15,"backbone.marionette":17}],15:[function(require,module,exports){
+},{"./subtitle-item-view":16,"backbone.marionette":18}],16:[function(require,module,exports){
 var Marionette = require('backbone.marionette');
 var _ = require('underscore');
 //template
@@ -394,7 +472,7 @@ var SubtitleItemView = Marionette.ItemView.extend({
 });
 
 module.exports = SubtitleItemView;
-},{"../templates/subtitle-list-item.html":11,"backbone.marionette":17,"underscore":23}],16:[function(require,module,exports){
+},{"../templates/subtitle-list-item.html":12,"backbone.marionette":18,"underscore":24}],17:[function(require,module,exports){
 //     Backbone.js 1.1.2
 
 //     (c) 2010-2014 Jeremy Ashkenas, DocumentCloud and Investigative Reporters & Editors
@@ -2004,7 +2082,7 @@ module.exports = SubtitleItemView;
 
 }));
 
-},{"underscore":23}],17:[function(require,module,exports){
+},{"underscore":24}],18:[function(require,module,exports){
 // MarionetteJS (Backbone.Marionette)
 // ----------------------------------
 // v2.4.1
@@ -5367,7 +5445,7 @@ module.exports = SubtitleItemView;
   return Marionette;
 }));
 
-},{"backbone":21,"backbone.babysitter":18,"backbone.wreqr":19,"underscore":20}],18:[function(require,module,exports){
+},{"backbone":22,"backbone.babysitter":19,"backbone.wreqr":20,"underscore":21}],19:[function(require,module,exports){
 // Backbone.BabySitter
 // -------------------
 // v0.1.6
@@ -5559,7 +5637,7 @@ module.exports = SubtitleItemView;
 
 }));
 
-},{"backbone":21,"underscore":20}],19:[function(require,module,exports){
+},{"backbone":22,"underscore":21}],20:[function(require,module,exports){
 // Backbone.Wreqr (Backbone.Marionette)
 // ----------------------------------
 // v1.3.1
@@ -6001,7 +6079,7 @@ module.exports = SubtitleItemView;
 
 }));
 
-},{"backbone":21,"underscore":20}],20:[function(require,module,exports){
+},{"backbone":22,"underscore":21}],21:[function(require,module,exports){
 //     Underscore.js 1.6.0
 //     http://underscorejs.org
 //     (c) 2009-2014 Jeremy Ashkenas, DocumentCloud and Investigative Reporters & Editors
@@ -7346,9 +7424,9 @@ module.exports = SubtitleItemView;
   }
 }).call(this);
 
-},{}],21:[function(require,module,exports){
-arguments[4][16][0].apply(exports,arguments)
-},{"dup":16,"underscore":23}],22:[function(require,module,exports){
+},{}],22:[function(require,module,exports){
+arguments[4][17][0].apply(exports,arguments)
+},{"dup":17,"underscore":24}],23:[function(require,module,exports){
 /*!
  * jQuery JavaScript Library v2.1.3
  * http://jquery.com/
@@ -16555,7 +16633,7 @@ return jQuery;
 
 }));
 
-},{}],23:[function(require,module,exports){
+},{}],24:[function(require,module,exports){
 //     Underscore.js 1.8.3
 //     http://underscorejs.org
 //     (c) 2009-2015 Jeremy Ashkenas, DocumentCloud and Investigative Reporters & Editors

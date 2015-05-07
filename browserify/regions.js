@@ -4,7 +4,7 @@ var Marionette = require('backbone.marionette');
 var RegionManager = new Marionette.RegionManager();
 
 RegionManager.addRegions({
-	mainRegion: '#tmpl-container',
+	mainRegion: '#tmpl-container'
 });
 
 module.exports = RegionManager;
