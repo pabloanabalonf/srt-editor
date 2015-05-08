@@ -3,6 +3,7 @@ var $ = require('jquery');
 var Backbone = require('backbone');
 Backbone.$ = $;
 var Marionette = require('backbone.marionette');
+var moment = require('moment');
 var FileModel = require('../models/file');
 
 //Templates
@@ -121,6 +122,7 @@ var HomeLayoutView = Marionette.LayoutView.extend({
 		'keypress .input-final-time': 'keysInInputDelay',
 		'focusout .input-start-time': 'validateTimeInput',
 		'focusout .input-final-time': 'validateTimeInput',
+		'focusout .input-subtitle-text': 'validateSubtitleText',
 	},
 	sendSRTFile: function (e){
 		e.preventDefault();
@@ -250,18 +252,33 @@ var HomeLayoutView = Marionette.LayoutView.extend({
 	setDelayForm: function (e){
 		e.preventDefault();
 		$("#error-actions").html('');
+		$('#inputDelay').closest('div').removeClass('has-error');
 		var data = $(e.currentTarget).serializeObject();
 		if(!validateDelayInput.test(data.inputDelay)){
+			$('#inputDelay').closest('div').addClass('has-error');
 			var html = templateMessage({typeAlert: 'danger', title:"Error!", message: "Delay not set correctly. Remember <strong>MM:SS:mmmm</strong>."});
 			$("#error-actions").html(html);
 			return false;
 		}
 		
 		if(!validateDelayMode.test(data.inputDelayMode)){
-			var html = templateMessage({typeAlert: 'danger', title:"Error!", message: "Delay type must be + or -"});
+			$('#inputDelay').closest('div').addClass('has-error');
+			var html = templateMessage({typeAlert: 'danger', title: "Error!", message: "Delay type must be + or -"});
 			$("#error-actions").html(html);
 			return false;
 		}
+		/*
+		how to set delay
+		var start = moment("01:02:05,021","HH:mm:ss SSS")
+		var time_reduct = moment("00:00:06,000","HH:mm:ss SSS")
+		//substract milliseconds
+		start.subtract(time_reduct.millisecond(), 'milliseconds');
+		//substract seconds
+		start.subtract(time_reduct.seconds(), 'seconds');
+		//substact minutes
+		start.subtract(time_reduct.minutes(), 'minutes');
+		moment(new Date(start)).format("HH:mm:ss SSS") //return '01:01:59 021'
+		*/
 
 	},
 	saveSrtFileForm: function (e){
@@ -282,6 +299,14 @@ var HomeLayoutView = Marionette.LayoutView.extend({
 			$(e.currentTarget).closest('div').addClass('has-error');
 		}else{
 			$(e.currentTarget).closest('div').removeClass('has-error');
+		}
+	},
+	validateSubtitleText: function (e){
+		var textAreaValue = $(e.currentTarget).val().trim();
+		if(textAreaValue.length == 0){
+			$(e.currentTarget).closest('td').addClass('has-error');
+		}else{
+			$(e.currentTarget).closest('td').removeClass('has-error');
 		}
 	}
 
