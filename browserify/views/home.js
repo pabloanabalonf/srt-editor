@@ -1,5 +1,5 @@
 "use strict";
-var $ = require('jquery');
+var $ = require('../jquery.and.fileDownload');
 var Backbone = require('backbone');
 Backbone.$ = $;
 var Marionette = require('backbone.marionette');
@@ -9,7 +9,7 @@ var FileModel = require('../models/file');
 //Templates
 var templateHome = require('../templates/home.html');
 var templateMessage = require('../templates/message-tmpl.html');
-var templateActions = require('../templates/actions-subtitles.html')
+var templateActions = require('../templates/actions-subtitles.html');
 
 //regions
 var rm = require('../regions');
@@ -56,6 +56,13 @@ $.fn.serializeObject = function (){
 	return obj;
 };
 
+function arrayObjectIndexOf(myArray, searchTerm, property) {
+	for(var i = 0, len = myArray.length; i < len; i++) {
+		if (myArray[i][property] === searchTerm) return i;
+	}
+	return -1;
+}
+
 $.fn.fixMe = function() {
 	return this.each(function() {
 		var $this = $(this);
@@ -92,6 +99,8 @@ var HomeLayoutView = Marionette.LayoutView.extend({
 		this.template = templateHome({});
 		this.IdsInputTable = [];
 		this.amountChecked = 0;
+		this.countTimeErrors = 0;
+		this.countSubtitleTextErrors = 0;
 	},
 	template: this.template,
 	model: new FileModel(),
@@ -177,6 +186,8 @@ var HomeLayoutView = Marionette.LayoutView.extend({
 								textStart: '#txtStartTime'+ json.subtitles[i].subtitleNumber,
 								textFinal: '#txtFinalTime'+ json.subtitles[i].subtitleNumber,
 								textArea: '#txtSubtitleText'+ json.subtitles[i].subtitleNumber,
+								subtitleNumber: json.subtitles[i].subtitleNumber,
+								isSelected: false
 							};
 							that.IdsInputTable.push(inputElement);
 						}
@@ -207,14 +218,24 @@ var HomeLayoutView = Marionette.LayoutView.extend({
 	},
 	chkSubtitleClicked: function (e){
 		var idChk =  '#'+ e.target.id;
+		var index;
+
+		if(Array.prototype.map !== undefined){
+			index = this.IdsInputTable.map(function (e) { return e.chk; }).indexOf(idChk);
+		}else{
+			index = arrayObjectIndexOf(this.IdsInputTable, idChk, "chk");
+		}
+
 		if($(idChk).is(':checked')){
 			$(idChk).closest("tr").addClass('success');
 			this.amountChecked++;
+			this.IdsInputTable[index].isSelected = true;
 		}else{
 			$(idChk).closest("tr").removeClass('success');
 			if($('#chkSelectAll').is(':checked')){
 				$('#chkSelectAll').prop('checked', false);
 			}
+			this.IdsInputTable[index].isSelected = false;
 			this.amountChecked--;
 		}
 
@@ -240,10 +261,12 @@ var HomeLayoutView = Marionette.LayoutView.extend({
 				if(!$(this.IdsInputTable[i].chk).is(':checked')){
 					$(this.IdsInputTable[i].chk).closest("tr").addClass('success');
 					$(this.IdsInputTable[i].chk).prop('checked', true);
+					this.IdsInputTable[i].isSelected = true;
 				}
 			}else{
 				$(this.IdsInputTable[i].chk).prop('checked', false);
 				$(this.IdsInputTable[i].chk).closest("tr").removeClass('success');
+				this.IdsInputTable[i].isSelected = false;
 			}
 		}
 
@@ -263,7 +286,19 @@ var HomeLayoutView = Marionette.LayoutView.extend({
 		
 		if(!validateDelayMode.test(data.inputDelayMode)){
 			$('#inputDelay').closest('div').addClass('has-error');
-			var html = templateMessage({typeAlert: 'danger', title: "Error!", message: "Delay type must be + or -"});
+			var html = templateMessage({typeAlert: 'danger', title: "Error!", message: "Delay type must be + or -."});
+			$("#error-actions").html(html);
+			return false;
+		}
+
+		if(this.countTimeErrors > 0){
+			var html = templateMessage({typeAlert: 'danger', title: 'Error!', message: "You have errors in times inputs."});
+			$("#error-actions").html(html);
+			return false;
+		}
+
+		if(this.amountChecked == 0){
+			var html = templateMessage({typeAlert: 'danger', title: 'Error!', message: "You have select at least 1 subtitle."});
 			$("#error-actions").html(html);
 			return false;
 		}
@@ -279,14 +314,122 @@ var HomeLayoutView = Marionette.LayoutView.extend({
 		start.subtract(time_reduct.minutes(), 'minutes');
 		moment(new Date(start)).format("HH:mm:ss SSS") //return '01:01:59 021'
 		*/
+		data.inputDelay = "00:"+data.inputDelay;
+		var delay = moment(data.inputDelay, "HH:mm:ss SSS");
+		var date0 = moment("00:00:00,000", "HH:mm:ss SSS");
+		for(var i = 0; i < this.IdsInputTable.length; i++){
+			if(this.IdsInputTable[i].isSelected === true){
+				var startTime = $(this.IdsInputTable[i].textStart).val();
+				if(startTime != "00:00:00,000" || data.inputDelayMode == "+"){
+					startTime = moment(startTime, "HH:mm:ss SSS");
+					if(data.inputDelayMode == "+"){
+						startTime.add(delay.millisecond(), 'milliseconds');
+						startTime.add(delay.seconds(), 'seconds');
+						startTime.add(delay.minutes(), 'minutes');
+					}else{
+						//inputDelayMode == -
+						startTime.subtract(delay.millisecond(), 'milliseconds');
+						startTime.subtract(delay.seconds(), 'seconds');
+						startTime.subtract(delay.minutes(), 'minutes');
+					}
+					if(startTime > date0){
+						var startString = moment(new Date(startTime)).format("HH:mm:ss SSS");
+						startString = startString.replace(' ', ',');
+						$(this.IdsInputTable[i].textStart).val(startString);
+					}else{
+						$(this.IdsInputTable[i].textStart).val("00:00:00,000");
+					}
+				}
 
+				var finalTime = $(this.IdsInputTable[i].textFinal).val();
+				if(finalTime != "00:00:00,000" || data.inputDelayMode == "+"){
+					finalTime = moment(finalTime, "HH:mm:ss SSS");
+					if(data.inputDelayMode == "+"){
+						finalTime.add(delay.millisecond(), 'milliseconds');
+						finalTime.add(delay.seconds(), 'seconds');
+						finalTime.add(delay.minutes(), 'minutes');
+					}else{
+						//inputDelayMode == -
+						finalTime.subtract(delay.millisecond(), 'milliseconds');
+						finalTime.subtract(delay.seconds(), 'seconds');
+						finalTime.subtract(delay.minutes(), 'minutes');
+					}
+					if(finalTime > date0){
+						var finalString = moment(new Date(finalTime)).format("HH:mm:ss SSS");
+						finalString = finalString.replace(' ', ',');
+						$(this.IdsInputTable[i].textFinal).val(finalString);
+					}else{
+						$(this.IdsInputTable[i].textFinal).val("00:00:00,000");
+					}
+				}
+
+			}
+		}
+		var html = templateMessage({typeAlert: 'success', title: 'Done!', message: "Delay set correctly."});
+		$("#error-actions").html(html);
 	},
 	saveSrtFileForm: function (e){
 		e.preventDefault();
-		console.log('saveSrtFileForm');
+		$("#error-save").html('');
 		var data = $(e.currentTarget).serializeObject();
 
-		console.log('data'+JSON.stringify(data));
+		if(this.countTimeErrors > 0){
+			var html = templateMessage({typeAlert: 'danger', title: 'Error!', message: "You have errors in times inputs."});
+			$("#error-save").html(html);
+			return false;
+		}
+
+		if(this.countSubtitleTextErrors > 0){
+			var html = templateMessage({typeAlert: 'danger', title: 'Error!', message: "You have errors in texts inputs."});
+			$("#error-save").html(html);
+			return false;
+		}
+
+		if(!(/^.*\.(srt|SRT)$/).test(data.inputNameFile)){
+			var html = templateMessage({typeAlert: 'danger', title: 'Error!', message: "Incorrect file name. The extension must be \".srt\"."});
+			$("#error-save").html(html);
+			return false;
+		}
+
+		var subtitles = [];
+		for(var i = 0; i < this.IdsInputTable.length; i++){
+			var subtitle = {
+				subtitleNumber: $(this.IdsInputTable[i].textNumber).val(),
+				startTime: $(this.IdsInputTable[i].textStart).val(),
+				finalTime: $(this.IdsInputTable[i].textFinal).val(),
+				text:  $(this.IdsInputTable[i].textArea).val(),
+			};
+
+			subtitles.push(subtitle);
+		}
+		data.subtitles = subtitles;
+
+		var request = $.ajax({
+			type: "POST",
+			url: "/api/file/makeSrtFile",
+			data: data,
+			dataType: "json"
+		});
+
+		request.done(function (dataServer) {
+
+			$.fileDownload(dataServer.link, {
+				successCallback: function (url) {
+					var html = templateMessage({typeAlert: 'success', title: 'Done!', message: "File downloaded."});
+					$("#error-save").html(html);
+				},
+				failCallback: function (responseHtml, url) {
+					var html = templateMessage({typeAlert: 'danger', title: 'Done!', message: "Error at download file."});
+					$("#error-save").html(html);
+				}
+			});
+		});
+		 
+		request.fail(function (jqXHR, textStatus) {
+			var html = templateMessage({typeAlert: 'danger', title: 'Error!', message: jqXHR.responseJSON.message});
+			$("#error-save").html(html);
+		});
+		
 	},
 	keysInInputDelay: function (e){
 		if(keyAllows.indexOf(e.keyCode) == -1){
@@ -296,16 +439,20 @@ var HomeLayoutView = Marionette.LayoutView.extend({
 	validateTimeInput: function (e){
 		var inputValue = $(e.currentTarget).val();
 		if(!validateTimes.test(inputValue)){
+			this.countTimeErrors += 1;
 			$(e.currentTarget).closest('div').addClass('has-error');
 		}else{
+			this.countTimeErrors -= 1;
 			$(e.currentTarget).closest('div').removeClass('has-error');
 		}
 	},
 	validateSubtitleText: function (e){
 		var textAreaValue = $(e.currentTarget).val().trim();
 		if(textAreaValue.length == 0){
+			this.countSubtitleTextErrors += 1;
 			$(e.currentTarget).closest('td').addClass('has-error');
 		}else{
+			this.countSubtitleTextErrors -= 1;
 			$(e.currentTarget).closest('td').removeClass('has-error');
 		}
 	}

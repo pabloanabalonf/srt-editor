@@ -1,6 +1,7 @@
 var express = require('express');
 var path = require('path');
 var bodyParser = require('body-parser');
+var cookieParser = require('cookie-parser')
 var morgan = require('morgan');
 var errorhandler = require('errorhandler');
 var stylus = require('stylus');
@@ -20,6 +21,7 @@ app.set('port', process.env.PORT || 3000);
 app.use(morgan('common'));
 app.use(bodyParser.json({limit: '10mb'}));
 app.use(bodyParser.urlencoded({extended: true}));
+app.use(cookieParser());
 app.use(stylus.middleware({
 	src: __dirname + '/public/css',
 	dest: __dirname + '/public/css',

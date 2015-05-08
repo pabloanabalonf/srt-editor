@@ -7,7 +7,7 @@ var SubtitlesCollection = Backbone.Collection.extend({
 });
 
 module.exports = SubtitlesCollection;
-},{"../models/subtitle":5,"Backbone":17}],2:[function(require,module,exports){
+},{"../models/subtitle":6,"Backbone":18}],2:[function(require,module,exports){
 "use strict";
 var Marionette = require('backbone.marionette');
 var HomeLayoutView = require('../views/home');
@@ -28,7 +28,7 @@ var Controller = Marionette.Controller.extend({
 });
 
 module.exports = Controller;
-},{"../regions":6,"../views/home":13,"../views/not-found":14,"backbone.marionette":18}],3:[function(require,module,exports){
+},{"../regions":7,"../views/home":14,"../views/not-found":15,"backbone.marionette":19}],3:[function(require,module,exports){
 "use strict";
 var $ = require('jquery');
 var Backbone = require('backbone');
@@ -55,7 +55,498 @@ MyApp.on("start", function(options){
 });
 
 MyApp.start();
-},{"./controllers/app-controller":2,"./router":7,"backbone":22,"backbone.marionette":18,"jquery":23}],4:[function(require,module,exports){
+},{"./controllers/app-controller":2,"./router":8,"backbone":23,"backbone.marionette":19,"jquery":24}],4:[function(require,module,exports){
+/*
+* jQuery File Download Plugin v1.4.4
+*
+* http://www.johnculviner.com
+*
+* Copyright (c) 2013 - John Culviner
+*
+* Licensed under the MIT license:
+*   http://www.opensource.org/licenses/mit-license.php
+*
+* !!!!NOTE!!!!
+* You must also write a cookie in conjunction with using this plugin as mentioned in the orignal post:
+* http://johnculviner.com/jquery-file-download-plugin-for-ajax-like-feature-rich-file-downloads/
+* !!!!NOTE!!!!
+*/
+var $ = require('jquery');
+var jQuery = $;
+/*
+* jQuery File Download Plugin v1.4.4
+*
+* http://www.johnculviner.com
+*
+* Copyright (c) 2013 - John Culviner
+*
+* Licensed under the MIT license:
+*   http://www.opensource.org/licenses/mit-license.php
+*
+* !!!!NOTE!!!!
+* You must also write a cookie in conjunction with using this plugin as mentioned in the orignal post:
+* http://johnculviner.com/jquery-file-download-plugin-for-ajax-like-feature-rich-file-downloads/
+* !!!!NOTE!!!!
+*/
+
+(function($, window){
+    // i'll just put them here to get evaluated on script load
+    var htmlSpecialCharsRegEx = /[<>&\r\n"']/gm;
+    var htmlSpecialCharsPlaceHolders = {
+                '<': 'lt;',
+                '>': 'gt;',
+                '&': 'amp;',
+                '\r': "#13;",
+                '\n': "#10;",
+                '"': 'quot;',
+                "'": '#39;' /*single quotes just to be safe, IE8 doesn't support &apos;, so use &#39; instead */
+    };
+
+$.extend({
+    //
+    //$.fileDownload('/path/to/url/', options)
+    //  see directly below for possible 'options'
+    fileDownload: function (fileUrl, options) {
+
+        //provide some reasonable defaults to any unspecified options below
+        var settings = $.extend({
+
+            //
+            //Requires jQuery UI: provide a message to display to the user when the file download is being prepared before the browser's dialog appears
+            //
+            preparingMessageHtml: null,
+
+            //
+            //Requires jQuery UI: provide a message to display to the user when a file download fails
+            //
+            failMessageHtml: null,
+
+            //
+            //the stock android browser straight up doesn't support file downloads initiated by a non GET: http://code.google.com/p/android/issues/detail?id=1780
+            //specify a message here to display if a user tries with an android browser
+            //if jQuery UI is installed this will be a dialog, otherwise it will be an alert
+            //Set to null to disable the message and attempt to download anyway
+            //
+            androidPostUnsupportedMessageHtml: "Unfortunately your Android browser doesn't support this type of file download. Please try again with a different browser.",
+
+            //
+            //Requires jQuery UI: options to pass into jQuery UI Dialog
+            //
+            dialogOptions: { modal: true },
+
+            //
+            //a function to call while the dowload is being prepared before the browser's dialog appears
+            //Args:
+            //  url - the original url attempted
+            //
+            prepareCallback: function (url) { },
+
+            //
+            //a function to call after a file download dialog/ribbon has appeared
+            //Args:
+            //  url - the original url attempted
+            //
+            successCallback: function (url) { },
+
+            //
+            //a function to call after a file download dialog/ribbon has appeared
+            //Args:
+            //  responseHtml    - the html that came back in response to the file download. this won't necessarily come back depending on the browser.
+            //                      in less than IE9 a cross domain error occurs because 500+ errors cause a cross domain issue due to IE subbing out the
+            //                      server's error message with a "helpful" IE built in message
+            //  url             - the original url attempted
+            //  error           - original error cautch from exception
+            //
+            failCallback: function (responseHtml, url, error) { },
+
+            //
+            // the HTTP method to use. Defaults to "GET".
+            //
+            httpMethod: "GET",
+
+            //
+            // if specified will perform a "httpMethod" request to the specified 'fileUrl' using the specified data.
+            // data must be an object (which will be $.param serialized) or already a key=value param string
+            //
+            data: null,
+
+            //
+            //a period in milliseconds to poll to determine if a successful file download has occured or not
+            //
+            checkInterval: 100,
+
+            //
+            //the cookie name to indicate if a file download has occured
+            //
+            cookieName: "DownloadFromSRTWebEditor",
+
+            //
+            //the cookie value for the above name to indicate that a file download has occured
+            //
+            cookieValue: "true",
+
+            //
+            //the cookie path for above name value pair
+            //
+            cookiePath: "/",
+
+            //
+            //if specified it will be used when attempting to clear the above name value pair
+            //useful for when downloads are being served on a subdomain (e.g. downloads.example.com)
+            //
+            cookieDomain: null,
+
+            //
+            //the title for the popup second window as a download is processing in the case of a mobile browser
+            //
+            popupWindowTitle: "Initiating file download...",
+
+            //
+            //Functionality to encode HTML entities for a POST, need this if data is an object with properties whose values contains strings with quotation marks.
+            //HTML entity encoding is done by replacing all &,<,>,',",\r,\n characters.
+            //Note that some browsers will POST the string htmlentity-encoded whilst others will decode it before POSTing.
+            //It is recommended that on the server, htmlentity decoding is done irrespective.
+            //
+            encodeHTMLEntities: true
+
+        }, options);
+
+        var deferred = new $.Deferred();
+
+        //Setup mobile browser detection: Partial credit: http://detectmobilebrowser.com/
+        var userAgent = (navigator.userAgent || navigator.vendor || window.opera).toLowerCase();
+
+        var isIos;                  //has full support of features in iOS 4.0+, uses a new window to accomplish this.
+        var isAndroid;              //has full support of GET features in 4.0+ by using a new window. Non-GET is completely unsupported by the browser. See above for specifying a message.
+        var isOtherMobileBrowser;   //there is no way to reliably guess here so all other mobile devices will GET and POST to the current window.
+
+        if (/ip(ad|hone|od)/.test(userAgent)) {
+
+            isIos = true;
+
+        } else if (userAgent.indexOf('android') !== -1) {
+
+            isAndroid = true;
+
+        } else {
+
+            isOtherMobileBrowser = /avantgo|bada\/|blackberry|blazer|compal|elaine|fennec|hiptop|playbook|silk|iemobile|iris|kindle|lge |maemo|midp|mmp|netfront|opera m(ob|in)i|palm( os)?|phone|p(ixi|re)\/|plucker|pocket|psp|symbian|treo|up\.(browser|link)|vodafone|wap|windows (ce|phone)|xda|xiino/i.test(userAgent) || /1207|6310|6590|3gso|4thp|50[1-6]i|770s|802s|a wa|abac|ac(er|oo|s\-)|ai(ko|rn)|al(av|ca|co)|amoi|an(ex|ny|yw)|aptu|ar(ch|go)|as(te|us)|attw|au(di|\-m|r |s )|avan|be(ck|ll|nq)|bi(lb|rd)|bl(ac|az)|br(e|v)w|bumb|bw\-(n|u)|c55\/|capi|ccwa|cdm\-|cell|chtm|cldc|cmd\-|co(mp|nd)|craw|da(it|ll|ng)|dbte|dc\-s|devi|dica|dmob|do(c|p)o|ds(12|\-d)|el(49|ai)|em(l2|ul)|er(ic|k0)|esl8|ez([4-7]0|os|wa|ze)|fetc|fly(\-|_)|g1 u|g560|gene|gf\-5|g\-mo|go(\.w|od)|gr(ad|un)|haie|hcit|hd\-(m|p|t)|hei\-|hi(pt|ta)|hp( i|ip)|hs\-c|ht(c(\-| |_|a|g|p|s|t)|tp)|hu(aw|tc)|i\-(20|go|ma)|i230|iac( |\-|\/)|ibro|idea|ig01|ikom|im1k|inno|ipaq|iris|ja(t|v)a|jbro|jemu|jigs|kddi|keji|kgt( |\/)|klon|kpt |kwc\-|kyo(c|k)|le(no|xi)|lg( g|\/(k|l|u)|50|54|e\-|e\/|\-[a-w])|libw|lynx|m1\-w|m3ga|m50\/|ma(te|ui|xo)|mc(01|21|ca)|m\-cr|me(di|rc|ri)|mi(o8|oa|ts)|mmef|mo(01|02|bi|de|do|t(\-| |o|v)|zz)|mt(50|p1|v )|mwbp|mywa|n10[0-2]|n20[2-3]|n30(0|2)|n50(0|2|5)|n7(0(0|1)|10)|ne((c|m)\-|on|tf|wf|wg|wt)|nok(6|i)|nzph|o2im|op(ti|wv)|oran|owg1|p800|pan(a|d|t)|pdxg|pg(13|\-([1-8]|c))|phil|pire|pl(ay|uc)|pn\-2|po(ck|rt|se)|prox|psio|pt\-g|qa\-a|qc(07|12|21|32|60|\-[2-7]|i\-)|qtek|r380|r600|raks|rim9|ro(ve|zo)|s55\/|sa(ge|ma|mm|ms|ny|va)|sc(01|h\-|oo|p\-)|sdk\/|se(c(\-|0|1)|47|mc|nd|ri)|sgh\-|shar|sie(\-|m)|sk\-0|sl(45|id)|sm(al|ar|b3|it|t5)|so(ft|ny)|sp(01|h\-|v\-|v )|sy(01|mb)|t2(18|50)|t6(00|10|18)|ta(gt|lk)|tcl\-|tdg\-|tel(i|m)|tim\-|t\-mo|to(pl|sh)|ts(70|m\-|m3|m5)|tx\-9|up(\.b|g1|si)|utst|v400|v750|veri|vi(rg|te)|vk(40|5[0-3]|\-v)|vm40|voda|vulc|vx(52|53|60|61|70|80|81|83|85|98)|w3c(\-| )|webc|whit|wi(g |nc|nw)|wmlb|wonu|x700|xda(\-|2|g)|yas\-|your|zeto|zte\-/i.test(userAgent.substr(0, 4));
+
+        }
+
+        var httpMethodUpper = settings.httpMethod.toUpperCase();
+
+        if (isAndroid && httpMethodUpper !== "GET" && settings.androidPostUnsupportedMessageHtml) {
+            //the stock android browser straight up doesn't support file downloads initiated by non GET requests: http://code.google.com/p/android/issues/detail?id=1780
+
+            if ($().dialog) {
+                $("<div>").html(settings.androidPostUnsupportedMessageHtml).dialog(settings.dialogOptions);
+            } else {
+                alert(settings.androidPostUnsupportedMessageHtml);
+            }
+
+            return deferred.reject();
+        }
+
+        var $preparingDialog = null;
+
+        var internalCallbacks = {
+
+            onPrepare: function (url) {
+
+                //wire up a jquery dialog to display the preparing message if specified
+                if (settings.preparingMessageHtml) {
+
+                    $preparingDialog = $("<div>").html(settings.preparingMessageHtml).dialog(settings.dialogOptions);
+
+                } else if (settings.prepareCallback) {
+
+                    settings.prepareCallback(url);
+
+                }
+
+            },
+
+            onSuccess: function (url) {
+
+                //remove the perparing message if it was specified
+                if ($preparingDialog) {
+                    $preparingDialog.dialog('close');
+                }
+                settings.successCallback(url);
+
+                deferred.resolve(url);
+            },
+
+            onFail: function (responseHtml, url, error) {
+
+                //remove the perparing message if it was specified
+                if ($preparingDialog) {
+                    $preparingDialog.dialog('close');
+                }
+
+                //wire up a jquery dialog to display the fail message if specified
+                if (settings.failMessageHtml) {
+                    $("<div>").html(settings.failMessageHtml).dialog(settings.dialogOptions);
+                }
+
+                settings.failCallback(responseHtml, url, error);
+
+                deferred.reject(responseHtml, url);
+            }
+        };
+
+        internalCallbacks.onPrepare(fileUrl);
+
+        //make settings.data a param string if it exists and isn't already
+        if (settings.data !== null && typeof settings.data !== "string") {
+            settings.data = $.param(settings.data);
+        }
+
+
+        var $iframe,
+            downloadWindow,
+            formDoc,
+            $form;
+
+        if (httpMethodUpper === "GET") {
+
+            if (settings.data !== null) {
+                //need to merge any fileUrl params with the data object
+
+                var qsStart = fileUrl.indexOf('?');
+
+                if (qsStart !== -1) {
+                    //we have a querystring in the url
+
+                    if (fileUrl.substring(fileUrl.length - 1) !== "&") {
+                        fileUrl = fileUrl + "&";
+                    }
+                } else {
+
+                    fileUrl = fileUrl + "?";
+                }
+
+                fileUrl = fileUrl + settings.data;
+            }
+
+            if (isIos || isAndroid) {
+
+                downloadWindow = window.open(fileUrl);
+                downloadWindow.document.title = settings.popupWindowTitle;
+                window.focus();
+
+            } else if (isOtherMobileBrowser) {
+
+                window.location(fileUrl);
+
+            } else {
+
+                //create a temporary iframe that is used to request the fileUrl as a GET request
+                $iframe = $("<iframe>")
+                    .hide()
+                    .prop("src", fileUrl)
+                    .appendTo("body");
+            }
+
+        } else {
+
+            var formInnerHtml = "";
+
+            if (settings.data !== null) {
+
+                $.each(settings.data.replace(/\+/g, ' ').split("&"), function () {
+
+                    var kvp = this.split("=");
+
+                    //Issue: When value contains sign '=' then the kvp array does have more than 2 items. We have to join value back
+                    var k = kvp[0];
+                    kvp.shift();
+                    var v = kvp.join("=");
+                    kvp = [k, v];
+
+                    var key = settings.encodeHTMLEntities ? htmlSpecialCharsEntityEncode(decodeURIComponent(kvp[0])) : decodeURIComponent(kvp[0]);
+                    if (key) {
+                        var value = settings.encodeHTMLEntities ? htmlSpecialCharsEntityEncode(decodeURIComponent(kvp[1])) : decodeURIComponent(kvp[1]);
+                    formInnerHtml += '<input type="hidden" name="' + key + '" value="' + value + '" />';
+                    }
+                });
+            }
+
+            if (isOtherMobileBrowser) {
+
+                $form = $("<form>").appendTo("body");
+                $form.hide()
+                    .prop('method', settings.httpMethod)
+                    .prop('action', fileUrl)
+                    .html(formInnerHtml);
+
+            } else {
+
+                if (isIos) {
+
+                    downloadWindow = window.open("about:blank");
+                    downloadWindow.document.title = settings.popupWindowTitle;
+                    formDoc = downloadWindow.document;
+                    window.focus();
+
+                } else {
+
+                    $iframe = $("<iframe style='display: none' src='about:blank'></iframe>").appendTo("body");
+                    formDoc = getiframeDocument($iframe);
+                }
+
+                formDoc.write("<html><head></head><body><form method='" + settings.httpMethod + "' action='" + fileUrl + "'>" + formInnerHtml + "</form>" + settings.popupWindowTitle + "</body></html>");
+                $form = $(formDoc).find('form');
+            }
+
+            $form.submit();
+        }
+
+
+        //check if the file download has completed every checkInterval ms
+        setTimeout(checkFileDownloadComplete, settings.checkInterval);
+
+
+        function checkFileDownloadComplete() {
+            //has the cookie been written due to a file download occuring?
+
+            var cookieValue = settings.cookieValue;
+            if(typeof cookieValue == 'string') {
+                cookieValue = cookieValue.toLowerCase();
+            }
+
+            var lowerCaseCookie = settings.cookieName.toLowerCase() + "=" + cookieValue;
+            if (document.cookie.toLowerCase().indexOf(lowerCaseCookie) > -1) {
+
+                //execute specified callback
+                internalCallbacks.onSuccess(fileUrl);
+
+                //remove cookie
+                var cookieData = settings.cookieName + "=; path=" + settings.cookiePath + "; expires=" + new Date(0).toUTCString() + ";";
+                if (settings.cookieDomain) cookieData += " domain=" + settings.cookieDomain + ";";
+                document.cookie = cookieData;
+
+                //remove iframe
+                cleanUp(false);
+
+                return;
+            }
+
+            //has an error occured?
+            //if neither containers exist below then the file download is occuring on the current window
+            if (downloadWindow || $iframe) {
+
+                //has an error occured?
+                try {
+
+                    var formDoc = downloadWindow ? downloadWindow.document : getiframeDocument($iframe);
+
+                    if (formDoc && formDoc.body !== null && formDoc.body.innerHTML.length) {
+
+                        var isFailure = true;
+
+                        if ($form && $form.length) {
+                            var $contents = $(formDoc.body).contents().first();
+
+                            try {
+                                if ($contents.length && $contents[0] === $form[0]) {
+                                    isFailure = false;
+                                }
+                            } catch (e) {
+                                if (e && e.number == -2146828218) {
+                                    // IE 8-10 throw a permission denied after the form reloads on the "$contents[0] === $form[0]" comparison
+                                    isFailure = true;
+                                } else {
+                                    throw e;
+                                }
+                            }
+                        }
+
+                        if (isFailure) {
+                            // IE 8-10 don't always have the full content available right away, they need a litle bit to finish
+                            setTimeout(function () {
+                                internalCallbacks.onFail(formDoc.body.innerHTML, fileUrl);
+                                cleanUp(true);
+                            }, 100);
+
+                            return;
+                        }
+                    }
+                }
+                catch (err) {
+
+                    //500 error less than IE9
+                    internalCallbacks.onFail('', fileUrl, err);
+
+                    cleanUp(true);
+
+                    return;
+                }
+            }
+
+
+            //keep checking...
+            setTimeout(checkFileDownloadComplete, settings.checkInterval);
+        }
+
+        //gets an iframes document in a cross browser compatible manner
+        function getiframeDocument($iframe) {
+            var iframeDoc = $iframe[0].contentWindow || $iframe[0].contentDocument;
+            if (iframeDoc.document) {
+                iframeDoc = iframeDoc.document;
+            }
+            return iframeDoc;
+        }
+
+        function cleanUp(isFailure) {
+
+            setTimeout(function() {
+
+                if (downloadWindow) {
+
+                    if (isAndroid) {
+                        downloadWindow.close();
+                    }
+
+                    if (isIos) {
+                        if (downloadWindow.focus) {
+                            downloadWindow.focus(); //ios safari bug doesn't allow a window to be closed unless it is focused
+                            if (isFailure) {
+                                downloadWindow.close();
+                            }
+                        }
+                    }
+                }
+
+                //iframe cleanup appears to randomly cause the download to fail
+                //not doing it seems better than failure...
+                //if ($iframe) {
+                //    $iframe.remove();
+                //}
+
+            }, 0);
+        }
+
+
+        function htmlSpecialCharsEntityEncode(str) {
+            return str.replace(htmlSpecialCharsRegEx, function(match) {
+                return '&' + htmlSpecialCharsPlaceHolders[match];
+            });
+        }
+        var promise = deferred.promise();
+        promise.abort = function() {
+            cleanUp();
+            $iframe.remove();
+        };
+        return promise;
+    }
+});
+
+})(jQuery, this);
+
+module.exports = $;
+},{"jquery":24}],5:[function(require,module,exports){
 var $ = require('jquery');
 var Backbone = require('backbone');
 Backbone.$ = $;
@@ -80,7 +571,7 @@ var FileModel = Backbone.Model.extend({
 });
 
 module.exports = FileModel;
-},{"backbone":22,"jquery":23}],5:[function(require,module,exports){
+},{"backbone":23,"jquery":24}],6:[function(require,module,exports){
 var Backbone = require('backbone');
 var SubtitleModel = Backbone.Model.extend({
 	defaults: {
@@ -92,7 +583,7 @@ var SubtitleModel = Backbone.Model.extend({
 });
 
 module.exports = SubtitleModel;
-},{"backbone":22}],6:[function(require,module,exports){
+},{"backbone":23}],7:[function(require,module,exports){
 "use strict";
 var Marionette = require('backbone.marionette');
 
@@ -103,7 +594,7 @@ RegionManager.addRegions({
 });
 
 module.exports = RegionManager;
-},{"backbone.marionette":18}],7:[function(require,module,exports){
+},{"backbone.marionette":19}],8:[function(require,module,exports){
 "use strict";
 var Marionette = require('backbone.marionette');
 
@@ -122,7 +613,7 @@ var Router = Marionette.AppRouter.extend({
 });
 
 module.exports = Router;
-},{"backbone.marionette":18}],8:[function(require,module,exports){
+},{"backbone.marionette":19}],9:[function(require,module,exports){
 module.exports = function(obj){
 var __t,__p='',__j=Array.prototype.join,print=function(){__p+=__j.call(arguments,'');};
 with(obj||{}){
@@ -133,7 +624,7 @@ __p+='<div class="col-md-6">\n\t<form id="setDelayForm" class="form-inline" role
 return __p;
 };
 
-},{}],9:[function(require,module,exports){
+},{}],10:[function(require,module,exports){
 module.exports = function(obj){
 var __t,__p='',__j=Array.prototype.join,print=function(){__p+=__j.call(arguments,'');};
 with(obj||{}){
@@ -142,7 +633,7 @@ __p+='<div class="container">\n\t<div class="row container-form-load-subtitle">\
 return __p;
 };
 
-},{}],10:[function(require,module,exports){
+},{}],11:[function(require,module,exports){
 module.exports = function(obj){
 var __t,__p='',__j=Array.prototype.join,print=function(){__p+=__j.call(arguments,'');};
 with(obj||{}){
@@ -157,7 +648,7 @@ __p+='<div class="alert alert-dismissible alert-'+
 return __p;
 };
 
-},{}],11:[function(require,module,exports){
+},{}],12:[function(require,module,exports){
 module.exports = function(obj){
 var __t,__p='',__j=Array.prototype.join,print=function(){__p+=__j.call(arguments,'');};
 with(obj||{}){
@@ -168,7 +659,7 @@ __p+='<div class="row">\n\t<div class="col-md-6 col-md-offset-3 text-center">\n\
 return __p;
 };
 
-},{}],12:[function(require,module,exports){
+},{}],13:[function(require,module,exports){
 module.exports = function(obj){
 var __t,__p='',__j=Array.prototype.join,print=function(){__p+=__j.call(arguments,'');};
 with(obj||{}){
@@ -203,9 +694,9 @@ __p+='<th>\n\t<input type="checkbox" id="chkSubtitle'+
 return __p;
 };
 
-},{}],13:[function(require,module,exports){
+},{}],14:[function(require,module,exports){
 "use strict";
-var $ = require('jquery');
+var $ = require('../jquery.and.fileDownload');
 var Backbone = require('backbone');
 Backbone.$ = $;
 var Marionette = require('backbone.marionette');
@@ -215,7 +706,7 @@ var FileModel = require('../models/file');
 //Templates
 var templateHome = require('../templates/home.html');
 var templateMessage = require('../templates/message-tmpl.html');
-var templateActions = require('../templates/actions-subtitles.html')
+var templateActions = require('../templates/actions-subtitles.html');
 
 //regions
 var rm = require('../regions');
@@ -262,6 +753,13 @@ $.fn.serializeObject = function (){
 	return obj;
 };
 
+function arrayObjectIndexOf(myArray, searchTerm, property) {
+	for(var i = 0, len = myArray.length; i < len; i++) {
+		if (myArray[i][property] === searchTerm) return i;
+	}
+	return -1;
+}
+
 $.fn.fixMe = function() {
 	return this.each(function() {
 		var $this = $(this);
@@ -298,6 +796,8 @@ var HomeLayoutView = Marionette.LayoutView.extend({
 		this.template = templateHome({});
 		this.IdsInputTable = [];
 		this.amountChecked = 0;
+		this.countTimeErrors = 0;
+		this.countSubtitleTextErrors = 0;
 	},
 	template: this.template,
 	model: new FileModel(),
@@ -383,6 +883,8 @@ var HomeLayoutView = Marionette.LayoutView.extend({
 								textStart: '#txtStartTime'+ json.subtitles[i].subtitleNumber,
 								textFinal: '#txtFinalTime'+ json.subtitles[i].subtitleNumber,
 								textArea: '#txtSubtitleText'+ json.subtitles[i].subtitleNumber,
+								subtitleNumber: json.subtitles[i].subtitleNumber,
+								isSelected: false
 							};
 							that.IdsInputTable.push(inputElement);
 						}
@@ -413,14 +915,24 @@ var HomeLayoutView = Marionette.LayoutView.extend({
 	},
 	chkSubtitleClicked: function (e){
 		var idChk =  '#'+ e.target.id;
+		var index;
+
+		if(Array.prototype.map !== undefined){
+			index = this.IdsInputTable.map(function (e) { return e.chk; }).indexOf(idChk);
+		}else{
+			index = arrayObjectIndexOf(this.IdsInputTable, idChk, "chk");
+		}
+
 		if($(idChk).is(':checked')){
 			$(idChk).closest("tr").addClass('success');
 			this.amountChecked++;
+			this.IdsInputTable[index].isSelected = true;
 		}else{
 			$(idChk).closest("tr").removeClass('success');
 			if($('#chkSelectAll').is(':checked')){
 				$('#chkSelectAll').prop('checked', false);
 			}
+			this.IdsInputTable[index].isSelected = false;
 			this.amountChecked--;
 		}
 
@@ -446,10 +958,12 @@ var HomeLayoutView = Marionette.LayoutView.extend({
 				if(!$(this.IdsInputTable[i].chk).is(':checked')){
 					$(this.IdsInputTable[i].chk).closest("tr").addClass('success');
 					$(this.IdsInputTable[i].chk).prop('checked', true);
+					this.IdsInputTable[i].isSelected = true;
 				}
 			}else{
 				$(this.IdsInputTable[i].chk).prop('checked', false);
 				$(this.IdsInputTable[i].chk).closest("tr").removeClass('success');
+				this.IdsInputTable[i].isSelected = false;
 			}
 		}
 
@@ -469,7 +983,19 @@ var HomeLayoutView = Marionette.LayoutView.extend({
 		
 		if(!validateDelayMode.test(data.inputDelayMode)){
 			$('#inputDelay').closest('div').addClass('has-error');
-			var html = templateMessage({typeAlert: 'danger', title: "Error!", message: "Delay type must be + or -"});
+			var html = templateMessage({typeAlert: 'danger', title: "Error!", message: "Delay type must be + or -."});
+			$("#error-actions").html(html);
+			return false;
+		}
+
+		if(this.countTimeErrors > 0){
+			var html = templateMessage({typeAlert: 'danger', title: 'Error!', message: "You have errors in times inputs."});
+			$("#error-actions").html(html);
+			return false;
+		}
+
+		if(this.amountChecked == 0){
+			var html = templateMessage({typeAlert: 'danger', title: 'Error!', message: "You have select at least 1 subtitle."});
 			$("#error-actions").html(html);
 			return false;
 		}
@@ -485,14 +1011,122 @@ var HomeLayoutView = Marionette.LayoutView.extend({
 		start.subtract(time_reduct.minutes(), 'minutes');
 		moment(new Date(start)).format("HH:mm:ss SSS") //return '01:01:59 021'
 		*/
+		data.inputDelay = "00:"+data.inputDelay;
+		var delay = moment(data.inputDelay, "HH:mm:ss SSS");
+		var date0 = moment("00:00:00,000", "HH:mm:ss SSS");
+		for(var i = 0; i < this.IdsInputTable.length; i++){
+			if(this.IdsInputTable[i].isSelected === true){
+				var startTime = $(this.IdsInputTable[i].textStart).val();
+				if(startTime != "00:00:00,000" || data.inputDelayMode == "+"){
+					startTime = moment(startTime, "HH:mm:ss SSS");
+					if(data.inputDelayMode == "+"){
+						startTime.add(delay.millisecond(), 'milliseconds');
+						startTime.add(delay.seconds(), 'seconds');
+						startTime.add(delay.minutes(), 'minutes');
+					}else{
+						//inputDelayMode == -
+						startTime.subtract(delay.millisecond(), 'milliseconds');
+						startTime.subtract(delay.seconds(), 'seconds');
+						startTime.subtract(delay.minutes(), 'minutes');
+					}
+					if(startTime > date0){
+						var startString = moment(new Date(startTime)).format("HH:mm:ss SSS");
+						startString = startString.replace(' ', ',');
+						$(this.IdsInputTable[i].textStart).val(startString);
+					}else{
+						$(this.IdsInputTable[i].textStart).val("00:00:00,000");
+					}
+				}
 
+				var finalTime = $(this.IdsInputTable[i].textFinal).val();
+				if(finalTime != "00:00:00,000" || data.inputDelayMode == "+"){
+					finalTime = moment(finalTime, "HH:mm:ss SSS");
+					if(data.inputDelayMode == "+"){
+						finalTime.add(delay.millisecond(), 'milliseconds');
+						finalTime.add(delay.seconds(), 'seconds');
+						finalTime.add(delay.minutes(), 'minutes');
+					}else{
+						//inputDelayMode == -
+						finalTime.subtract(delay.millisecond(), 'milliseconds');
+						finalTime.subtract(delay.seconds(), 'seconds');
+						finalTime.subtract(delay.minutes(), 'minutes');
+					}
+					if(finalTime > date0){
+						var finalString = moment(new Date(finalTime)).format("HH:mm:ss SSS");
+						finalString = finalString.replace(' ', ',');
+						$(this.IdsInputTable[i].textFinal).val(finalString);
+					}else{
+						$(this.IdsInputTable[i].textFinal).val("00:00:00,000");
+					}
+				}
+
+			}
+		}
+		var html = templateMessage({typeAlert: 'success', title: 'Done!', message: "Delay set correctly."});
+		$("#error-actions").html(html);
 	},
 	saveSrtFileForm: function (e){
 		e.preventDefault();
-		console.log('saveSrtFileForm');
+		$("#error-save").html('');
 		var data = $(e.currentTarget).serializeObject();
 
-		console.log('data'+JSON.stringify(data));
+		if(this.countTimeErrors > 0){
+			var html = templateMessage({typeAlert: 'danger', title: 'Error!', message: "You have errors in times inputs."});
+			$("#error-save").html(html);
+			return false;
+		}
+
+		if(this.countSubtitleTextErrors > 0){
+			var html = templateMessage({typeAlert: 'danger', title: 'Error!', message: "You have errors in texts inputs."});
+			$("#error-save").html(html);
+			return false;
+		}
+
+		if(!(/^.*\.(srt|SRT)$/).test(data.inputNameFile)){
+			var html = templateMessage({typeAlert: 'danger', title: 'Error!', message: "Incorrect file name. The extension must be \".srt\"."});
+			$("#error-save").html(html);
+			return false;
+		}
+
+		var subtitles = [];
+		for(var i = 0; i < this.IdsInputTable.length; i++){
+			var subtitle = {
+				subtitleNumber: $(this.IdsInputTable[i].textNumber).val(),
+				startTime: $(this.IdsInputTable[i].textStart).val(),
+				finalTime: $(this.IdsInputTable[i].textFinal).val(),
+				text:  $(this.IdsInputTable[i].textArea).val(),
+			};
+
+			subtitles.push(subtitle);
+		}
+		data.subtitles = subtitles;
+
+		var request = $.ajax({
+			type: "POST",
+			url: "/api/file/makeSrtFile",
+			data: data,
+			dataType: "json"
+		});
+
+		request.done(function (dataServer) {
+
+			$.fileDownload(dataServer.link, {
+				successCallback: function (url) {
+					var html = templateMessage({typeAlert: 'success', title: 'Done!', message: "File downloaded."});
+					$("#error-save").html(html);
+				},
+				failCallback: function (responseHtml, url) {
+					var html = templateMessage({typeAlert: 'danger', title: 'Done!', message: "Error at download file."});
+					$("#error-save").html(html);
+				}
+			});
+		});
+		 
+		request.fail(function (jqXHR, textStatus) {
+			var html = templateMessage({typeAlert: 'danger', title: 'Error!', message: jqXHR.responseJSON.message});
+			$("#error-save").html(html);
+		});
+		
 	},
 	keysInInputDelay: function (e){
 		if(keyAllows.indexOf(e.keyCode) == -1){
@@ -502,16 +1136,20 @@ var HomeLayoutView = Marionette.LayoutView.extend({
 	validateTimeInput: function (e){
 		var inputValue = $(e.currentTarget).val();
 		if(!validateTimes.test(inputValue)){
+			this.countTimeErrors += 1;
 			$(e.currentTarget).closest('div').addClass('has-error');
 		}else{
+			this.countTimeErrors -= 1;
 			$(e.currentTarget).closest('div').removeClass('has-error');
 		}
 	},
 	validateSubtitleText: function (e){
 		var textAreaValue = $(e.currentTarget).val().trim();
 		if(textAreaValue.length == 0){
+			this.countSubtitleTextErrors += 1;
 			$(e.currentTarget).closest('td').addClass('has-error');
 		}else{
+			this.countSubtitleTextErrors -= 1;
 			$(e.currentTarget).closest('td').removeClass('has-error');
 		}
 	}
@@ -519,7 +1157,7 @@ var HomeLayoutView = Marionette.LayoutView.extend({
 });
 
 module.exports = HomeLayoutView;
-},{"../collections/subtitles":1,"../models/file":4,"../regions":6,"../templates/actions-subtitles.html":8,"../templates/home.html":9,"../templates/message-tmpl.html":10,"../views/subtitle-collection-view":15,"backbone":22,"backbone.marionette":18,"jquery":23,"moment":24}],14:[function(require,module,exports){
+},{"../collections/subtitles":1,"../jquery.and.fileDownload":4,"../models/file":5,"../regions":7,"../templates/actions-subtitles.html":9,"../templates/home.html":10,"../templates/message-tmpl.html":11,"../views/subtitle-collection-view":16,"backbone":23,"backbone.marionette":19,"moment":25}],15:[function(require,module,exports){
 "use strict";
 var Marionette = require('backbone.marionette');
 var templateNotFound = require('../templates/not-found.html');
@@ -538,7 +1176,7 @@ var NotFoundLayoutView = Marionette.LayoutView.extend({
 });
 
 module.exports = NotFoundLayoutView;
-},{"../templates/not-found.html":11,"backbone.marionette":18}],15:[function(require,module,exports){
+},{"../templates/not-found.html":12,"backbone.marionette":19}],16:[function(require,module,exports){
 var Marionette = require('backbone.marionette');
 
 var SubtitleItemView = require('./subtitle-item-view');
@@ -551,7 +1189,7 @@ var SubtitlesCollectionView = Marionette.CollectionView.extend({
 });
 
 module.exports = SubtitlesCollectionView;
-},{"./subtitle-item-view":16,"backbone.marionette":18}],16:[function(require,module,exports){
+},{"./subtitle-item-view":17,"backbone.marionette":19}],17:[function(require,module,exports){
 var Marionette = require('backbone.marionette');
 var _ = require('underscore');
 //template
@@ -565,7 +1203,7 @@ var SubtitleItemView = Marionette.ItemView.extend({
 });
 
 module.exports = SubtitleItemView;
-},{"../templates/subtitle-list-item.html":12,"backbone.marionette":18,"underscore":25}],17:[function(require,module,exports){
+},{"../templates/subtitle-list-item.html":13,"backbone.marionette":19,"underscore":26}],18:[function(require,module,exports){
 //     Backbone.js 1.1.2
 
 //     (c) 2010-2014 Jeremy Ashkenas, DocumentCloud and Investigative Reporters & Editors
@@ -2175,7 +2813,7 @@ module.exports = SubtitleItemView;
 
 }));
 
-},{"underscore":25}],18:[function(require,module,exports){
+},{"underscore":26}],19:[function(require,module,exports){
 // MarionetteJS (Backbone.Marionette)
 // ----------------------------------
 // v2.4.1
@@ -5538,7 +6176,7 @@ module.exports = SubtitleItemView;
   return Marionette;
 }));
 
-},{"backbone":22,"backbone.babysitter":19,"backbone.wreqr":20,"underscore":21}],19:[function(require,module,exports){
+},{"backbone":23,"backbone.babysitter":20,"backbone.wreqr":21,"underscore":22}],20:[function(require,module,exports){
 // Backbone.BabySitter
 // -------------------
 // v0.1.6
@@ -5730,7 +6368,7 @@ module.exports = SubtitleItemView;
 
 }));
 
-},{"backbone":22,"underscore":21}],20:[function(require,module,exports){
+},{"backbone":23,"underscore":22}],21:[function(require,module,exports){
 // Backbone.Wreqr (Backbone.Marionette)
 // ----------------------------------
 // v1.3.1
@@ -6172,7 +6810,7 @@ module.exports = SubtitleItemView;
 
 }));
 
-},{"backbone":22,"underscore":21}],21:[function(require,module,exports){
+},{"backbone":23,"underscore":22}],22:[function(require,module,exports){
 //     Underscore.js 1.6.0
 //     http://underscorejs.org
 //     (c) 2009-2014 Jeremy Ashkenas, DocumentCloud and Investigative Reporters & Editors
@@ -7517,9 +8155,9 @@ module.exports = SubtitleItemView;
   }
 }).call(this);
 
-},{}],22:[function(require,module,exports){
-arguments[4][17][0].apply(exports,arguments)
-},{"dup":17,"underscore":25}],23:[function(require,module,exports){
+},{}],23:[function(require,module,exports){
+arguments[4][18][0].apply(exports,arguments)
+},{"dup":18,"underscore":26}],24:[function(require,module,exports){
 /*!
  * jQuery JavaScript Library v2.1.3
  * http://jquery.com/
@@ -16726,7 +17364,7 @@ return jQuery;
 
 }));
 
-},{}],24:[function(require,module,exports){
+},{}],25:[function(require,module,exports){
 //! moment.js
 //! version : 2.10.2
 //! authors : Tim Wood, Iskren Chernev, Moment.js contributors
@@ -19810,7 +20448,7 @@ return jQuery;
     return _moment;
 
 }));
-},{}],25:[function(require,module,exports){
+},{}],26:[function(require,module,exports){
 //     Underscore.js 1.8.3
 //     http://underscorejs.org
 //     (c) 2009-2015 Jeremy Ashkenas, DocumentCloud and Investigative Reporters & Editors
