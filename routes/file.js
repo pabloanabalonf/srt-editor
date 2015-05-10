@@ -57,9 +57,62 @@ router.post('/api/file/makeSrtFile', function (req, res){
 	var stream;
 	var existsFile;
 
+	//validations
+	if(!data.inputNameFile || !data.inputEncoding || !data.subtitles){
+		return res
+			.status(401)
+			.json({
+				'message': "Data doesn't send correctly."
+			});
+	}
+
+	if(!(/^.*\.(srt|SRT)$/).test(data.inputNameFile)){
+		return res
+			.status(401)
+			.json({
+				'message': "Incorrect file name."
+			});
+	}
+
+	if(['utf8', 'utf16le', 'ascii'].indexOf(data.inputEncoding) == -1){
+		return res
+			.status(401)
+			.json({
+				'message': "Incorrect encoding type."
+			});
+	}
+	var validationError = false;
+	for (var i = 0; i < data.subtitles.length; i++){
+		if(!data.subtitles[i].subtitleNumber){
+			validationError = true;
+			break;
+		}
+		if(!data.subtitles[i].startTime){
+			validationError = true;
+			break;
+		}
+		if(!data.subtitles[i].finalTime){
+			validationError = true;
+			break;
+		}
+		if(!data.subtitles[i].text){
+			validationError = true;
+			break;
+		}
+	}
+
+	if(validationError){
+		return res
+			.status(401)
+			.json({
+				'message': "Subtitles data doesn't send correctly."
+			});
+	}
+
 	var optionsStream = {
-		encoding: 'utf8'
+		encoding: data.inputEncoding
 	};
+
 	async.waterfall([
 		function checkFileExist(done){
 			fs.exists(pathFile, function (exists){

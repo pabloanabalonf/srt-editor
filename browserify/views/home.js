@@ -33,6 +33,7 @@ var SubtitlesCollectionView = require('../views/subtitle-collection-view');
 */
 
 var keyAllows = [44, 48, 49, 50, 51, 52, 53, 54, 55, 56, 57, 58];
+var encodingAllows = ['utf8', 'utf16le', 'ascii'];
 
 //regex validation
 var validateNumberSubtitle = new RegExp(/^[0-9]+$/);
@@ -386,9 +387,21 @@ var HomeLayoutView = Marionette.LayoutView.extend({
 		}
 
 		if(!(/^.*\.(srt|SRT)$/).test(data.inputNameFile)){
+			$("#inputNameFile").closest( ".form-group").addClass('has-error');
 			var html = templateMessage({typeAlert: 'danger', title: 'Error!', message: "Incorrect file name. The extension must be \".srt\"."});
 			$("#error-save").html(html);
 			return false;
+		}else{
+			$("#inputNameFile").closest( ".form-group").removeClass('has-error');
+		}
+
+		if(encodingAllows.indexOf(data.inputEncoding) == -1){
+			$("#inputEncoding").closest( ".form-group").addClass('has-error');
+			var html = templateMessage({typeAlert: 'danger', title: 'Error!', message: "Incorrect encoding type."});
+			$("#error-save").html(html);
+			return false;
+		}else{
+			$("#inputEncoding").closest( ".form-group").removeClass('has-error');
 		}
 
 		var subtitles = [];

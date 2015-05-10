@@ -619,7 +619,7 @@ var __t,__p='',__j=Array.prototype.join,print=function(){__p+=__j.call(arguments
 with(obj||{}){
 __p+='<div class="col-md-6">\n\t<form id="setDelayForm" class="form-inline" role="form">\n\t\t<fieldset>\n\t\t\t<legend>Actions</legend>\n\t\t\t<div class="text-center">\n\t\t\t\t<div class="form-group">\n\t\t\t\t\t<label for="inputDelay">\n\t\t\t\t\t\tDelay\n\t\t\t\t\t</label>\n\t\t\t\t\t<select class="form-control" id="inputDelayMode" name="inputDelayMode">\n\t\t\t\t\t\t<option value="+" selected>\n\t\t\t\t\t\t\t+\n\t\t\t\t\t\t</option>\n\t\t\t\t\t\t<option value="-">\n\t\t\t\t\t\t\t-\n\t\t\t\t\t\t</option>\n\t\t\t\t\t</select>\n\t\t\t\t\t<input type="text" class="form-control" id="inputDelay" name="inputDelay" placeholder="MM:SS:mmm" maxlength="9">\n\t\t\t\t</div>\n\t\t\t\t<div class="form-group">\n\t\t\t\t\t<div class="col-lg-10 col-lg-offset-2">\n\t\t\t\t\t\t<button class="btn btn-primary">\n\t\t\t\t\t\t\tSet\n\t\t\t\t\t\t</button>\n\t\t\t\t\t</div>\n\t\t\t\t</div>\n\t\t\t</div>\n\t\t\t<div id="error-actions">\n\t\t\t</div>\n\t\t</fieldset>\n\t</form>\n</div>\n<div class="col-md-6">\n\t<form id="saveSrtFileForm" class="form-horizontal" role="form">\n\t\t<fieldset>\n\t\t\t<legend>Save</legend>\n\t\t\t<div class="form-group">\n\t\t\t\t<label for="inputNameFile" class="col-lg-2 control-label">\n\t\t\t\t\tFile name\n\t\t\t\t</label>\n\t\t\t\t<div class="col-lg-10">\n\t\t\t\t\t<input type="text" class="form-control" id="inputNameFile" name="inputNameFile" value="'+
 ((__t=( file.filename ))==null?'':__t)+
-'" placeholder="Name.srt">\n\t\t\t\t\t<span class="help-block">\n\t\t\t\t\t\tYou can change the name of the file.\n\t\t\t\t\t</span>\n\t\t\t\t</div>\n\t\t\t</div>\n\t\t\t<div class="form-group">\n\t\t\t\t<label for="inputEncoding" class="col-lg-2 control-label">\n\t\t\t\t\tEncoding\n\t\t\t\t</label>\n\t\t\t\t<div class="col-lg-10">\n\t\t\t\t\t<select class="form-control" id="inputEncoding" name="inputEncoding">\n\t\t\t\t\t\t<option value="UTF-8" selected>UTF-8</option>\n\t\t\t\t\t\t<option value="UTF-16">UTF-16</option>\n\t\t\t\t\t</select>\n\t\t\t\t</div>\n\t\t\t</div>\n\t\t\t<div class="form-group">\n\t\t\t\t<div class="col-lg-10 col-lg-offset-2">\n\t\t\t\t\t<button type="reset" class="btn btn-default">\n\t\t\t\t\t\tCancel\n\t\t\t\t\t</button>\n\t\t\t\t\t<button type="submit" class="btn btn-primary">\n\t\t\t\t\t\tSubmit\n\t\t\t\t\t</button>\n\t\t\t\t</div>\n\t\t\t</div>\n\t\t\t<div id="error-save"></div>\n\t\t</fieldset>\n\t</form>\n</div>';
+'" placeholder="Name.srt">\n\t\t\t\t\t<span class="help-block">\n\t\t\t\t\t\tYou can change the name of the file.\n\t\t\t\t\t</span>\n\t\t\t\t</div>\n\t\t\t</div>\n\t\t\t<div class="form-group">\n\t\t\t\t<label for="inputEncoding" class="col-lg-2 control-label">\n\t\t\t\t\tEncoding\n\t\t\t\t</label>\n\t\t\t\t<div class="col-lg-10">\n\t\t\t\t\t<select class="form-control" id="inputEncoding" name="inputEncoding">\n\t\t\t\t\t\t<option value="utf8" selected>UTF-8</option>\n\t\t\t\t\t\t<option value="utf16le">UTF-16LE</option>\n\t\t\t\t\t\t<option value="ascii">ASCII</option>\n\t\t\t\t\t</select>\n\t\t\t\t</div>\n\t\t\t</div>\n\t\t\t<div class="form-group">\n\t\t\t\t<div class="col-lg-10 col-lg-offset-2">\n\t\t\t\t\t<button type="reset" class="btn btn-default">\n\t\t\t\t\t\tCancel\n\t\t\t\t\t</button>\n\t\t\t\t\t<button type="submit" class="btn btn-primary">\n\t\t\t\t\t\tSubmit\n\t\t\t\t\t</button>\n\t\t\t\t</div>\n\t\t\t</div>\n\t\t\t<div id="error-save"></div>\n\t\t</fieldset>\n\t</form>\n</div>';
 }
 return __p;
 };
@@ -730,6 +730,7 @@ var SubtitlesCollectionView = require('../views/subtitle-collection-view');
 */
 
 var keyAllows = [44, 48, 49, 50, 51, 52, 53, 54, 55, 56, 57, 58];
+var encodingAllows = ['utf8', 'utf16le', 'ascii'];
 
 //regex validation
 var validateNumberSubtitle = new RegExp(/^[0-9]+$/);
@@ -1083,9 +1084,21 @@ var HomeLayoutView = Marionette.LayoutView.extend({
 		}
 
 		if(!(/^.*\.(srt|SRT)$/).test(data.inputNameFile)){
+			$("#inputNameFile").closest( ".form-group").addClass('has-error');
 			var html = templateMessage({typeAlert: 'danger', title: 'Error!', message: "Incorrect file name. The extension must be \".srt\"."});
 			$("#error-save").html(html);
 			return false;
+		}else{
+			$("#inputNameFile").closest( ".form-group").removeClass('has-error');
+		}
+
+		if(encodingAllows.indexOf(data.inputEncoding) == -1){
+			$("#inputEncoding").closest( ".form-group").addClass('has-error');
+			var html = templateMessage({typeAlert: 'danger', title: 'Error!', message: "Incorrect encoding type."});
+			$("#error-save").html(html);
+			return false;
+		}else{
+			$("#inputEncoding").closest( ".form-group").removeClass('has-error');
 		}
 
 		var subtitles = [];
