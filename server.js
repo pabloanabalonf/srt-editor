@@ -1,9 +1,10 @@
 var express = require('express');
 var path = require('path');
 var bodyParser = require('body-parser');
-var cookieParser = require('cookie-parser')
+var cookieParser = require('cookie-parser');
 var morgan = require('morgan');
 var errorhandler = require('errorhandler');
+var favicon = require('serve-favicon');
 var stylus = require('stylus');
 var nib = require('nib');
 
@@ -18,6 +19,7 @@ app.set('view engine', 'ejs');
 
 app.set('port', process.env.PORT || 3000);
 
+app.use(favicon(path.join(__dirname, 'public', 'img', 'favicon.ico')));
 app.use(morgan('common'));
 app.use(bodyParser.json({limit: '10mb'}));
 app.use(bodyParser.urlencoded({extended: true}));
