@@ -53,7 +53,7 @@ router.post('/api/file', function (req, res){
 
 router.post('/api/file/makeSrtFile', function (req, res){
 	var data = req.body;
-	var pathFile = path.join(__dirname, '..', 'public', data.inputNameFile);
+	var pathFile = path.join(__dirname, '..', 'public', 'srt-files', data.inputNameFile);
 	var stream;
 	var existsFile;
 
@@ -172,7 +172,7 @@ router.get("/api/file/download/:filename", function (req, res){
 	if(filename === undefined){
 		return res.status(404).end();
 	}else{
-		var pathFile = path.join(__dirname, '..', 'public', filename);
+		var pathFile = path.join(__dirname, '..', 'public', 'srt-files', filename);
 
 		fs.exists(pathFile, function (exists){
 			if(exists){
