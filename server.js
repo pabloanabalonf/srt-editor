@@ -21,8 +21,8 @@ app.set('port', process.env.PORT || 3000);
 
 app.use(favicon(path.join(__dirname, 'public', 'img', 'favicon.ico')));
 app.use(morgan('common'));
-app.use(bodyParser.json({limit: '10mb'}));
-app.use(bodyParser.urlencoded({extended: true}));
+app.use(bodyParser.json({limit: '50mb'}));
+app.use(bodyParser.urlencoded({extended: true, limit: '50mb'}));
 app.use(cookieParser());
 app.use(stylus.middleware({
 	src: __dirname + '/public/css',

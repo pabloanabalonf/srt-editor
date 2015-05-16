@@ -799,6 +799,8 @@ var HomeLayoutView = Marionette.LayoutView.extend({
 		this.amountChecked = 0;
 		this.countTimeErrors = 0;
 		this.countSubtitleTextErrors = 0;
+		this.model = new FileModel();
+		$('.loading').hide();
 	},
 	template: this.template,
 	model: new FileModel(),
@@ -814,7 +816,7 @@ var HomeLayoutView = Marionette.LayoutView.extend({
 		tableSubtitles: '#table-subtitles',
 		messageRegion: '#message-region',
 		actionsRegio: '#subtitle-actions-menu',
-		badgeSubtitlesSelected: '#badge-subtitles-selected'
+		badgeSubtitlesSelected: '#badge-subtitles-selected',
 	},
 	events: {
 		"submit #sendSRTFile": "sendSRTFile",
@@ -833,6 +835,7 @@ var HomeLayoutView = Marionette.LayoutView.extend({
 	},
 	sendSRTFile: function (e){
 		e.preventDefault();
+		$('.loading').show();
 		var $srtFile = $("#uploadFile");
 		var reader;
 		this.file;
@@ -853,6 +856,7 @@ var HomeLayoutView = Marionette.LayoutView.extend({
 			}
 		}
 		if(error){
+			$('.loading').hide();
 			var html = templateMessage({typeAlert: 'danger', title: "Error!", message: 'Incorrect file format. You must choose a .srt file.'});
 			this.ui.messageRegion.html(html);
 			return false;
@@ -896,6 +900,8 @@ var HomeLayoutView = Marionette.LayoutView.extend({
 						that.ui.containerSubtitles.show();
 						that.ui.tableSubtitles.append(subtitlesCollectionView.render().el);
 						that.ui.tableSubtitles.fixMe();
+						//hide loading
+						$('.loading').hide();
 					},
 					error: function (model, data){
 						that.ui.containerFormLoadSubtitle.show();
@@ -904,6 +910,8 @@ var HomeLayoutView = Marionette.LayoutView.extend({
 						var json = JSON.parse(jsonString);
 						var html = templateMessage({typeAlert: 'danger', title:"Error!", message: json.responseJSON.message});
 						that.ui.messageRegion.html(html);
+						//hide loading
+						$('.loading').hide();
 					}
 				});
 			});
@@ -972,10 +980,12 @@ var HomeLayoutView = Marionette.LayoutView.extend({
 	},
 	setDelayForm: function (e){
 		e.preventDefault();
+		$('.loading').show();
 		$("#error-actions").html('');
 		$('#inputDelay').closest('div').removeClass('has-error');
 		var data = $(e.currentTarget).serializeObject();
 		if(!validateDelayInput.test(data.inputDelay)){
+			$('.loading').hide();
 			$('#inputDelay').closest('div').addClass('has-error');
 			var html = templateMessage({typeAlert: 'danger', title:"Error!", message: "Delay not set correctly. Remember <strong>MM:SS:mmmm</strong>."});
 			$("#error-actions").html(html);
@@ -983,6 +993,7 @@ var HomeLayoutView = Marionette.LayoutView.extend({
 		}
 		
 		if(!validateDelayMode.test(data.inputDelayMode)){
+			$('.loading').hide();
 			$('#inputDelay').closest('div').addClass('has-error');
 			var html = templateMessage({typeAlert: 'danger', title: "Error!", message: "Delay type must be + or -."});
 			$("#error-actions").html(html);
@@ -990,12 +1001,14 @@ var HomeLayoutView = Marionette.LayoutView.extend({
 		}
 
 		if(this.countTimeErrors > 0){
+			$('.loading').hide();
 			var html = templateMessage({typeAlert: 'danger', title: 'Error!', message: "You have errors in times inputs."});
 			$("#error-actions").html(html);
 			return false;
 		}
 
 		if(this.amountChecked == 0){
+			$('.loading').hide();
 			var html = templateMessage({typeAlert: 'danger', title: 'Error!', message: "You have select at least 1 subtitle."});
 			$("#error-actions").html(html);
 			return false;
@@ -1065,25 +1078,30 @@ var HomeLayoutView = Marionette.LayoutView.extend({
 		}
 		var html = templateMessage({typeAlert: 'success', title: 'Done!', message: "Delay set correctly."});
 		$("#error-actions").html(html);
+		$('.loading').hide();
 	},
 	saveSrtFileForm: function (e){
 		e.preventDefault();
+		$('.loading').show();
 		$("#error-save").html('');
 		var data = $(e.currentTarget).serializeObject();
 
 		if(this.countTimeErrors > 0){
+			$('.loading').hide();
 			var html = templateMessage({typeAlert: 'danger', title: 'Error!', message: "You have errors in times inputs."});
 			$("#error-save").html(html);
 			return false;
 		}
 
 		if(this.countSubtitleTextErrors > 0){
+			$('.loading').hide();
 			var html = templateMessage({typeAlert: 'danger', title: 'Error!', message: "You have errors in texts inputs."});
 			$("#error-save").html(html);
 			return false;
 		}
 
 		if(!(/^.*\.(srt|SRT)$/).test(data.inputNameFile)){
+			$('.loading').hide();
 			$("#inputNameFile").closest( ".form-group").addClass('has-error');
 			var html = templateMessage({typeAlert: 'danger', title: 'Error!', message: "Incorrect file name. The extension must be \".srt\"."});
 			$("#error-save").html(html);
@@ -1093,6 +1111,7 @@ var HomeLayoutView = Marionette.LayoutView.extend({
 		}
 
 		if(encodingAllows.indexOf(data.inputEncoding) == -1){
+			$('.loading').hide();
 			$("#inputEncoding").closest( ".form-group").addClass('has-error');
 			var html = templateMessage({typeAlert: 'danger', title: 'Error!', message: "Incorrect encoding type."});
 			$("#error-save").html(html);
@@ -1122,7 +1141,7 @@ var HomeLayoutView = Marionette.LayoutView.extend({
 		});
 
 		request.done(function (dataServer) {
-
+			$('.loading').hide();
 			$.fileDownload(dataServer.link, {
 				successCallback: function (url) {
 					var html = templateMessage({typeAlert: 'success', title: 'Done!', message: "File downloaded."});
@@ -1136,6 +1155,7 @@ var HomeLayoutView = Marionette.LayoutView.extend({
 		});
 		 
 		request.fail(function (jqXHR, textStatus) {
+			$('.loading').hide();
 			var html = templateMessage({typeAlert: 'danger', title: 'Error!', message: jqXHR.responseJSON.message});
 			$("#error-save").html(html);
 		});
@@ -1174,6 +1194,7 @@ module.exports = HomeLayoutView;
 "use strict";
 var Marionette = require('backbone.marionette');
 var templateNotFound = require('../templates/not-found.html');
+var $ = require('jquery');
 
 var NotFoundLayoutView = Marionette.LayoutView.extend({
 	initialize: function (){
@@ -1181,6 +1202,7 @@ var NotFoundLayoutView = Marionette.LayoutView.extend({
 	},
 	template: this.template,
 	onShow: function (){
+		$('.loading').hide();
 		console.log('onShow NotFoundLayoutView');
 	},
 	onDestroy: function (){
@@ -1189,7 +1211,7 @@ var NotFoundLayoutView = Marionette.LayoutView.extend({
 });
 
 module.exports = NotFoundLayoutView;
-},{"../templates/not-found.html":12,"backbone.marionette":19}],16:[function(require,module,exports){
+},{"../templates/not-found.html":12,"backbone.marionette":19,"jquery":24}],16:[function(require,module,exports){
 var Marionette = require('backbone.marionette');
 
 var SubtitleItemView = require('./subtitle-item-view');

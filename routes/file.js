@@ -3,6 +3,7 @@ var router = express.Router();
 var async = require('async');
 var path = require('path');
 var fs = require('fs');
+var iconv = require('iconv-lite');
 
 //RegExp
 var regSubtitleNumber = new RegExp(/^[0-9]+$/);
@@ -12,7 +13,7 @@ router.post('/api/file', function (req, res){
 	try{
 		var data = req.body;
 		var buf = new Buffer(data.datafile, 'base64');
-		var srtString = buf.toString('utf8');
+		var srtString = iconv.decode(buf, "ISO-8859-1");
 		var lines = srtString.split(/\r\n|\r|\n/g);
 		var objSrt = {};
 		var arraySrt = [];
@@ -31,7 +32,9 @@ router.post('/api/file', function (req, res){
 					objSrt.text += "\n"+nextLine;
 				}
 			}else{
-				arraySrt.push(objSrt);
+				if(objSrt.subtitleNumber && objSrt.startTime && objSrt.finalTime && objSrt.text){
+					arraySrt.push(objSrt);
+				}
 				objSrt = {};
 			}
 		}
@@ -43,6 +46,7 @@ router.post('/api/file', function (req, res){
 				'message': 'OK',
 			});
 	}catch(e){
+		console.log('Error: '+e.message);
 		return res
 			.status(500)
 			.json({
@@ -52,6 +56,7 @@ router.post('/api/file', function (req, res){
 });
 
 router.post('/api/file/makeSrtFile', function (req, res){
+	console.log('makeSrtFile');
 	var data = req.body;
 	var pathFile = path.join(__dirname, '..', 'public', 'srt-files', data.inputNameFile);
 	var stream;
