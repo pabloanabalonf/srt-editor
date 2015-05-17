@@ -2,6 +2,8 @@
 var $ = require('../jquery.and.fileDownload');
 var Backbone = require('backbone');
 Backbone.$ = $;
+var JSONC = require('jsoncomp');
+var gzip = require('gzip-js');
 var Marionette = require('backbone.marionette');
 var moment = require('moment');
 var FileModel = require('../models/file');
@@ -436,6 +438,9 @@ var HomeLayoutView = Marionette.LayoutView.extend({
 		}
 		data.subtitles = subtitles;
 
+		var str = JSON.stringify(data.subtitles);
+		data.subtitles = btoa(str);
+
 		var request = $.ajax({
 			type: "POST",
 			url: "/api/file/makeSrtFile",
@@ -459,7 +464,13 @@ var HomeLayoutView = Marionette.LayoutView.extend({
 		 
 		request.fail(function (jqXHR, textStatus) {
 			$('.loading').hide();
-			var html = templateMessage({typeAlert: 'danger', title: 'Error!', message: jqXHR.responseJSON.message});
+			var message;
+			try{
+				message = jqXHR.responseJSON.message;
+			}catch(e){
+				message = "Ups! An error has ocurred";
+			}
+			var html = templateMessage({typeAlert: 'danger', title: 'Error!', message: message});
 			$("#error-save").html(html);
 		});
 		

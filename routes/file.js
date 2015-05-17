@@ -9,6 +9,16 @@ var iconv = require('iconv-lite');
 var regSubtitleNumber = new RegExp(/^[0-9]+$/);
 var regSubtitleTime = new RegExp(/^(?:2[0-3]|[01][0-9]):[0-5][0-9]:[0-5][0-9],[0-9][0-9][0-9]\s-->\s(?:2[0-3]|[01][0-9]):[0-5][0-9]:[0-5][0-9],[0-9][0-9][0-9]$/);
 
+function getArr(str) {
+	var nIndex = 0;
+	var nLen = str.length;
+	var arr = [];
+	for (; nIndex < nLen; nIndex++) {
+		arr.push(str.charCodeAt(nIndex));
+	}
+	return arr;
+}
+
 router.post('/api/file', function (req, res){
 	try{
 		var data = req.body;
@@ -61,7 +71,10 @@ router.post('/api/file/makeSrtFile', function (req, res){
 	var pathFile = path.join(__dirname, '..', 'public', 'srt-files', data.inputNameFile);
 	var stream;
 	var existsFile;
-
+	var buf = new Buffer(data.subtitles, 'base64');
+	var srtString = iconv.decode(buf, "ISO-8859-1");
+	var json = JSON.parse(srtString);
+	data.subtitles = json;
 	//validations
 	if(!data.inputNameFile || !data.inputEncoding || !data.subtitles){
 		return res
