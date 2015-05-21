@@ -220,6 +220,8 @@ var HomeLayoutView = Marionette.LayoutView.extend({
 					}
 				});
 			});
+		}else{
+			$('.loading').hide();
 		}
 	},
 	gotoTop: function (e){
