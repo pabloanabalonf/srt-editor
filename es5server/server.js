@@ -44,6 +44,7 @@ var _nib2 = _interopRequireDefault(_nib);
 
 //routes
 var home = require('./routes/home');
+var file = require('./routes/file');
 
 var app = (0, _express2['default'])();
 
@@ -66,6 +67,7 @@ app.use(_stylus2['default'].middleware({
 app.use(_express2['default']['static'](_path2['default'].join(__dirname, '..', 'public')));
 
 app.use('/', home);
+app.use('/', file);
 app.use('/*', function (req, res) {
 	res.status(404);
 	res.render('404', { title: 'SRT Web Editor | Not Found', status: 404, url: req.baseUrl });

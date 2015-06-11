@@ -13,6 +13,7 @@ import nib from 'nib';
 
 //routes
 let home = require('./routes/home');
+let file = require('./routes/file');
 
 let app = express();
 
@@ -39,6 +40,7 @@ app.use(stylus.middleware({
 app.use(express.static(path.join(__dirname, '..', 'public')));
 
 app.use('/', home);
+app.use('/', file);
 app.use('/*', (req, res) => {
 	res.status(404);
 	res.render('404', {title: 'SRT Web Editor | Not Found', status: 404, url: req.baseUrl});
