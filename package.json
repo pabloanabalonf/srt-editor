@@ -42,12 +42,15 @@
     "morgan": "^1.5.2",
     "nib": "^1.1.0",
     "serve-favicon": "^2.2.0",
+    "source-map-support": "^0.3.1",
     "stylus": "^0.51.0",
     "underscore": "^1.8.3"
   },
   "devDependencies": {
     "browserify": "^9.0.8",
     "gulp": "^3.9.0",
+    "gulp-babel": "^5.1.0",
+    "gulp-sourcemaps": "^1.5.2",
     "gulp-uglify": "^1.2.0",
     "gulp-util": "^3.0.5",
     "node-underscorify": "0.0.14",
