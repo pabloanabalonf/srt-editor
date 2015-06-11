@@ -42,6 +42,9 @@ var _nib2 = _interopRequireDefault(_nib);
 
 (0, _sourceMapSupport.install)();
 
+//routes
+var home = require('./routes/home');
+
 var app = (0, _express2['default'])();
 
 app.set('views', _path2['default'].join(__dirname, '..', 'views'));
@@ -62,9 +65,19 @@ app.use(_stylus2['default'].middleware({
 }));
 app.use(_express2['default']['static'](_path2['default'].join(__dirname, '..', 'public')));
 
+app.use('/', home);
 app.use('/*', function (req, res) {
 	res.status(404);
 	res.render('404', { title: 'SRT Web Editor | Not Found', status: 404, url: req.baseUrl });
+});
+
+app.use(function (err, req, res, next) {
+	res.status(err.status || 500);
+	res.render('error', {
+		title: 'SRT Web Editor | Error',
+		message: err.message,
+		error: err
+	});
 });
 
 app.listen(app.get('port'), function () {

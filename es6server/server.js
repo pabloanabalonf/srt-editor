@@ -11,6 +11,9 @@ import favicon from 'serve-favicon';
 import stylus from 'stylus';
 import nib from 'nib';
 
+//routes
+let home = require('./routes/home');
+
 let app = express();
 
 app.set('views', path.join(__dirname, '..', 'views'));
@@ -35,9 +38,19 @@ app.use(stylus.middleware({
 }));
 app.use(express.static(path.join(__dirname, '..', 'public')));
 
+app.use('/', home);
 app.use('/*', (req, res) => {
 	res.status(404);
 	res.render('404', {title: 'SRT Web Editor | Not Found', status: 404, url: req.baseUrl});
+});
+
+app.use((err, req, res, next) => {
+	res.status(err.status || 500);
+	res.render('error', {
+		title: 'SRT Web Editor | Error',
+		message: err.message,
+		error: err
+	});
 });
 
 app.listen(app.get('port'), () => {
