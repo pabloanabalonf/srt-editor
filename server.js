@@ -40,8 +40,8 @@ app.use(express.static(path.join(__dirname, 'public')));
 app.use('/', home);
 app.use('/', file);
 app.use('/*', function (req, res){
-    res.status(404);
-    res.render('404', {title: 'SRT Web Editor | Not Found', status: 404, url: req.baseUrl});
+	res.status(404);
+	res.render('404', {title: 'SRT Web Editor | Not Found', status: 404, url: req.baseUrl});
 });
 
 //app.use(errorhandler());

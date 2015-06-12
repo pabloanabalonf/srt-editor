@@ -1,1 +1,1 @@
-web: node server.js
+web: node ./es5server/server.js
