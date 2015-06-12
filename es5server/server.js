@@ -49,7 +49,7 @@ var file = require('./routes/file');
 var app = (0, _express2['default'])();
 
 app.set('views', _path2['default'].join(__dirname, '..', 'views'));
-app.set('view engine', 'ejs');
+app.set('view engine', 'jade');
 app.set('port', process.env.PORT || 3000);
 
 app.use((0, _serveFavicon2['default'])(_path2['default'].join(__dirname, '..', 'public', 'img', 'favicon.ico')));
