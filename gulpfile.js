@@ -9,6 +9,7 @@ var uglify = require('gulp-uglify');
 var path = require('path');
 var babel = require('gulp-babel');
 var sourcemaps = require('gulp-sourcemaps');
+var babelify = require('babelify');
 
 //Server
 var paths = {
@@ -25,17 +26,35 @@ gulp.task('es6to5server', function (){
 		.pipe(gulp.dest(paths.es5));
 });
 
+//Client
+
+gulp.task('build:js', function(){
+	return browserify({
+		entries: './browserify-babel/index.js',
+		debug: true,
+	}).transform(underscorify.transform())
+	.transform(babelify).bundle()
+	.on("error", gutil.log.bind(gutil, 'Browserify Error'))
+	.on("log", gutil.log)
+	.pipe(source("app_browserify_babel.js"))
+	.pipe(buffer())
+	.pipe(gulp.dest("./public/js"));
+});
+
 gulp.task('watch', function (){
 	gulp.watch(paths.es6, ['es6to5server']);
+	gulp.watch(['browserify-babel/**/*.js'], ['build:js']);
 });
 
 gulp.task('default', ['watch']);
 
-//Client
+/*
+	Build Client with watchify
+*/
 
 var mainBundler = watchify(browserify("./browserify/index.js"));
 mainBundler.transform(underscorify.transform());
-gulp.task("watchify-main", bundleMain);
+mainBundler.transform(babelify);
 mainBundler.on("update", bundleMain);
 mainBundler.on("log", gutil.log);
 
@@ -47,3 +66,5 @@ function bundleMain() {
 		.pipe(uglify())
 		.pipe(gulp.dest("./public/js"));
 }
+
+gulp.task("watchify-main", bundleMain);
