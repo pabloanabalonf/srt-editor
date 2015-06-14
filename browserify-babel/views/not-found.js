@@ -1,16 +1,16 @@
 import Marionette from 'backbone.marionette';
-import templateNotFound from '../templates/not-found.html';
 import $ from 'jquery';
 
+import templateNotFound from '../templates/not-found.html';
 let NotFoundLayoutView = Marionette.LayoutView.extend({
-	initialize: () => {
-		this.template = templateNotFound({message: 'Page Not Found'});
+	initialize: function() {
+		var html = templateNotFound({message: 'Page Not Found'});
+		this.template = html;
 	},
 	onShow: () => {
 		$('.loading').hide();
 	},
 	onDestroy: () => {
-		console.log('onDestroy NotFoundLayoutView');
 	}
 });
 

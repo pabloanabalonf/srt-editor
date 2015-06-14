@@ -108,10 +108,8 @@ let HomeLayoutView = Marionette.LayoutView.extend({
 	},
 	model: new FileModel(),
 	onShow: function (){
-		console.log('onShow HomeLayoutView');
 	},
 	onDestroy: function (){
-		console.log('onDestroy HomeLayoutView');
 	},
 	ui: {
 		containerFormLoadSubtitle: '.container-form-load-subtitle',

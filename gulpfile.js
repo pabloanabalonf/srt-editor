@@ -32,11 +32,13 @@ gulp.task('build:js', function(){
 	return browserify({
 		entries: './browserify-babel/index.js',
 		debug: true,
-	}).transform(underscorify.transform())
-	.transform(babelify).bundle()
+	})
+	.transform(underscorify.transform())
+	.transform(babelify)
+	.bundle()
 	.on("error", gutil.log.bind(gutil, 'Browserify Error'))
 	.on("log", gutil.log)
-	.pipe(source("app_browserify_babel.js"))
+	.pipe(source("app.js"))
 	.pipe(buffer())
 	.pipe(gulp.dest("./public/js"));
 });
@@ -49,17 +51,17 @@ gulp.task('watch', function (){
 gulp.task('default', ['watch']);
 
 /*
-	Build Client with watchify
+	Build Client for Prod
 */
 
-var mainBundler = watchify(browserify("./browserify/index.js"));
-mainBundler.transform(underscorify.transform());
-mainBundler.transform(babelify);
-mainBundler.on("update", bundleMain);
-mainBundler.on("log", gutil.log);
+var browserifyProd = browserify("./browserify-babel/index.js");
+browserifyProd.transform(underscorify.transform());
+browserifyProd.transform(babelify);
+browserifyProd.on("update", buildProd);
+browserifyProd.on("log", gutil.log);
 
-function bundleMain() {
-	return mainBundler.bundle()
+function buildProd() {
+	return browserifyProd.bundle()
 		.on("error", gutil.log.bind(gutil, 'Browserify Error'))
 		.pipe(source("app.js"))
 		.pipe(buffer())
@@ -67,4 +69,4 @@ function bundleMain() {
 		.pipe(gulp.dest("./public/js"));
 }
 
-gulp.task("watchify-main", bundleMain);
+gulp.task("build:js:prod", buildProd);

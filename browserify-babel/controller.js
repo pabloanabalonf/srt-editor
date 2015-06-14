@@ -9,10 +9,10 @@ import rm from './regions';
 let Controller = Marionette.Controller.extend({
 	initialize: function (){
 	},
-	home: function (){
+	home: () => {
 		rm.get('mainRegion').show(new HomeLayoutView());
 	},
-	notFound: function (){
+	notFound: () => {
 		rm.get('mainRegion').show(new NotFoundLayoutView());
 	}
 });
