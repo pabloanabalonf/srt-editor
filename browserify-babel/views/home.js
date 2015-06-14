@@ -97,6 +97,7 @@ $.fn.fixMe = function() {
 };
 
 let HomeLayoutView = Marionette.LayoutView.extend({
+	//Can't use arrow function in initialize method, because template isn't recognized
 	initialize: function (options){
 		this.template = templateHome({});
 		this.IdsInputTable = [];
