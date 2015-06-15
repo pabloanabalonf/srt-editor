@@ -1,12 +1,12 @@
-var Marionette = require('backbone.marionette');
+import Marionette from 'backbone.marionette';
 
-var SubtitleItemView = require('./subtitle-item-view');
+import SubtitleItemView from './subtitle-item-view';
 
-var SubtitlesCollectionView = Marionette.CollectionView.extend({
+let SubtitlesCollectionView = Marionette.CollectionView.extend({
 	tagName: 'tbody',
 	childView: SubtitleItemView,
-	initialize: function (options){
+	initialize: (options) => {
 	}
 });
 
-module.exports = SubtitlesCollectionView;
+export default SubtitlesCollectionView;

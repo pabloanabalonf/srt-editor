@@ -1,23 +1,22 @@
-"use strict";
-var $ = require('../jquery.and.fileDownload');
-var Backbone = require('backbone');
+import $ from '../jquery.and.fileDownload';
+import Backbone from 'backbone';
 Backbone.$ = $;
-var JSONC = require('jsoncomp');
-var gzip = require('gzip-js');
-var Marionette = require('backbone.marionette');
-var moment = require('moment');
-var FileModel = require('../models/file');
+import JSONC from 'jsoncomp';
+import gzip from 'gzip-js';
+import Marionette from 'backbone.marionette';
+import moment from 'moment';
+import FileModel from '../models/file';
 
 //Templates
-var templateHome = require('../templates/home.html');
-var templateMessage = require('../templates/message-tmpl.html');
-var templateActions = require('../templates/actions-subtitles.html');
+import templateHome from '../templates/home.html';
+import templateMessage from '../templates/message-tmpl.html';
+import templateActions from '../templates/actions-subtitles.html';
 
 //regions
-var rm = require('../regions');
+import rm from '../regions';
 
-var SubtitlesCollection = require('../collections/subtitles');
-var SubtitlesCollectionView = require('../views/subtitle-collection-view');
+import SubtitlesCollection from '../collections/subtitles';
+import SubtitlesCollectionView from '../views/subtitle-collection-view';
 
 /*
 , = 44
@@ -97,7 +96,8 @@ $.fn.fixMe = function() {
 	});
 };
 
-var HomeLayoutView = Marionette.LayoutView.extend({
+let HomeLayoutView = Marionette.LayoutView.extend({
+	//Can't use arrow function in initialize method, because template isn't recognized
 	initialize: function (options){
 		this.template = templateHome({});
 		this.IdsInputTable = [];
@@ -107,13 +107,10 @@ var HomeLayoutView = Marionette.LayoutView.extend({
 		this.model = new FileModel();
 		$('.loading').hide();
 	},
-	template: this.template,
 	model: new FileModel(),
 	onShow: function (){
-		console.log('onShow HomeLayoutView');
 	},
 	onDestroy: function (){
-		console.log('onDestroy HomeLayoutView');
 	},
 	ui: {
 		containerFormLoadSubtitle: '.container-form-load-subtitle',
@@ -505,4 +502,4 @@ var HomeLayoutView = Marionette.LayoutView.extend({
 
 });
 
-module.exports = HomeLayoutView;
+export default HomeLayoutView;

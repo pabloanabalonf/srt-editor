@@ -1,5 +1,6 @@
-var Backbone = require('backbone');
-var SubtitleModel = Backbone.Model.extend({
+import Backbone from 'backbone';
+
+let SubtitleModel = Backbone.Model.extend({
 	defaults: {
 		subtitleNumber: 1,
 		startTime: '00:00:00,0000',
@@ -8,4 +9,4 @@ var SubtitleModel = Backbone.Model.extend({
 	}
 });
 
-module.exports = SubtitleModel;
+export default SubtitleModel;

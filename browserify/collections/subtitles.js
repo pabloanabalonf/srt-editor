@@ -1,8 +1,8 @@
-var Backbone = require('Backbone');
-var SubtitleModel = require('../models/subtitle');
+import Backbone from 'backbone';
+import SubtitleModel from '../models/subtitle';
 
-var SubtitlesCollection = Backbone.Collection.extend({
+let SubtitlesCollection = Backbone.Collection.extend({
 	model: SubtitleModel
 });
 
-module.exports = SubtitlesCollection;
+export default SubtitlesCollection;

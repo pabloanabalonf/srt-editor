@@ -1,15 +1,17 @@
-var $ = require('jquery');
-var Backbone = require('backbone');
+import $  from 'jquery';
+import Backbone from 'backbone';
+
 Backbone.$ = $;
-var FileModel = Backbone.Model.extend({
+
+let FileModel = Backbone.Model.extend({
 	urlRoot: '/api/file',
-	readFile: function (file){
-		var reader = new FileReader();
-		var that = this;
-		var deferred = $.Deferred();
-		reader.onload = (function (mockFile){
-			return function (e){
-				var data = {
+	readFile: (file) => {
+		let reader = new FileReader();
+		let that = this;
+		let deferred = $.Deferred();
+		reader.onload = ((mockFile) => {
+			return (e) => {
+				let data = {
 					file: mockFile,
 					data: btoa(e.target.result)
 				};
@@ -21,4 +23,4 @@ var FileModel = Backbone.Model.extend({
 	}
 });
 
-module.exports = FileModel;
+export default FileModel;

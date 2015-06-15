@@ -1,23 +1,22 @@
-"use strict";
-var $ = require('jquery');
-var Backbone = require('backbone');
+import $ from 'jquery';
+import Backbone from 'backbone';
 Backbone.$ = $;
-var Marionette = require('backbone.marionette');
+import Marionette from 'backbone.marionette';
 
-var Router = require('./router');
-var Controller = require('./controllers/app-controller');
+import Router from './router';
+import Controller from './controller';
 
-var MyApp = new Marionette.Application();
+let MyApp = new Marionette.Application();
 
-var controller = new Controller();
+let controller = new Controller();
 
-MyApp.addInitializer(function (options){
-	var router = new Router({
+MyApp.addInitializer((options) => {
+	let router = new Router({
 		controller: controller
 	});
 });
 
-MyApp.on("start", function(options){
+MyApp.on("start", (options) => {
 	if (Backbone.history){
 		Backbone.history.start();
 	}

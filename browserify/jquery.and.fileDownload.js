@@ -13,8 +13,8 @@
 * http://johnculviner.com/jquery-file-download-plugin-for-ajax-like-feature-rich-file-downloads/
 * !!!!NOTE!!!!
 */
-var $ = require('jquery');
-var jQuery = $;
+import $ from 'jquery';
+let jQuery = $;
 /*
 * jQuery File Download Plugin v1.4.4
 *
@@ -487,4 +487,4 @@ $.extend({
 
 })(jQuery, this);
 
-module.exports = $;
+export default $;

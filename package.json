@@ -5,9 +5,7 @@
   "main": "server.js",
   "scripts": {
     "start": "node ./es5server/server.js",
-    "start-demon": "nodemon ./es5server/server.js",
-    "build-browserify": "browserify -t node-underscorify ./browserify/index.js > ./public/js/app.js",
-    "watch-browserify": "watchify -t node-underscorify ./browserify/index.js -o ./public/js/app.js"
+    "start-demon": "nodemon ./es5server/server.js"
   },
   "repository": {
     "type": "git",
@@ -58,7 +56,6 @@
     "node-underscorify": "0.0.14",
     "vinyl-buffer": "^1.0.0",
     "vinyl-source-stream": "^1.1.0",
-    "watchify": "^3.1.2"
   },
   "engines": {
     "node": "0.12.2"

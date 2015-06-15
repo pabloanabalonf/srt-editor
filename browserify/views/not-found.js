@@ -1,20 +1,18 @@
-"use strict";
-var Marionette = require('backbone.marionette');
-var templateNotFound = require('../templates/not-found.html');
-var $ = require('jquery');
+import Marionette from 'backbone.marionette';
+import $ from 'jquery';
 
-var NotFoundLayoutView = Marionette.LayoutView.extend({
-	initialize: function (){
-		this.template = templateNotFound({message: 'Page Not Found'});
+import templateNotFound from '../templates/not-found.html';
+let NotFoundLayoutView = Marionette.LayoutView.extend({
+	//Can't use arrow function in initialize method, because template isn't recognized
+	initialize: function() {
+		var html = templateNotFound({message: 'Page Not Found'});
+		this.template = html;
 	},
-	template: this.template,
-	onShow: function (){
+	onShow: () => {
 		$('.loading').hide();
-		console.log('onShow NotFoundLayoutView');
 	},
-	onDestroy: function (){
-		console.log('onDestroy NotFoundLayoutView');
+	onDestroy: () => {
 	}
 });
 
-module.exports = NotFoundLayoutView;
+export default NotFoundLayoutView;

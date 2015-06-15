@@ -30,7 +30,7 @@ gulp.task('es6to5server', function (){
 
 gulp.task('build:js', function(){
 	return browserify({
-		entries: './browserify-babel/index.js',
+		entries: './browserify/index.js',
 		debug: true,
 	})
 	.transform(underscorify.transform())
@@ -45,7 +45,7 @@ gulp.task('build:js', function(){
 
 gulp.task('watch', function (){
 	gulp.watch(paths.es6, ['es6to5server']);
-	gulp.watch(['browserify-babel/**/*.js'], ['build:js']);
+	gulp.watch(['browserify/**/*.js'], ['build:js']);
 });
 
 gulp.task('default', ['watch']);
@@ -54,7 +54,7 @@ gulp.task('default', ['watch']);
 	Build Client for Prod
 */
 
-var browserifyProd = browserify("./browserify-babel/index.js");
+var browserifyProd = browserify("./browserify/index.js");
 browserifyProd.transform(underscorify.transform());
 browserifyProd.transform(babelify);
 browserifyProd.on("update", buildProd);
