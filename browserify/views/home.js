@@ -33,14 +33,14 @@ import SubtitlesCollectionView from '../views/subtitle-collection-view';
 : = 58
 */
 
-var keyAllows = [44, 48, 49, 50, 51, 52, 53, 54, 55, 56, 57, 58];
-var encodingAllows = ['utf8', 'utf16le', 'ascii'];
+const keyAllows = [44, 48, 49, 50, 51, 52, 53, 54, 55, 56, 57, 58];
+const encodingAllows = ['utf8', 'utf16le', 'ascii'];
 
 //regex validation
-var validateNumberSubtitle = new RegExp(/^[0-9]+$/);
-var validateDelayMode = new RegExp(/^\+|\-$/);
-var validateDelayInput = new RegExp(/^[0-5][0-9]:[0-5][0-9],[0-9][0-9][0-9]$/);
-var validateTimes = new RegExp(/^(?:2[0-3]|[01][0-9]):[0-5][0-9]:[0-5][0-9],[0-9][0-9][0-9]$/);
+const validateNumberSubtitle = new RegExp(/^[0-9]+$/);
+const validateDelayMode = new RegExp(/^\+|\-$/);
+const validateDelayInput = new RegExp(/^[0-5][0-9]:[0-5][0-9],[0-9][0-9][0-9]$/);
+const validateTimes = new RegExp(/^(?:2[0-3]|[01][0-9]):[0-5][0-9]:[0-5][0-9],[0-9][0-9][0-9]$/);
 
 $.fn.serializeObject = function (){
 	var obj = {};
